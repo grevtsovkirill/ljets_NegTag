@@ -1,0 +1,284 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.5 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist{none}{none}
+    \entry{PERF-2007-01}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{journaltitle}{JINST}
+      \field{title}{{The ATLAS Experiment at the CERN Large Hadron Collider}}
+      \field{volume}{3}
+      \field{year}{2008}
+      \field{pages}{S08003}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1088/1748-0221/3/08/S08003
+      \endverb
+    \endentry
+    \entry{photon_hf}{article}{}
+      \true{moreauthor}
+      \name{author}{1}{}{%
+        {{hash=a4f573dac388f6a04cb89dde8c311bd3}{Aaboud}{A\bibinitperiod}{Morad}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{50a697332ec8ff7cfd64a3c7cb8c47eb}
+      \strng{fullhash}{50a697332ec8ff7cfd64a3c7cb8c47eb}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{eprinttype}{arXiv}
+      \field{title}{{Measurement of differential cross sections of isolated-photon plus heavy-flavour jet production in pp collisions at $\sqrt{s}=8$ TeV using the ATLAS detector}}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1710.09560
+      \endverb
+    \endentry
+    \entry{TOPQ-2013-04}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Eur. Phys. J. C}
+      \field{title}{{Measurement of the $t\bar{t}$ production cross-section using $e\mu$ events with $b$-tagged jets in $pp$ collisions at $\sqrt{s} = 7$ and $8\;\mbox{TeV}$ with the ATLAS detector}}
+      \field{volume}{74}
+      \field{year}{2014}
+      \field{pages}{3109}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1140/epjc/s10052-016-4501-2
+      \endverb
+      \verb{eprint}
+      \verb 1406.5375
+      \endverb
+    \endentry
+    \entry{Hbb}{article}{}
+      \true{moreauthor}
+      \name{author}{1}{}{%
+        {{hash=a4f573dac388f6a04cb89dde8c311bd3}{Aaboud}{A\bibinitperiod}{Morad}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{50a697332ec8ff7cfd64a3c7cb8c47eb}
+      \strng{fullhash}{50a697332ec8ff7cfd64a3c7cb8c47eb}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{eprinttype}{arXiv}
+      \field{title}{{Evidence for the $H \to b\bar{b}$ decay with the ATLAS detector}}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1708.03299
+      \endverb
+    \endentry
+    \entry{ttHtobb}{booklet}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{{ATLAS-CONF-2017-076}}
+      \field{title}{{Search for the Standard Model Higgs boson produced in association with top quarks and decaying into a $b\bar{b}$ pair in pp collisions at $\sqrt{s} =$ 13 TeV with the ATLAS detector}}
+      \field{year}{2017}
+      \verb{url}
+      \verb https://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/CONFNOTES/ATLAS-CONF-2017-076
+      \endverb
+    \endentry
+    \entry{ttbar_MET}{article}{}
+      \true{moreauthor}
+      \name{author}{1}{}{%
+        {{hash=a4f573dac388f6a04cb89dde8c311bd3}{Aaboud}{A\bibinitperiod}{Morad}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{50a697332ec8ff7cfd64a3c7cb8c47eb}
+      \strng{fullhash}{50a697332ec8ff7cfd64a3c7cb8c47eb}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{eprinttype}{arXiv}
+      \field{title}{{Search for a scalar partner of the top quark in the jets plus missing transverse momentum final state at $\sqrt{s}$=13 TeV with the ATLAS detector}}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1709.04183
+      \endverb
+    \endentry
+    \entry{EXOT-2016-12}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{eprinttype}{arXiv}
+      \field{title}{{Search for heavy resonances decaying to a $W$ or $Z$ boson and a Higgs boson in the $q\bar{q}^{(\prime)}b\bar{b}$ final state in $pp$ collisions at $\sqrt{s} = 13\;\mbox{TeV}$ with the ATLAS detector}}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1707.06958
+      \endverb
+    \endentry
+    \entry{PERF-2012-04}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{JINST}
+      \field{title}{{Performance of $b$-jet identification in the ATLAS experiment}}
+      \field{volume}{11}
+      \field{year}{2016}
+      \field{pages}{P04008}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1088/1748-0221/11/04/P04008
+      \endverb
+      \verb{eprint}
+      \verb 1512.01094
+      \endverb
+    \endentry
+    \entry{perf_run2}{booklet}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{{ATL-PHYS-PUB-2015-022}}
+      \field{title}{{Expected performance of the ATLAS $b$-tagging algorithms in Run-2}}
+      \field{year}{{2015}}
+      \verb{url}
+      \verb https://cds.cern.ch/record/2037697
+      \endverb
+    \endentry
+    \entry{perf_run2_2}{booklet}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{{ATL-PHYS-PUB-2016-012}}
+      \field{title}{{Optimisation of the ATLAS $b$-tagging performance for the 2016 LHC Run}}
+      \field{year}{{2016}}
+      \verb{url}
+      \verb https://cds.cern.ch/record/2160731
+      \endverb
+    \endentry
+    \entry{this_work}{booklet}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{{FTAG-2017-002}}
+      \field{title}{{b-tagging calibration plots in light-flavour jets from 2015+2016 data using the negative-tag method}}
+      \field{year}{{2017}}
+      \verb{url}
+      \verb https://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PLOTS/FTAG-2017-002
+      \endverb
+    \endentry
+    \entry{IBL}{report}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{institution}{1}{%
+        {CERN}%
+      }
+      \list{location}{1}{%
+        {Geneva}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{09}
+      \field{number}{CERN-LHCC-2010-013}
+      \field{title}{{ATLAS Insertable B-Layer Technical Design Report}}
+      \field{type}{techreport}
+      \field{year}{2010}
+      \verb{url}
+      \verb https://cds.cern.ch/record/1291633
+      \endverb
+    \endentry
+    \entry{IBL_perf}{booklet}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{{FTAG-2017-005}}
+      \field{title}{{Plots of b-tagging performance before and after the installation of the Insertable B-Layer}}
+      \field{year}{{2017}}
+      \verb{url}
+      \verb https://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PLOTS/FTAG-2017-005
+      \endverb
+    \endentry
+  \endsortlist
+  \missing{bCalib_intNote}
+  \missing{cCalib_Wc_intNote}
+  \missing{cCalib_tt_intNote}
+\endrefsection
+\endinput
+
