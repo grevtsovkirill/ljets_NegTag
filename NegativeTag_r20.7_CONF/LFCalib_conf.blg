@@ -1,31 +1,29 @@
 [1] Config.pm:327> INFO - This is Biber 2.3
 [1] Config.pm:330> INFO - Logfile is 'LFCalib_conf.blg'
-[45] biber:287> INFO - === Sun Oct 29, 2017, 13:47:43
-[74] Biber.pm:346> INFO - Reading 'LFCalib_conf.bcf'
-[182] Biber.pm:689> INFO - Found 16 citekeys in bib section 0
-[193] Biber.pm:3066> INFO - Processing section 0
-[210] Biber.pm:3206> INFO - Looking for bibtex format file 'LFCalib_conf.bib' for section 0
-[213] bibtex.pm:1062> INFO - Decoding LaTeX character macros into UTF-8
-[216] bibtex.pm:923> INFO - Found BibTeX data source 'LFCalib_conf.bib'
-[235] Biber.pm:3206> INFO - Looking for bibtex format file 'bib/ATLAS.bib' for section 0
-[299] bibtex.pm:1062> INFO - Decoding LaTeX character macros into UTF-8
-[362] bibtex.pm:923> INFO - Found BibTeX data source 'bib/ATLAS.bib'
-[416] Biber.pm:3206> INFO - Looking for bibtex format file 'bib/CMS.bib' for section 0
-[477] bibtex.pm:1062> INFO - Decoding LaTeX character macros into UTF-8
-[535] bibtex.pm:923> INFO - Found BibTeX data source 'bib/CMS.bib'
-[588] Biber.pm:3206> INFO - Looking for bibtex format file 'bib/ConfNotes.bib' for section 0
-[645] bibtex.pm:1062> INFO - Decoding LaTeX character macros into UTF-8
-[705] bibtex.pm:923> INFO - Found BibTeX data source 'bib/ConfNotes.bib'
-[759] Biber.pm:3206> INFO - Looking for bibtex format file 'bib/PubNotes.bib' for section 0
-[772] bibtex.pm:1062> INFO - Decoding LaTeX character macros into UTF-8
-[791] bibtex.pm:923> INFO - Found BibTeX data source 'bib/PubNotes.bib'
-[803] Utils.pm:147> WARN - I didn't find a database entry for 'bCalib_intNote' (section 0)
-[803] Utils.pm:147> WARN - I didn't find a database entry for 'cCalib_Wc_intNote' (section 0)
-[803] Utils.pm:147> WARN - I didn't find a database entry for 'cCalib_tt_intNote' (section 0)
-[913] UCollate.pm:66> INFO - Overriding locale 'en-UK' defaults 'variable = shifted' with 'variable = non-ignorable'
-[913] UCollate.pm:66> INFO - Overriding locale 'en-UK' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[913] Biber.pm:2943> INFO - Sorting list 'none' of type 'entry' with scheme 'none' and locale 'en-UK'
-[913] Biber.pm:2947> INFO - No sort tailoring available for locale 'en-UK'
-[934] bbl.pm:505> INFO - Writing 'LFCalib_conf.bbl' with encoding 'UTF-8'
-[935] bbl.pm:596> INFO - Output to LFCalib_conf.bbl
-[941] Biber.pm:107> INFO - WARNINGS: 3
+[68] biber:287> INFO - === Wed Nov  1, 2017, 14:51:01
+[181] Biber.pm:346> INFO - Reading 'LFCalib_conf.bcf'
+[274] Biber.pm:689> INFO - Found 23 citekeys in bib section 0
+[280] Biber.pm:3066> INFO - Processing section 0
+[320] Biber.pm:3206> INFO - Looking for bibtex format file 'LFCalib_conf.bib' for section 0
+[325] bibtex.pm:1062> INFO - Decoding LaTeX character macros into UTF-8
+[328] bibtex.pm:923> INFO - Found BibTeX data source 'LFCalib_conf.bib'
+[353] Biber.pm:3206> INFO - Looking for bibtex format file 'bib/ATLAS.bib' for section 0
+[418] bibtex.pm:1062> INFO - Decoding LaTeX character macros into UTF-8
+[482] bibtex.pm:923> INFO - Found BibTeX data source 'bib/ATLAS.bib'
+[547] Biber.pm:3206> INFO - Looking for bibtex format file 'bib/CMS.bib' for section 0
+[627] bibtex.pm:1062> INFO - Decoding LaTeX character macros into UTF-8
+[681] bibtex.pm:923> INFO - Found BibTeX data source 'bib/CMS.bib'
+[728] Biber.pm:3206> INFO - Looking for bibtex format file 'bib/ConfNotes.bib' for section 0
+[779] bibtex.pm:1062> INFO - Decoding LaTeX character macros into UTF-8
+[835] bibtex.pm:923> INFO - Found BibTeX data source 'bib/ConfNotes.bib'
+[893] Biber.pm:3206> INFO - Looking for bibtex format file 'bib/PubNotes.bib' for section 0
+[1047] bibtex.pm:1062> INFO - Decoding LaTeX character macros into UTF-8
+[1060] bibtex.pm:923> INFO - Found BibTeX data source 'bib/PubNotes.bib'
+[1093] Utils.pm:147> WARN - I didn't find a database entry for 'JVT' (section 0)
+[1307] UCollate.pm:66> INFO - Overriding locale 'en-UK' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1307] UCollate.pm:66> INFO - Overriding locale 'en-UK' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1307] Biber.pm:2943> INFO - Sorting list 'none' of type 'entry' with scheme 'none' and locale 'en-UK'
+[1307] Biber.pm:2947> INFO - No sort tailoring available for locale 'en-UK'
+[1347] bbl.pm:505> INFO - Writing 'LFCalib_conf.bbl' with encoding 'UTF-8'
+[1351] bbl.pm:596> INFO - Output to LFCalib_conf.bbl
+[1360] Biber.pm:107> INFO - WARNINGS: 1

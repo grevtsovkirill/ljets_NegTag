@@ -233,6 +233,57 @@
       \verb https://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PLOTS/FTAG-2017-002
       \endverb
     \endentry
+    \entry{calib1}{booklet}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{{FTAG-2016-003}}
+      \field{title}{{b-tagging calibration plots using dileptonic tt events produced in pp collisions at $\sqrt{s} = 13$ TeV and a combinatorial likelihood approach}}
+      \field{year}{{2016}}
+      \verb{url}
+      \verb http://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PLOTS/FTAG-2016-003
+      \endverb
+    \endentry
+    \entry{calib2}{booklet}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{{FTAG-2017-001}}
+      \field{title}{{b-tagging efficiency calibration using a tag-and-probe technique with opposite-sign, different-flavour dileptonic tt events produced in pp collisions at $\sqrt{s} = 13$ TeV}}
+      \field{year}{{2017}}
+      \verb{url}
+      \verb http://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PLOTS/FTAG-2017-001
+      \endverb
+    \endentry
+    \entry{calib3}{booklet}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{{FTAG-2017-003}}
+      \field{title}{{b-tagging efficiency calibration from 2015+2016 data on lepton+jets tt events}}
+      \field{year}{{2017}}
+      \verb{url}
+      \verb http://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PLOTS/FTAG-2017-003
+      \endverb
+    \endentry
     \entry{IBL}{report}{}
       \name{author}{1}{}{%
         {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
@@ -275,10 +326,145 @@
       \verb https://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PLOTS/FTAG-2017-005
       \endverb
     \endentry
+    \entry{TRIG-2016-01}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Eur. Phys. J. C}
+      \field{title}{{Performance of the ATLAS Trigger System in 2015}}
+      \field{volume}{77}
+      \field{year}{2017}
+      \field{pages}{317}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1140/epjc/s10052-017-4852-3
+      \endverb
+      \verb{eprint}
+      \verb 1611.09661
+      \endverb
+    \endentry
+    \entry{PERF-2014-07}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Eur. Phys. J. C}
+      \field{title}{{Topological cell clustering in the ATLAS calorimeters and its performance in LHC Run~1}}
+      \field{volume}{77}
+      \field{year}{2017}
+      \field{pages}{490}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1140/epjc/s10052-017-5004-5
+      \endverb
+      \verb{eprint}
+      \verb 1603.02934
+      \endverb
+    \endentry
+    \entry{anti_kt}{article}{}
+      \name{author}{3}{}{%
+        {{hash=d38166452f9df43fc09b4da37680b482}{Cacciari}{C\bibinitperiod}{Matteo}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=529d631465d7eee6196aae63cb971536}{Salam}{S\bibinitperiod}{Gavin\bibnamedelima P.}{G\bibinitperiod\bibinitdelim P\bibinitperiod}{}{}{}{}}%
+        {{hash=4f0b7ca3806264505163f88e90956033}{Soyez}{S\bibinitperiod}{Gregory}{G\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{3611fde0f72ea4369806131efe855e28}
+      \strng{fullhash}{3611fde0f72ea4369806131efe855e28}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{JHEP}
+      \field{title}{{The Anti-k(t) jet clustering algorithm}}
+      \field{volume}{04}
+      \field{year}{2008}
+      \field{pages}{063}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1126-6708/2008/04/063
+      \endverb
+      \verb{eprint}
+      \verb 0802.1189
+      \endverb
+    \endentry
+    \entry{ATLAS-CONF-2015-029}{booklet}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{{ATLAS-CONF-2015-029}}
+      \field{title}{{Selection of jets produced in $13\;\mbox{TeV}$ proton--proton collisions with the ATLAS detector}}
+      \field{year}{2015}
+      \verb{url}
+      \verb https://cds.cern.ch/record/2037702
+      \endverb
+    \endentry
+    \entry{PERF-2016-04}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{eprinttype}{arXiv}
+      \field{title}{{Jet energy scale measurements and their systematic uncertainties in proton--proton collisions at $\sqrt{s} = 13\;\mbox{TeV}$ with the ATLAS detector}}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1703.09665
+      \endverb
+    \endentry
+    \entry{DAPR-2012-01}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ex}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{JINST}
+      \field{title}{{Characterisation and mitigation of beam-induced backgrounds observed in the ATLAS detector during the 2011 proton--proton run}}
+      \field{volume}{8}
+      \field{year}{2013}
+      \field{pages}{P07004}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1088/1748-0221/8/07/P07004
+      \endverb
+      \verb{eprint}
+      \verb 1303.0223
+      \endverb
+    \endentry
   \endsortlist
-  \missing{bCalib_intNote}
-  \missing{cCalib_Wc_intNote}
-  \missing{cCalib_tt_intNote}
+  \missing{JVT}
 \endrefsection
 \endinput
 

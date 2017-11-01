@@ -2230,12 +2230,19 @@
     <bcf:citekey order="7">perf_run2</bcf:citekey>
     <bcf:citekey order="7">perf_run2_2</bcf:citekey>
     <bcf:citekey order="8">this_work</bcf:citekey>
-    <bcf:citekey order="9">bCalib_intNote</bcf:citekey>
-    <bcf:citekey order="9">cCalib_Wc_intNote</bcf:citekey>
-    <bcf:citekey order="9">cCalib_tt_intNote</bcf:citekey>
+    <bcf:citekey order="9">calib1</bcf:citekey>
+    <bcf:citekey order="9">calib2</bcf:citekey>
+    <bcf:citekey order="9">calib3</bcf:citekey>
     <bcf:citekey order="10">PERF-2007-01</bcf:citekey>
     <bcf:citekey order="11">IBL</bcf:citekey>
     <bcf:citekey order="11">IBL_perf</bcf:citekey>
+    <bcf:citekey order="12">TRIG-2016-01</bcf:citekey>
+    <bcf:citekey order="13">PERF-2014-07</bcf:citekey>
+    <bcf:citekey order="14">anti_kt</bcf:citekey>
+    <bcf:citekey order="15">ATLAS-CONF-2015-029</bcf:citekey>
+    <bcf:citekey order="16">JVT</bcf:citekey>
+    <bcf:citekey order="17">PERF-2016-04</bcf:citekey>
+    <bcf:citekey order="18">DAPR-2012-01</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="none" type="entry" sortscheme="none">
   <bcf:sorting>

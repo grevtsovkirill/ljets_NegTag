@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.2.11)  29 OCT 2017 13:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.2.11)  1 NOV 2017 14:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2031,21 +2031,7 @@ Package biblatex Info: ... file 'LFCalib_conf.bbl' found.
 
 Package biblatex Warning: The following entry could not be found
 (biblatex)                in the database:
-(biblatex)                bCalib_intNote
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                cCalib_Wc_intNote
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                cCalib_tt_intNote
+(biblatex)                JVT
 (biblatex)                Please verify the spelling and rerun
 (biblatex)                LaTeX afterwards.
 
@@ -2107,7 +2093,7 @@ LaTeX Font Info:    Font shape `T1/ntxtt/m/n' will be
 LaTeX Font Info:    Font shape `T1/ntxtt/m/n' will be
 (Font)              scaled to size 6.1pt on input line 81.
 
-<logos/AT_atlaslogo_2015.pdf, id=48, 259.97125pt x 259.97125pt>
+<logos/AT_atlaslogo_2015.pdf, id=52, 259.97125pt x 259.97125pt>
 File: logos/AT_atlaslogo_2015.pdf Graphic file (type pdf)
 
 <use logos/AT_atlaslogo_2015.pdf>
@@ -2237,7 +2223,7 @@ LaTeX Font Info:    Font shape `T1/qhv/b/n' will be
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
 (Font)              scaled to size 14.4pt on input line 84.
 
-<logos/AT_cernlogo.pdf, id=77, 85.31876pt x 83.31125pt>
+<logos/AT_cernlogo.pdf, id=81, 85.31876pt x 83.31125pt>
 File: logos/AT_cernlogo.pdf Graphic file (type pdf)
 
 <use logos/AT_cernlogo.pdf>
@@ -2311,22 +2297,22 @@ LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
 LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
 (Font)              scaled to size 6.1pt on input line 4.
 LaTeX Font Info:    Font shape `T1/ntxtlf/bx/n' in size <12> not available
-(Font)              Font shape `T1/ntxtlf/b/n' tried instead on input line 13.
+(Font)              Font shape `T1/ntxtlf/b/n' tried instead on input line 14.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 12.0pt on input line 13.
+(Font)              scaled to size 12.0pt on input line 14.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 12.0pt on input line 13.
+(Font)              scaled to size 12.0pt on input line 14.
 LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
-(Font)              scaled to size 12.0pt on input line 13.
+(Font)              scaled to size 12.0pt on input line 14.
 LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
-(Font)              scaled to size 8.8pt on input line 13.
+(Font)              scaled to size 8.8pt on input line 14.
 LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
-(Font)              scaled to size 6.6pt on input line 13.
+(Font)              scaled to size 6.6pt on input line 14.
 )
 \tf@toc=\write5
 \openout5 = `LFCalib_conf.toc'.
 
- (./sections/intro.tex
+ (./sections/intro.tex [4]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
 (Font)              scaled to size 8.0pt on input line 18.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
@@ -2335,7 +2321,6 @@ LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
 (Font)              scaled to size 9.0pt on input line 18.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
 (Font)              scaled to size 7.3pt on input line 18.
- [4]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
 (Font)              scaled to size 5.5pt on input line 26.
 )
@@ -2347,59 +2332,59 @@ LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
 (Font)              scaled to size 10.5pt on input line 117.
 LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
 (Font)              scaled to size 7.9pt on input line 117.
+ [6]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 117.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 117.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 117.
-
-(./sections/algo.tex) (./sections/negtag.tex) (./sections/adjMC.tex)
-(./sections/comparison.tex) (./sections/conclusion.tex) [6]
+(./sections/algo.tex) (./sections/IP.tex) (./sections/negtag.tex)
+(./sections/adjMC.tex) (./sections/comparison.tex) (./sections/conclusion.tex)
+[7]
 LaTeX Font Info:    Font shape `T1/ntxtlf/bx/n' in size <24.88> not available
-(Font)              Font shape `T1/ntxtlf/b/n' tried instead on input line 176.
+(Font)              Font shape `T1/ntxtlf/b/n' tried instead on input line 183.
 
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 24.88pt on input line 176.
+(Font)              scaled to size 24.88pt on input line 183.
 LaTeX Font Info:    Font shape `T1/ntxtlf/bx/n' in size <17.28> not available
-(Font)              Font shape `T1/ntxtlf/b/n' tried instead on input line 176.
+(Font)              Font shape `T1/ntxtlf/b/n' tried instead on input line 183.
 
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 17.28pt on input line 176.
+(Font)              scaled to size 17.28pt on input line 183.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 17.28pt on input line 176.
+(Font)              scaled to size 17.28pt on input line 183.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
-(Font)              scaled to size 10.95pt on input line 186.
+(Font)              scaled to size 10.95pt on input line 193.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/sc' will be
-(Font)              scaled to size 10.95pt on input line 186.
- [7
+(Font)              scaled to size 10.95pt on input line 193.
+ [8
 
-] [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 205.
- [9
+] [9]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 212.
+ [10
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 205.
-
-(./LFCalib_conf.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 205.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 205.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 212.
+ (./LFCalib_conf.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 212.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 212.
 Package rerunfilecheck Info: File `LFCalib_conf.out' has not changed.
-(rerunfilecheck)             Checksum: FAE893926FB535CBADFEB53BE767C5D4;640.
+(rerunfilecheck)             Checksum: 2A46F2598FD4357083ABB0EB7BEF826A;732.
 Package logreq Info: Writing requests to 'LFCalib_conf.run.xml'.
 \openout1 = `LFCalib_conf.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 29657 strings out of 493042
- 535290 string characters out of 6133328
- 999179 words of memory out of 5000000
- 32639 multiletter control sequences out of 15000+600000
+ 29685 strings out of 493042
+ 535819 string characters out of 6133328
+ 999316 words of memory out of 5000000
+ 32653 multiletter control sequences out of 15000+600000
  268328 words of font info for 397 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 76i,15n,114p,10390b,1709s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 76i,15n,114p,10390b,1757s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf-sc.en
 c}{/afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}{
 /afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/enc/dvips/base/8r.enc}{/afs/cern.ch
@@ -2424,10 +2409,10 @@ x.pfb></afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/type1/public/txfonts/txmia.p
 fb></afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/type1/public/txfonts/txsy.pfb><
 /afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></afs/ce
 rn.ch/sw/XML/TL2015/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on LFCalib_conf.pdf (9 pages, 304152 bytes).
+Output written on LFCalib_conf.pdf (10 pages, 312690 bytes).
 PDF statistics:
- 272 PDF objects out of 1000 (max. 8388607)
- 235 compressed objects within 3 object streams
- 40 named destinations out of 1000 (max. 500000)
- 99 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 313 PDF objects out of 1000 (max. 8388607)
+ 275 compressed objects within 3 object streams
+ 51 named destinations out of 1000 (max. 500000)
+ 107 words of extra memory for PDF output out of 10000 (max. 10000000)
 
