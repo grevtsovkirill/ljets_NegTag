@@ -6,10 +6,10 @@
 \contentsline {section}{\numberline {3}Data sample and event selection}{6}{section.3}
 \contentsline {section}{\numberline {4}Monte Carlo simulation}{7}{section.4}
 \contentsline {section}{\numberline {5}$b$-tagging algorithms}{7}{section.5}
-\contentsline {section}{\numberline {6}Track impact parameter modeling in the ATLAS simulation}{7}{section.6}
-\contentsline {section}{\numberline {7}Calibration with the negative tag method}{7}{section.7}
-\contentsline {section}{\numberline {8}Calibration with the adjusted Monte Carlo method}{7}{section.8}
-\contentsline {section}{\numberline {9}Comparison between the two methods}{7}{section.9}
-\contentsline {section}{\numberline {10}Conclusion}{7}{section.10}
-\contentsline {part}{Appendix}{9}{part*.4}
-\contentsline {part}{Auxiliary material}{12}{part*.7}
+\contentsline {section}{\numberline {6}Track impact parameter modeling in the ATLAS simulation}{8}{section.6}
+\contentsline {section}{\numberline {7}Calibration with the negative tag method}{8}{section.7}
+\contentsline {section}{\numberline {8}Calibration with the adjusted Monte Carlo method}{9}{section.8}
+\contentsline {section}{\numberline {9}Comparison between the two methods}{9}{section.9}
+\contentsline {section}{\numberline {10}Conclusion}{9}{section.10}
+\contentsline {part}{Appendix}{10}{part*.4}
+\contentsline {part}{Auxiliary material}{13}{part*.7}

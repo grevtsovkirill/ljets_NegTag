@@ -216,6 +216,23 @@
       \verb https://cds.cern.ch/record/2160731
       \endverb
     \endentry
+    \entry{ATLAS-CONF-2014-046}{booklet}{}
+      \name{author}{1}{}{%
+        {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \strng{fullhash}{4e05bd17e215b0ad3d2d55d7c05b75f1}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{{ATLAS-CONF-2014-046}}
+      \field{title}{{Calibration of the performance of $b$-tagging for $c$ and light-flavour jets in the 2012 ATLAS data}}
+      \field{year}{2014}
+      \verb{url}
+      \verb https://cds.cern.ch/record/1741020
+      \endverb
+    \endentry
     \entry{this_work}{booklet}{}
       \name{author}{1}{}{%
         {{hash=4e05bd17e215b0ad3d2d55d7c05b75f1}{{ATLAS\bibnamedelimb Collaboration}}{A\bibinitperiod}{}{}{}{}{}{}}%
