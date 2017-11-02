@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.2.11)  1 NOV 2017 14:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.2.11)  2 NOV 2017 11:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2027,21 +2027,14 @@ Package biblatex Info: Automatic encoding selection.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'LFCalib_conf.bbl' found.
- (./LFCalib_conf.bbl
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                JVT
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-)
+ (./LFCalib_conf.bbl)
 Package biblatex Info: Reference section=0 on input line 81.
 Package biblatex Info: Reference segment=0 on input line 81.
 \c__siunitx_mathsf_int=\count381
 LaTeX Font Info:    Try loading font information for OT1+ntxtlf on input line 8
 1.
- (/afs/cern.ch/sw/XML/TL2015/texmf-dist/tex/latex/newtx/ot1ntxtlf.fd
+
+(/afs/cern.ch/sw/XML/TL2015/texmf-dist/tex/latex/newtx/ot1ntxtlf.fd
 File: ot1ntxtlf.fd 2015/01/17 v1.0 font definition file for OT1/ntx/tlf
 )
 LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
@@ -2325,14 +2318,14 @@ LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
 (Font)              scaled to size 5.5pt on input line 26.
 )
 (./sections/detector.tex [5]) (./sections/data_sample.tex)
-(./sections/mc_simulation.tex)
+(./sections/mc_simulation.tex [6])
 LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
 (Font)              scaled to size 14.4pt on input line 117.
 LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
 (Font)              scaled to size 10.5pt on input line 117.
 LaTeX Font Info:    Font shape `OT1/ntxtlf/b/n' will be
 (Font)              scaled to size 7.9pt on input line 117.
- [6]
+
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 117.
@@ -2343,7 +2336,7 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 
 (./sections/algo.tex) (./sections/IP.tex) (./sections/negtag.tex)
 (./sections/adjMC.tex) (./sections/comparison.tex) (./sections/conclusion.tex)
-[7]
+[7] [8]
 LaTeX Font Info:    Font shape `T1/ntxtlf/bx/n' in size <24.88> not available
 (Font)              Font shape `T1/ntxtlf/b/n' tried instead on input line 183.
 
@@ -2360,11 +2353,11 @@ LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
 (Font)              scaled to size 10.95pt on input line 193.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/sc' will be
 (Font)              scaled to size 10.95pt on input line 193.
- [8
+ [9
 
-] [9]
+] [10] [11]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 212.
- [10
+ [12
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 212.
@@ -2378,13 +2371,13 @@ Package logreq Info: Writing requests to 'LFCalib_conf.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 29685 strings out of 493042
- 535819 string characters out of 6133328
- 999316 words of memory out of 5000000
- 32653 multiletter control sequences out of 15000+600000
+ 29708 strings out of 493042
+ 536292 string characters out of 6133328
+ 1000431 words of memory out of 5000000
+ 32663 multiletter control sequences out of 15000+600000
  268328 words of font info for 397 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 76i,15n,114p,10390b,1757s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 76i,15n,114p,10390b,1768s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf-sc.en
 c}{/afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}{
 /afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/enc/dvips/base/8r.enc}{/afs/cern.ch
@@ -2409,10 +2402,10 @@ x.pfb></afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/type1/public/txfonts/txmia.p
 fb></afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/type1/public/txfonts/txsy.pfb><
 /afs/cern.ch/sw/XML/TL2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></afs/ce
 rn.ch/sw/XML/TL2015/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on LFCalib_conf.pdf (10 pages, 312690 bytes).
+Output written on LFCalib_conf.pdf (12 pages, 320273 bytes).
 PDF statistics:
- 313 PDF objects out of 1000 (max. 8388607)
- 275 compressed objects within 3 object streams
- 51 named destinations out of 1000 (max. 500000)
+ 362 PDF objects out of 1000 (max. 8388607)
+ 321 compressed objects within 4 object streams
+ 64 named destinations out of 1000 (max. 500000)
  107 words of extra memory for PDF output out of 10000 (max. 10000000)
 

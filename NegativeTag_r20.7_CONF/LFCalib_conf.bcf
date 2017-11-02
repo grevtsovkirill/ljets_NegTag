@@ -2240,9 +2240,19 @@
     <bcf:citekey order="13">PERF-2014-07</bcf:citekey>
     <bcf:citekey order="14">anti_kt</bcf:citekey>
     <bcf:citekey order="15">ATLAS-CONF-2015-029</bcf:citekey>
-    <bcf:citekey order="16">JVT</bcf:citekey>
+    <bcf:citekey order="16">ATLAS-CONF-2014-018</bcf:citekey>
     <bcf:citekey order="17">PERF-2016-04</bcf:citekey>
     <bcf:citekey order="18">DAPR-2012-01</bcf:citekey>
+    <bcf:citekey order="19">pythia</bcf:citekey>
+    <bcf:citekey order="20">nnpdflo</bcf:citekey>
+    <bcf:citekey order="21">pythia_ps</bcf:citekey>
+    <bcf:citekey order="22">pythia_hadron</bcf:citekey>
+    <bcf:citekey order="23">a14_tune</bcf:citekey>
+    <bcf:citekey order="24">herwig_pp</bcf:citekey>
+    <bcf:citekey order="25">cteqlo</bcf:citekey>
+    <bcf:citekey order="26">SOFT-2010-01</bcf:citekey>
+    <bcf:citekey order="27">geant4</bcf:citekey>
+    <bcf:citekey order="28">string_geant4</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="none" type="entry" sortscheme="none">
   <bcf:sorting>
