@@ -1,0 +1,8 @@
+* Inputs:
+  - ../NtupleDumper/res/*.root
+  - ../GetPtEtaWeights/rew.root
+  - ../GetNTrackWeights/reweight_ntrack2D.root
+* Outputs:
+** res/
+   - directories with data and mc histograms for each systematic
+   - These are the reweighted histograms which are used for the SF calculation

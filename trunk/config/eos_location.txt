@@ -1,0 +1,47 @@
+###########################
+##@@@@@ v07 production -> 3.378 TB
+
+###########################
+# btag group eos (1700 GB)
+# -> /eos/atlas/atlascerngroupdisk/perf-flavtag/calib/negtag/tag20.7.8.10_full15and16_v00-07/ntuples
+###########################
+## DATA
+group.perf-flavtag.data15_13TeV.* (69 GB)
+group.perf-flavtag.data16_13TeV.* (279 GB)
+## MC Powheg dijet (nominal only as used as generator systematics)
+group.perf-flavtag.mc15_13TeV.4260* (30 GB)
+## MC Pythia dijet
+group.perf-flavtag.mc15_13TeV.361020.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3569_s2576_s2132_r7725_r7676_p3001_tuple.root (  6 GB)
+group.perf-flavtag.mc15_13TeV.361021.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3569_s2576_s2132_r7725_r7676_p3001_tuple.root ( 40 GB)
+group.perf-flavtag.mc15_13TeV.361022.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3668_s2576_s2132_r7725_r7676_p3001_tuple.root ( 98 GB)
+group.perf-flavtag.mc15_13TeV.361023.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-01.e3668_s2576_s2132_r7725_r7676_p3001_tuple.root (543 GB)
+group.perf-flavtag.mc15_13TeV.361024.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3668_s2576_s2132_r7725_r7676_p3001_tuple.root (635 GB)
+-----------------------------------------------------
+du -c /eos/atlas/atlascerngroupdisk/perf-flavtag/calib/negtag/tag20.7.8.10_full15and16_v00-07/ntuples | awk 'END { print $1}'
+3397748977/2=1698874488 -> OK
+
+###########################
+# David user eos (777 GB)
+# -> /eos/user/d/djamin/btag/negtag/tag20.7.8.10_full15and16_v00-07/ntuples
+###########################
+## MC Pythia dijet
+group.perf-flavtag.mc15_13TeV.361025.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3668_s2576_s2132_r7725_r7676_p3001_tuple.root (624 GB)
+group.perf-flavtag.mc15_13TeV.361027.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3668_s2608_s2183_r7725_r7676_p3001_tuple.root (153 GB)
+-----------------------------------------------------
+du -c /eos/user/d/djamin/btag/negtag/tag20.7.8.10_full15and16_v00-07/ntuples | awk 'END { print $1}'
+1553814480/2=776907240 -> OK
+
+###########################
+# Nathan user eos (902 GB)
+# -> /eos/user/n/ngrieser/MistagNtuples/tag20.7.8.10_full15and16_v00-07/ntuples
+###########################
+## MC Pythia dijet
+group.perf-flavtag.mc15_13TeV.361026.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3569_s2608_s2183_r7725_r7676_p3001_tuple.root (162 GB)
+group.perf-flavtag.mc15_13TeV.361028.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3569_s2576_s2132_r7772_r7676_p3001_tuple.root (146 GB)
+group.perf-flavtag.mc15_13TeV.361029.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3569_s2576_s2132_r7772_r7676_p3001_tuple.root (151 GB)
+group.perf-flavtag.mc15_13TeV.361030.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3569_s2576_s2132_r7772_r7676_p3001_tuple.root (148 GB)
+group.perf-flavtag.mc15_13TeV.361031.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.e3569_s2608_s2183_r7772_r7676_p3001_tuple.root (151 GB)
+group.perf-flavtag.mc15_13TeV.361032.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-01.e3668_s2608_s2183_r7772_r7676_p3001_tuple.root (144 GB)
+-----------------------------------------------------
+du -c /eos/user/n/ngrieser/MistagNtuples/tag20.7.8.10_full15and16_v00-07/ntuples | awk 'END { print $1}'
+1803423214/2=901711607 -> OK

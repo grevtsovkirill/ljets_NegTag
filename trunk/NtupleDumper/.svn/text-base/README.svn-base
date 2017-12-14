@@ -1,0 +1,15 @@
+* Inputs:
+** Uses Ntuples produced by Ines and Kristian
+   - Are be defined in ../config/mc_files.txt and ../config/data_files.txt
+   - Pattern: "slice/dataPeriod" "list of space separated samples"
+   - Usually you either have to download the Ntuples or replicate them to your local group disk
+* Outputs:
+** Skimmed and slimmed Ntuples
+   - res/data<period>.root
+   - res/mc<slice>.root
+   - can contain systematic variations as separate trees
+** "magic files"
+*** contain information about which slice/period/systematics were run on (written by run.sh)
+    - .periods.auto"
+    - .slices.auto"
+    - .systematics.auto"

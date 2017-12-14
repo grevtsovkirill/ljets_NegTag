@@ -1,0 +1,400 @@
+\documentclass[pdflatex,8pt]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{pslatex}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{atlasphysics}
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+
+\usepackage{adjustbox,lipsum}
+
+\hypersetup{colorlinks=true}
+
+\usetheme{Boadilla}
+\setbeamersize{text margin left=0.5cm}
+\usefonttheme[onlylarge]{structurebold}
+
+\setbeamertemplate{blocks}[rounded]
+\setbeamertemplate{navigation symbols}{}
+
+\newcommand{\vs}{\vspace{15pt}}
+
+\AtBeginSection[]{
+ \begin{frame}{\secname}
+   \small \tableofcontents[currentsection, hideothersubsections]
+ \end{frame}
+}
+\AtBeginSubsection[]{
+ \begin{frame}{\secname}
+   \small \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/shaded/hide]
+ \end{frame}
+}
+
+
+%%%
+%% Title page contents
+
+%% Global title
+\title[Summary plots]{v00-02-00 ntuples}
+
+%% Author(s)
+\author[D. Jamin]{flavour calibration group}
+
+%% Institute
+\institute[Oklahoma State University]{}
+
+
+\begin{document}
+
+%% Title page with institute logo
+  \begin{frame}[plain]
+    \titlepage
+        \begin{center}
+    \vspace{-3em}
+    \includegraphics[width=2.5cm]{OSU_logo.png}\hspace{10pt} 
+    \end{center}
+  \end{frame}
+  \small
+
+%% Here you can add some custom intro slides
+%%\input{intro}
+
+%%%%%%%%%
+% MV2c10
+%%%%%%%%%
+\begin{frame}{MV2c10 "central" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt1eta1_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt4eta1_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt7eta1_MV2c10.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt2eta1_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt5eta1_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt8eta1_MV2c10.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt3eta1_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt6eta1_MV2c10.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{MV2c10neg "central" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt1eta1_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt4eta1_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt7eta1_MV2c10.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt2eta1_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt5eta1_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt8eta1_MV2c10.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt3eta1_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt6eta1_MV2c10.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{MV2c10 "forward" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt1eta2_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt4eta2_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt7eta2_MV2c10.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt2eta2_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt5eta2_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt8eta2_MV2c10.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt3eta2_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger___pt6eta2_MV2c10.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{MV2c10neg "forward" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt1eta2_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt4eta2_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt7eta2_MV2c10.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt2eta2_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt5eta2_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt8eta2_MV2c10.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt3eta2_MV2c10.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/tagger__neg_pt6eta2_MV2c10.png}
+  \end{columns}
+\end{frame}
+
+%%%%%%%%%
+% others
+%%%%%%%%%
+\begin{frame}{WP 30\% "central" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w30_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w30_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w30_eta1.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w30_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w30_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w30_eta1.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w30_eta1.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 30\% "forward" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w30_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w30_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w30_eta2.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w30_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w30_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w30_eta2.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w30_eta2.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 50\% "central" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w50_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w50_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w50_eta1.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w50_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w50_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w50_eta1.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w50_eta1.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 50\% "forward" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w50_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w50_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w50_eta2.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w50_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w50_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w50_eta2.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w50_eta2.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 60\% "central" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w60_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w60_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w60_eta1.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w60_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w60_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w60_eta1.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w60_eta1.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 60\% "forward" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w60_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w60_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w60_eta2.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w60_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w60_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w60_eta2.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w60_eta2.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 70\% "central" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w70_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w70_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w70_eta1.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w70_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w70_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w70_eta1.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w70_eta1.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 70\% "forward" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w70_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w70_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w70_eta2.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w70_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w70_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w70_eta2.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w70_eta2.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 77\% "central" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w77_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w77_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w77_eta1.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w77_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w77_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w77_eta1.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w77_eta1.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 77\% "forward" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w77_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w77_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w77_eta2.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w77_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w77_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w77_eta2.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w77_eta2.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 85\% "central" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w85_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w85_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w85_eta1.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w85_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w85_eta1.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w85_eta1.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w85_eta1.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{WP 85\% "forward" $\eta$}
+  \begin{columns}[t]
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_kll__MV2c10_w85_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_khf__MV2c10_w85_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l_neg__MV2c10_w85_eta2.png}
+    \column{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_d__MV2c10_w85_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_l__MV2c10_w85_eta2.png}\\
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_eps_a_neg__MV2c10_w85_eta2.png}
+    \column{0.44\textwidth}
+    \includegraphics[width=0.9\textwidth]{../png_plots/var_sf__MV2c10_w85_eta2.png}
+  \end{columns}
+\end{frame}
+
+%%%%%%%%%
+% sys tables
+%%%%%%%%%
+WP 30\%
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w30_eta1.tex} }
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w30_eta2.tex} }
+%%%%
+\newpage
+WP 50\%
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w50_eta1.tex} }
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w50_eta2.tex} }
+%%%%
+\newpage
+WP 60\%
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w60_eta1.tex} }
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w60_eta2.tex} }
+%%%%
+\newpage
+WP 70\%
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w70_eta1.tex} }
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w70_eta2.tex} }
+%%%%
+\newpage
+WP 77\%
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w77_eta1.tex} }
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w77_eta2.tex} }
+%%%%
+\newpage
+WP 85\%
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w85_eta1.tex} }
+\vskip 1cm
+\noindent\adjustbox{max width=\textwidth}{ \input{../tables/w85_eta2.tex} }
+
+\end{document}

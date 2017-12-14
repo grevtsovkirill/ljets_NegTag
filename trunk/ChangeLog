@@ -1,0 +1,230 @@
+2017-05-22 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* All good for running on ntuples v07
+
+2017-05-10 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Code adapted to run on ntuples v07 (JetFitterFlip bug fix, data
+	prescales, MV2c10/MV2c10Flip inputs added, etc)
+	* Many refinements / bug fixes
+	* Final validation on-going
+	* no tag yet
+
+2017-03-21 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Various imporvements
+	* GRL: data16_13TeV.periodAllYear_DetStatus-v88-pro20-21_DQDefects-00-02-04_PHYS_StandardGRL_All_Good_25ns.xml
+	* Getting reading for results with Ntuple v06
+	* Calculate NTVariable: HERWIG++ HF fraction now set to Pythia HF
+	fraction.
+
+2017-03-01 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* script to generate uncertainty tables on the way
+	* fixed calib_up/down (Jvt now excluded)
+
+2017-02-27 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* v05 results produced
+
+2017-02-13 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Various bug fixes / improvement
+	* Can now run easily on the batch with bootstrap off, see
+	helper/run_mode
+
+2017-02-03 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Various bug fixes / improvement
+
+2017-01-30 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* CDI file builder added
+	* syst names updated
+	* new ntuples are being processed now
+
+2017-01-26 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Global update
+
+2017-01-24 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Many updated for HERWIG++, control plots, etc
+	* still on-going
+
+2017-01-20 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* HadInt syst added
+	* eps_neg_c/b finalized
+	* MV2c10 correction file to be updated
+	* some cleaning + infrastructure and NtupleDumper adapted to HERWIG++
+	samples
+
+2017-01-11 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* JvtSF correct treatment added
+	* PU SF added as extra uncertainty 
+	* Not tested, waiting for the new ntuples
+
+2017-01-10 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Bootstrap fully validated - bug free
+	* photon conversion +/- 10% included
+	* long-lived particles +20% included
+	* macro plot improved
+
+2017-01-09 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Update
+
+2017-01-04 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* progress on rel_syst and total_syst
+	* vicious bug for bootstrap corrected in NtupleReader (in validation)
+
+2017-01-03 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* bug fix in CalculateXXX for rewmode d0/z0/etc
+	* progress on rel_syst and total_syst
+
+2016-12-22 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* minor bug corrections for bootstrap replicas
+
+2016-12-19 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* pT bins -> final update
+	* conf.hpp update 
+	* systematic update
+	* default is now 2015+2016 
+
+2016-12-16 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* non-critical improvement of NtupleReader
+	* NtupleReader bug fix for subleading jet
+	* syst mode update (mcstat and datastat switched to "boostrap")
+	* first bootstrap implementation for CalculateNT
+	* small fix in CalculateNT for bootstrap
+
+2016-12-16 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* validation of NtupleReader on-going
+	* CalculateNTvariables - first test
+	* Mostly valided now. Bootstrap to implement to CalculateNTvariables
+
+2016-12-15 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* first NtupleReader production with bootstrap
+
+2016-12-14 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* GetNtrack validated
+
+2016-12-13 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Bootstrap final bug fix for GetPt
+	* CreateNtrack, various bug fixes for bootstrap
+	* send2ge_syst add prefix to job files
+	* h_rt rised to 6:00:00. Should be final optimization.
+
+2016-12-09 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Bootstrap split switched to 2 bootstrap per job in GetPT.
+	* More ressources allocated to bootstrap jobs (for data mainly)
+
+2016-12-08 Stefano Cali <stefano.cali@cern.ch>
+	* Bootstrap splitting jobs in batch system implemented for GetNtrackWeights. 
+	
+2016-12-08 Stefano Cali <stefano.cali@cern.ch>
+	* Bootstrap method implemented in ApplyAllWeights. 
+
+2016-12-08 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Bug fix in GetPt related to bootstrap
+	* GetNTrack - bootstrap
+	* GetPt --> bootstrap job splitting
+
+2016-12-07 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Bootstrap bug fix
+	* General cleaning / improvements of the config files
+
+2016-12-05 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Bootstrap bug fix
+
+2016-12-02 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Bootstrap weights introduced in NtupleDumper and GetPtEtaWeights
+
+2016-11-24 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Trigger list updated and pT bins redesigned
+	* source:
+	https://indico.cern.ch/event/520845/contributions/2378207/attachments/1374858/2087223/InclusiveJets_Dijets_Status.pdf
+	* ATL-COM-DAQ-2016-087
+	* add send2ge_syst mode for Reweighting modules
+	* add send2ge_noSplit for NtupleReader
+	* size and memory increased
+	* jetpass high pT bin adapted
+
+2016-11-23 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* CalculateNtVariables updated
+	* Comments added in the code
+
+2016-11-22 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* CalculateNtVariables in validation process
+	* Central values of main quantities for SF should be OK
+	* Comments added in the code, many things to revisit: uncertainty
+	calculations, b-jet/c-jet fraction uncertainties,
+	GetEntries()->Integral() bug (?), b-jet and c-jet negative tag
+	uncertainty to revisit
+
+2016-11-21 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* send2ge++ bug fix
+
+2016-11-18 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Bug fix in NtupleReader -> both jets were used for SF computation!
+	* change in systematics.txt: dotrackrew->notrackrew (track reweighting
+	applied by default)
+	* doSkipLeadJet->doUseSubLeadJet: SF computed from subleading jet
+	instead of leading jet
+	* send2ge++ running mode for NtupleDumper for testing
+
+2016-11-15 Stefano Cali <stefano.cali@cern.ch>
+	* NtupleReader and ApplyAllWeights bug fix. 
+
+2016-11-15 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* NtupleReader bug fixes, review, etc
+
+2016-11-14 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Check on NTrack with all systematics included
+	* Minor bug fix in ApplyAllWeights (Ntrack reweighting corresponding
+	to the right systematic now applied)
+
+2016-11-14 Stefano Cali <stefano.cali@cern.ch>
+	* Add calculation of Ntrack-Pt reweighting coefficients for all the systematics(previously done
+	  only for the Nominal branch).
+	* Conseguent modification of source code and plotting macros in GetNtrackWeights, ApplyAllWeights
+	  and NtupleReader.
+	* Fix histogram path in the plotting macro in ApplyAllWeights.
+
+2016-11-04 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Cleaning of Ntrk reweighting (calculate_jetntrackreweighting.C)
+	* protection added for empty bins
+	* bug fix in ApplyAllWeights.cpp
+
+2016-11-03 Stefano Cali <stefano.cali@cern.ch>
+	* Solved bug in GetPtEtaWeights causing wrong pt-eta reweighting: moving all histograms from TH1F to TH1D in GetPtEtaWaights GetNtrackWeights and ApplyAllWeights.
+	* Small bugs corrections and plotting macro polishing in GetNtracksWeights and ApplyAllWeights.
+	
+
+2016-10-28 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* General cleaning of GetPtEtaWeights. 
+	* Cleaning and check of CreateNTrackHistograms
+
+2016-10-28 Stefano Cali <stefano.cali@cern.ch>
+	* In make_list.py add start and stop period labels near the 2016 file list.
+	* Bug fix in CreateHistograms.cpp. Now reweighting is done on abs(eta) insted of eta.
+	* Small graphic improvements on plotting macro in GetPtEtawights and GetNtrackWeights.
+	* Remove useless histograms from jetptetareweighting.C.
+	* Adding njets_event variable also on CreateNTrackHistograms.h
+	* Modifications of CreateNTrackHistograms.cpp according to the bug fix in GetPtEtaWeights
+
+2016-10-26 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* 2nd Batch submission fix: running time increased to 6 hrs
+
+2016-10-25 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* Batch submission fix: scratch disk increased to 15 Go
+
+2016-10-24 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* bug fix in make_list.py. Now robust.
+	* A15 data period definition updated
+	* adding argument "send2ge" to run to run on GE batch system (1 job
+	per slide/period for now for all syst, to be refined). Applicable only
+	for NtupleDumper
+	* njets -> as before (number of used jets), mainly for backward
+	compatibility
+	* njets_event -> number of the events
+	* njets_event added to GetPtEtaWeights
+
+2016-10-21 Stefano Cali <stefano.cali@cern.ch>
+	* update make_list.py adding missing data files.
+
+2016-10-21 Matthias Saimpert <matthias.saimpert@cern.ch>
+	* make_list.py up-to-date. Only path to adapt to your setup
+	* mc and data lists to be opened et saved after [TO BE FIXED]
+	* General cleaning of NtupleDumper. Comments added in the code.
+	* Njets = nb of jets passing pT/eta cuts in the event
+	* Njetdefault = 2 (selection of di-jet events)

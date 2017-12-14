@@ -1,0 +1,4 @@
+python printRelSyst.py
+cd make_pdf_summary/
+make
+make

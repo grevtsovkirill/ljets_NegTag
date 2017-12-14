@@ -1,0 +1,119 @@
+* Macros are adapted from the run 1 macros
+
+* Use Ntuples derived from FTAG1
+
+* run_all.sh script calls all scripts to run the code on lxplus and shows the correct execution order
+  
+* alternatively look at setup.sh and the run.sh scripts in the folders
+
+####
+# Notes
+
+* Macros use now c++11, so please use ROOT 6
+
+* Systematics handling changed (at least in the first steps) from seperate files to multiple trees/directories within one file
+
+* Some input values are dummy values and need to be updated
+
+* Central config file conf.hpp holds xsec, binning, etc.
+
+* input files documented in config folder
+
+* run scripts are getting options to run in parallel mode (helpers/run_mode.sh), right now messy output not for debugging!
+** ./run.sh echo might be useful for debugging (just print the commands to be run on the console and shows the files and options included)
+
+
+* Specify in Makefile in NtupleDumper -DTRIGGERS to run on Ntuples with triggers
+
+####
+# Description of different parts of the code:
+#
+# Code is divided into folders in which the executables can be build with the Makefile
+# Every folder representing a step in the analysis contains a bash script called run.sh, which manages the command line options
+
+* NtupleDumper: Dump very small Ntuples from input ntuples, do some basic selection and apply weights
+  Reads in the input files and creates sklimmed trees
+  - Cross section and filter efficiencies will be applied
+  - Event weights calculated
+  - Basic selection applied:
+    + 2 leading jets with |eta| < 2.5 and pT > 20 GeV
+    + JVT > 0.64 for jets with pT < 50 GeV and |eta| < 2.4
+  - jets back to back (Delta |phi| > 2)
+  - Truth cleaning in order to remove the overlap between mc samples due to pile-up jets (preliminary):
+    + cf. https://twiki.cern.ch/twiki/pub/AtlasProtected/JetStudies2012/JLacey_MC12_JZXW_weights_and_CleaningCuts.pdf
+    + get average pT of the two leading jets
+    + get leading truth jet pt (hard process) <- for now approximated with sample threshold
+    + cleaning discriminant: pt_avg/pt_lead <- Should be a window cut 0.6 < disc. < 1.4
+    + preliminary version w/o truth jet pt: https://cernbox.cern.ch/index.php/s/jKV9sm4G1UbfEja
+  - TODO: m_jetpass needs to be cleaned up
+  - TODO: revisit ptucut: -> Will be replaced by jet truth cleaning
+  - TODO: Find out where the integrated luminosity is set? -> else include it
+  - TODO: Check weighting for Dijet MC
+
+* GetPtEtaWeights
+  "CreateHistogramsApp" produces histograms with kinetic distributions of (sub-)leading jet
+  - pt, eta, pt-eta, number of tracks-pt
+
+  "calculate_jetptetareweighting.C" builds data/mc ratio of the pt-eta histograms
+  - added output for lost (reweighted with 0) mc events
+
+* GetNTrackWeights
+  "CreateNTrackHistogramsApp" produces plots
+  - applies reweighting with ratio plot from kine (pt-eta, fine binning!)
+  - plots for reweighted distributions
+
+  "calculate_jetntrackreweighting.C"
+  - produces data/mc comparison plots for ntrack distributions of (sub-)leading jets
+  TODO: check control plots with more statistics
+
+* NtuplerReader
+  produces plots separated in pt, eta, flavor, tagger with no weight, weight, weight^2
+  - Depending on argument produces these plots for syst. variations filtering various criteria
+  - Produces plots for the subtagger information
+  - TODO: Check those criteria
+  - TODO: check run.sh for systematics
+
+* control
+  producing control plots
+  - data/mc comparison and ratio plot for (sub-)leading jet in jet pT
+  - Color coding for MC slice
+
+* CalculateNTVariables
+  "pr.C" produces histograms for each systematic (and tagger, WP, eta-range), e.g. containing the neg-tag rate or eps_l... 
+  - TODO: Check histograms and investigate labelling
+  "syst_to_std.C" 
+
+  "syst_total.C"
+
+* CreatePlots
+  produces final plots
+
+####
+# Some comments on the included systematics:
+* datastat
+  uncertainty on eps_d with kll and khf
+  - unc. on eps_neg_d * kLL * kHF
+
+* mcstat
+  uncertainty on eps_l
+  - calculcated in CalculateNTVariables
+
+* fracc
+  variation of the fraction of c quarks in mc
+  - rel unc. is the rel. difference to the nominal samples
+  - calculated in CalculateNTVariables
+
+* fracb
+  analogous to fracc
+
+* "xAOD"
+  - these are systematic variations applied at Ntuple level (trees)
+  - propagated through the full analysis
+
+* noleadingjet
+  - use only the subleading jets (filtered in NtupleReader)
+
+* conversions
+  - use only jets flagged as conversion (filtered in NtupleReader)
+
+...

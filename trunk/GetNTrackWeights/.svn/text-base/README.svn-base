@@ -1,0 +1,10 @@
+* Inputs:
+  - ../NtupleDumper/res/*.root
+* Outputs:
+** Intermediate Histograms
+   - data.root
+   - mc.root
+** Histograms containing data/mc ratios
+   - reweight_ntrack2D.root
+** plots
+   - plot/*.pdf
