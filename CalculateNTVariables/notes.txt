@@ -1,0 +1,13 @@
+1) run CalculateVariables - for that need to check that all necessary variations done at NtupleReader
+
+compile rel_syst, and run it for different keys (still not sure that it's correct):
+  ./rel_syst -s generator -v sf -t rel
+  this produce output:rel_systematics/rel_sf_generator.root 
+
+./rel_syst -s khf
+  ./rel_syst -s sf
+  ./rel_syst -s sf_neg
+
+
+./total_syst -s generator -v sf (kll, khf, eps_neg_d)
+
