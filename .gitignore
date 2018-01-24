@@ -1,3 +1,5 @@
 *.o
 *.auto
 *res/
+*.root
+
