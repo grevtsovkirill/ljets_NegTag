@@ -12,6 +12,8 @@ using namespace std;
 #include "../helpers/OutputHelper.hpp"
 #include "../helpers/parser.hpp"
 
+const int debug =0;
+
 // compute efficiencies
 void calculate_epsilon(TH1D* Hists, double& val, double wp){
 
@@ -46,18 +48,23 @@ void calculate_epsilon(TH1D* Hists, double& val, double wp){
 // Function execute in main
 int path_eps(string sfold="std", int bootstrap_bkeeper=0)
 {
-  auto kin_labels = getKinLabels(); // take [ipt][ieta] and returns a string "ptXetaY"
+  std::cout << "in path_eps " <<  std::endl;
 
+  auto kin_labels = getKinLabels(); // take [ipt][ieta] and returns a string "ptXetaY"
+  
   auto flavors = conf::flav_list; flavors.push_back(""); // flavour_list. add "" for inclusive.
 
   //---- Get Nominal MC HF fraction in pT/eta if generator uncertainty
   TFile *f_fracHF; 
   TH2D *h_fracc_Pythia;
   TH2D *h_fracb_Pythia;
+
   if(sfold.find("generator")!= std::string::npos)
   {
     std::string fracHF_path = "../TemplateFit/template_fit.root.pTetaCorrections";
     if(sfold.find("subleadingjet_") != std::string::npos) fracHF_path = "../TemplateFit/template_fit.root.subldg.pTetaCorrections";
+
+    if(debug == 1) std::cout << " --- Get Nominal MC HF fraction in pT/eta from: "<< fracHF_path.c_str()<< std::endl;
     f_fracHF = new TFile(fracHF_path.c_str(),"read");
     h_fracc_Pythia = (TH2D*)f_fracHF->Get("h_fracc_mc");
     h_fracb_Pythia = (TH2D*)f_fracHF->Get("h_fracb_mc");
@@ -218,6 +225,7 @@ int path_eps(string sfold="std", int bootstrap_bkeeper=0)
   } 
   else
   {
+
     std::string ff_name="";
     if(sfold.find("subleadingjet")!= std::string::npos) ff_name="res/subleadingjet/mc.root";
     else                               ff_name="res/FlavourTagging_Nominal/mc.root";  
@@ -393,13 +401,15 @@ int path_eps(string sfold="std", int bootstrap_bkeeper=0)
           h_data_neg_HFsub->Add(h_negb, -h_fracb_mc->GetBinContent(p_pt.first, p_eta.first)*N_data/sb);
 
           //std::cout << N_data*(1-h_fracc_mc->GetBinContent(p_pt.first, p_eta.first)-h_fracb_mc->GetBinContent(p_pt.first, p_eta.first)) << " " << h_data_neg_HFsub->Integral() << std::endl;
-        }
-      }
-    }
-  }
+        }//eta_loop
+      }//pT_loop
+    }//tagger_loop
+  }//nominal leading and subl
 
   // PLOTS vs pT as a function of [tagger][wp][ieta][prefix]
   map<std::string, map<double, map<int, map< std::string, TH1D*>>>> h_plots;
+
+  if(debug == 1)   std::cout << "PLOTS vs pT as a function of [tagger][wp][ieta][prefix]"  << std::endl;
 
   // prefixes with LF(l)/INCLUSIVE(a)/DATA(d) efficiencies, 
   // kll, khf, sf, 
@@ -416,14 +426,20 @@ int path_eps(string sfold="std", int bootstrap_bkeeper=0)
 
   for (auto tagger: conf::tagger_list){
     int iwp = 0; // incremented 
-
     // array with the WP names (85, 77 ,etc)
+    //auto wpoint_wptype = conf::wpoint_labels.find(tagger)->first; 
     auto wpoint_title = conf::wpoint_labels.find(tagger)->second; 
     // array with the cuts to be applied to the tagger to get the corresponding WPs
     auto wpoint_cuts = conf::wpoint_map.find(tagger)->second; 
 
+    //std::cout << "wpoint_wptype = " <<wpoint_wptype<< std::endl; 
+
     for (auto wp: wpoint_cuts){
+      //string wp_label0 = to_string(wpoint_title[iwp]);
       string wp_label = to_string(wpoint_title[iwp]);
+      //string wp_label=wp_label0+wp_label1;
+      if(debug == 1) std::cout << "name of WP: " << wp_label<< std::endl;
+
       for (auto p_eta: kin_labels[1]){
 	auto ieta = p_eta.first;
         string eta_title;
@@ -437,15 +453,16 @@ int path_eps(string sfold="std", int bootstrap_bkeeper=0)
           else if(sfold.find("datastat")!=std::string::npos) identifier += "_datastat_" + to_string(bootstrap_bkeeper);
 
 	  string title = tagger + " WP = " + wp_label + "%, eta region " + eta_title;
-	    
+	  if(debug == 1) std::cout<< "Create: " << title << " "<<ieta<< " " << prefix << std::endl;	    
           h_plots[tagger][wp][ieta][prefix] = new TH1D(identifier.c_str(), title.c_str(), conf::n_pt, conf::pt_lowedges);
-	}
-      }
+	}//prefix
+      }//eta loop
       ++iwp;
-    }
+    }//
   }
 
   // calculate all histograms
+  if(debug == 1) std::cout<< "calculate all histograms"<< std::endl;	    
   // PLOTS vs pT as a function of [tagger][wp][ieta][prefix]
   for (auto tagger: conf::tagger_list){
 
@@ -484,11 +501,15 @@ int path_eps(string sfold="std", int bootstrap_bkeeper=0)
           }
           else
           {
+	    if(debug == 1) std::cout<< "calc efficiencies hist_mc (no bootstrap): "<<std::endl;	    
 	    calculate_epsilon(h_mc[p_pt.first][p_eta.first]["l"][tagger][""], eps_l, wp);
 	    calculate_epsilon(h_mc[p_pt.first][p_eta.first]["l"][tagger]["neg"], eps_l_neg, wp);
 	    calculate_epsilon(h_mc[p_pt.first][p_eta.first][""][tagger]["neg"], eps_a_neg, wp);
+
           }
 
+	  if(debug == 1) std::cout << tagger << "_"<< wp << " " << p_pt.first << " "<< p_eta.first<< ": eps_l= "<< eps_l << "; eps_l_neg= "<< eps_l_neg << "; eps_a_neg= "<< eps_a_neg<<std::endl;	  
+	  
 	  cur_histo["eps_l"]->SetBinContent(p_pt.first, eps_l);
 	  cur_histo["eps_l"]->SetBinError(p_pt.first, 0.);
 	  cur_histo["eps_l_neg"]->SetBinContent(p_pt.first, eps_l_neg);
@@ -502,7 +523,10 @@ int path_eps(string sfold="std", int bootstrap_bkeeper=0)
           // neg-tag rate on data 
 	  double eps_neg_d=0; 
           if(sfold.find("datastat")!=std::string::npos) calculate_epsilon(h_data_neg_bootstrap_data[p_pt.first][p_eta.first][tagger], eps_neg_d, wp);
-          else calculate_epsilon(h_data_neg[p_pt.first][p_eta.first][tagger], eps_neg_d, wp);
+          else{
+	    if(debug == 1) std::cout<< "calc eff hist_data (no bootstrap): "<<std::endl;    
+	    calculate_epsilon(h_data_neg[p_pt.first][p_eta.first][tagger], eps_neg_d, wp);
+	  }
 
 	  cur_histo["eps_neg_d"]->SetBinContent(p_pt.first, eps_neg_d);
 	  cur_histo["eps_neg_d"]->SetBinError(p_pt.first, 0.);
@@ -802,7 +826,6 @@ int path_eps(string sfold="std", int bootstrap_bkeeper=0)
 }
 
 int main(int argc, char* argv[]) {
-
   cout << "calculate analysis variables" << endl;
   TString systematic="std";
 
