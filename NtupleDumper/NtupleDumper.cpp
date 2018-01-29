@@ -11,6 +11,7 @@
 #include <cassert>
 
 using namespace std;
+const int debug =1;
 
 void NtupleDumper::Loop()
 {
@@ -91,6 +92,8 @@ void NtupleDumper::Loop()
   }
 
   // tagger branches to be added to the tree
+  if(debug == 1) std::cout << "tagger branches to be added to the tree "<< std::endl;
+
   for (auto const &name: subtagger::floats){
     float* a = new float[2];
     float_subtagger_out[name.first] = a;

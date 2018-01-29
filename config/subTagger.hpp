@@ -6,6 +6,8 @@ namespace subtagger{
   const std::map <std::string, std::tuple<int, double, double>> floats = {
     {"jet_MV2c10",std::make_tuple(100, -1.0, 1.0)},
     {"jet_MV2c10Flip",std::make_tuple(100, -1.0, 1.0)},
+    {"jet_DL1_pu",std::make_tuple(100, -5.0, 10.0)},
+    {"jet_DL1_pc",std::make_tuple(100, -5.0, 10.0)},
     // subtaggers 
     // IPXD, IPXDNeg
     {"jet_IP2D_logpbpu",std::make_tuple(70, -30.0, 40.0)},
