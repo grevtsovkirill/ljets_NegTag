@@ -1,1 +1,0 @@
-A14  /eos/atlas/atlascerngroupdisk/perf-flavtag/calib/negtag/tag20.7.8.10_full15and16_v00-07/ntuples/group.perf-flavtag.data15_13TeV.00282625.DAOD_FTAG1.FTNtupCalib.NegTag_v00-07-00.r7562_p2521_p3002_tuple.root/group.perf-flavtag.11211780._000010.tuple.root

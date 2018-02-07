@@ -1,6 +1,0 @@
-* Input:
-  - ../NtupleReader/res/<sys>/*.root
-* Output:
-  - raw_systematics/*.root
-  - rel_systematics/*.root
-  - total.root
