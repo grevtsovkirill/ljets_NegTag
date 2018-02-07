@@ -11,9 +11,8 @@ source ../helpers/run_mode.sh
 PERIODFILE=".periods.auto"
 SLICEFILE=".slices.auto"
 SLICEFILE_H=".slicesHERWIG.auto"
-SLICEFILE_S=".slicesSHERPA.auto"
 SYSTFILE=".systematics.auto"
-rm $PERIODFILE $SLICEFILE $SLICEFILE_H $SLICEFILE_S $SYSTFILE 2> /dev/null
+rm $PERIODFILE $SLICEFILE $SLICEFILE_H $SYSTFILE 2> /dev/null
 #rm log/* 2> /dev/null
 
 ALL_SYSTS=""
@@ -22,46 +21,35 @@ for syst in $(getxAODsysts); do
     echo $syst >> $SYSTFILE
 done
 
+# run mc
 while read slice files; do
-   case "$slice" in \#*) continue ;; esac
-   [ -z "$slice" ] && continue
-   LOGNAME=$slice
-   #run ./NtupleDumperApp -s $ALL_SYSTS -ps $slice -f $files
-   run ./NtupleDumperApp -s "FlavourTagging_Nominal" -ps $slice -f $files
-   echo $slice >> $SLICEFILE
-done < ../config/mc_files_pythia.txt
+    case "$slice" in \#*) continue ;; esac
+    [ -z "$slice" ] && continue
+    LOGNAME=$slice
+    run ./NtupleDumperApp -s $ALL_SYSTS -ps $slice -f $files
+    echo $slice >> $SLICEFILE
+done < ../config/mc_files.txt
 slice=""
 
-# # ##run mc (HERWIG) - cannot be run in send2ge++ mode at the moment
-# while read slice files; do
+## run mc (HERWIG) - cannot be run in send2ge++ mode at the moment
+#while read slice files; do
 #    case "$slice" in \#*) continue ;; esac
 #    [ -z "$slice" ] && continue
 #    LOGNAME=$slice
 #    run ./NtupleDumperApp -s "FlavourTagging_Nominal" -ps $slice -f $files
 #    echo $slice >> $SLICEFILE_H
-# done < ../config/mc_files_16_herwig.txt
-# slice=""
+#done < ../config/mcHERWIG_files.txt
+#slice=""
 
-##run mc (SHERPA) - cannot be run in send2ge++ mode at the moment
-# while read slice files; do
-#    case "$slice" in \#*) continue ;; esac
-#    [ -z "$slice" ] && continue
-#    LOGNAME=$slice
-#    run ./NtupleDumperApp -s "FlavourTagging_Nominal" -ps $slice -f $files
-#    echo $slice >> $SLICEFILE_S
-# done < ../config/mc_files_16_sherpa.txt
-# slice=""
-
-##run data
-# while read period files; do
-#     case "$period" in \#*) continue ;; esac
-#     [ -z "$period" ] && continue
-#     LOGNAME=$period
-#     run ./NtupleDumperApp -d -s "FlavourTagging_Nominal" -ps $period -f $files
-#     echo $period >> $PERIODFILE
-# #done < ../config/data_files.txt
-# done < ../config/data_files_16.txt
-# period=""
-
-wait
-echo "done"
+# run data
+#while read period files; do
+#    case "$period" in \#*) continue ;; esac
+#    [ -z "$period" ] && continue
+#    LOGNAME=$period
+#    run ./NtupleDumperApp -d -s "FlavourTagging_Nominal" -ps $period -f $files
+#    echo $period >> $PERIODFILE
+#done < ../config/data_files.txt
+#period=""
+#
+#wait
+#echo "done"

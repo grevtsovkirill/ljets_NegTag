@@ -77,7 +77,6 @@ public :
   std::vector<float> *truthjet_pt;
   std::vector<float> *truthjet_phi;
   std::vector<float> *truthjet_eta;
-  std::vector<int> *truthjet_pdgId;
 
   // additional subtagger information
   // see ../conf/subTagger.hpp
@@ -201,7 +200,6 @@ public :
   float jettruthpt[2];
   float jettrutheta[2];
   float jettruthphi[2];
-  int jettruthpdgId[2];
 
   // extra
   int    njets_event;
@@ -327,7 +325,6 @@ void NtupleDumper::Init(TTree *tree)
   truthjet_pt = new std::vector<float>;
   truthjet_phi = new std::vector<float>;
   truthjet_eta = new std::vector<float>;
-  truthjet_pdgId = new std::vector<int>;
 
    // Set branch addresses and branch pointers
    if (!tree) return;
@@ -340,7 +337,6 @@ void NtupleDumper::Init(TTree *tree)
      fChain->SetBranchAddress("truthjet_pt", &truthjet_pt);
      fChain->SetBranchAddress("truthjet_eta", &truthjet_eta);
      fChain->SetBranchAddress("truthjet_phi", &truthjet_phi);
-     fChain->SetBranchAddress("truthjet_pdgId", &truthjet_pdgId);
    }
 
    fChain->SetBranchAddress("jet_pt", &jet_pt);
