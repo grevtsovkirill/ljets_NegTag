@@ -21,6 +21,7 @@ void NtupleDumper::Loop()
   // book histograms
   TH1F *h_cutflow = new TH1F("cutflow_"+m_systematic, "cutflow", 6, 0, 6);
   TH1F *h_pTavg = new TH1F("ptavg_"+m_systematic, "p_{T}^{avg}", 300, 0, 3000);
+  TH1F *h_trackpTavg = new TH1F("trackptavg_"+m_systematic, "p_{T}^{avg}", 300, 0, 3000);
   TH1F *h_pTavg_ptlead = new TH1F("ptavg_ptlead_"+m_systematic, "p_{T}^{avg}/p_{T}^{lead}", 500, 0, 5);
 
   // for trigger check 
@@ -30,16 +31,36 @@ void NtupleDumper::Loop()
   TH2F *h2_total_events = new TH2F("tot_evts_"+m_systematic, "", 
 			       conf::n_pt, conf::pt_lowedges, 
 			       25, 0, 25);
+  TH2F *h2_tracktriggers = new TH2F("tracktriggers_"+m_systematic, "triggers firing in track pT bins; lead trackjet p_{T}", 
+			       conf::n_pt, conf::pt_lowedges, 
+			       25, 0, 25);
+  TH2F *h2_total_trackevents = new TH2F("tot_track_evts_"+m_systematic, "", 
+			       conf::n_pt, conf::pt_lowedges, 
+			       25, 0, 25);
 
   njets = 2; // select only 2 leading jets
+  ntrackjets = 2;  // select only 2 leading track jets
 
   // create tree
   cout << "creating tree" << endl;
   TTree *outtree = new TTree(m_systematic, "recreate");
 
   outtree->Branch("njets",&njets,"njets/I");
+  outtree->Branch("ntrackjets",&ntrackjets,"ntrackjets/I");
   outtree->Branch("njets_event",&njets_event,"njets_event/I");
-
+  outtree->Branch("ntrackjets_event",&ntrackjets_event,"ntrackjets_event/I");
+  outtree->Branch("evtHLTj15ps",&evtHLTj15ps,"evtHLTj15ps/F");
+  outtree->Branch("evtHLTj25ps",&evtHLTj25ps,"evtHLTj25ps/F");
+  outtree->Branch("evtHLTj60ps",&evtHLTj60ps,"evtHLTj60ps/F");
+  outtree->Branch("evtHLTj110ps",&evtHLTj110ps,"evtHLTj110ps/F");
+  outtree->Branch("evtHLTj175ps",&evtHLTj175ps,"evtHLTj175ps/F");
+  outtree->Branch("evtHLTj380ps",&evtHLTj380ps,"evtHLTj380ps/F");
+  outtree->Branch("HLTj15",&HLTj15,"HLTj15/I");
+  outtree->Branch("HLTj25",&HLTj25,"HLTj25/I");
+  outtree->Branch("HLTj60",&HLTj60,"HLTj60/I");
+  outtree->Branch("HLTj110",&HLTj110,"HLTj110/I");
+  outtree->Branch("HLTj175",&HLTj175,"HLTj175/I");
+  outtree->Branch("HLTj380",&HLTj380,"HLTj380/I");
   outtree->Branch("evtnum",&evtnum,"evtnum/I");
   outtree->Branch("runnum",&runnum,"runnum/I");
   outtree->Branch("evtpuw",&evtpuw,"evtpuw/F");
@@ -72,6 +93,26 @@ void NtupleDumper::Loop()
   outtree->Branch("ntrack_SV1",ntrack_SV1,"ntrack_SV1[njets]/I");
   outtree->Branch("ntrack_JetFitterFlip",ntrack_JetFitterFlip,"ntrack_JetFitterFlip[njets]/I");
   outtree->Branch("ntrack_JetFitter",ntrack_JetFitter,"ntrack_JetFitter[njets]/I");
+  outtree->Branch("trackjetpt", trackjetpt, "trackjetpt[ntrackjets]/F");
+  outtree->Branch("trackjetphi",trackjetphi,"jetphi[ntrackjets]/F");
+  outtree->Branch("trackjeteta",trackjeteta,"trackjeteta[ntrackjets]/F");
+  outtree->Branch("trackjetpass",trackjetpass,"trackjetpass[ntrackjets]/I");
+  outtree->Branch("trackjetntrack",trackjetntrack,"trackjetntrack[ntrackjets]/I");
+
+  outtree->Branch("trackisleading",trackisleading,"trackisleading[ntrackjets]/O");
+  outtree->Branch("trackflavor",trackflavor,"trackflavor[ntrackjets]/I");
+  outtree->Branch("trackjetHasKShort",trackjetHasKShort, "trackjetHasKShort[ntrackjets]/I");
+  outtree->Branch("trackjetHasLambda", trackjetHasLambda, "trackjetHasLambda[ntrackjets]/I");
+  outtree->Branch("trackjetHasConversion", trackjetHasConversion, "trackjetHasConversion[ntrackjets]/I");
+  outtree->Branch("trackjetHasHadMatInt", trackjetHasHadMatInt, "trackjetHasHadMatInt[ntrackjets]/I");
+  outtree->Branch("trackntrack_IP3DNeg",trackntrack_IP3DNeg,"trackntrack_IP3DNeg[ntrackjets]/I");
+  outtree->Branch("trackntrack_IP3D",trackntrack_IP3D,"trackntrack_IP3D[ntrackjets]/I");
+  outtree->Branch("trackntrack_IP2DNeg",trackntrack_IP2DNeg,"trackntrack_IP2DNeg[ntrackjets]/I");
+  outtree->Branch("trackntrack_IP2D",trackntrack_IP2D,"trackntrack_IP2D[ntrackjets]/I");
+  outtree->Branch("trackntrack_SV1Flip",trackntrack_SV1Flip,"trackntrack_SV1Flip[ntrackjets]/I");
+  outtree->Branch("trackntrack_SV1",trackntrack_SV1,"trackntrack_SV1[ntrackjets]/I");
+  outtree->Branch("trackntrack_JetFitterFlip",trackntrack_JetFitterFlip,"trackntrack_JetFitterFlip[ntrackjets]/I");
+  outtree->Branch("trackntrack_JetFitter",trackntrack_JetFitter,"trackntrack_JetFitter[ntrackjets]/I");
   
   outtree->Branch("data_evtweight", data_evtweight, "data_evtweight[njets]/F");
 
@@ -109,7 +150,22 @@ void NtupleDumper::Loop()
     double_subtagger_out[name.first] = a;
     outtree->Branch(name.first.c_str(), a, (name.first + "[njets]/D").c_str());
   }
-
+// tagger branches to be added to the tree for track jets (Does this need to be done since njets = ntrackjets?)
+  for (auto const &name: subtagger::floats_trackjet){
+    float* a = new float[2];
+    float_subtagger_trackjet_out[name.first] = a;
+    outtree->Branch(name.first.c_str(), a, (name.first + "[ntrackjets]/F").c_str());
+  }
+  for (auto const &name: subtagger::ints_trackjet){
+    int* a = new int[2];
+    int_subtagger_trackjet_out[name.first] = a;
+    outtree->Branch(name.first.c_str(), a, (name.first + "[ntrackjets]/I").c_str());
+  }
+  for (auto const &name: subtagger::doubles_trackjet){
+    double* a = new double[2];
+    double_subtagger_trackjet_out[name.first] = a;
+    outtree->Branch(name.first.c_str(), a, (name.first + "[ntrackjets]/D").c_str());
+  }
   // calculate xsec*filter eff. for sample
   double xsec_correction = 1.0;
   if (runmc){
@@ -148,6 +204,9 @@ void NtupleDumper::Loop()
   // cutvalues
   const double ptcut = 20.;
   const double etacut = 2.5;
+  const double trackptcut = 10.;
+  const double tracketacut = 2.5;
+  const double trackntrackcut = 2;
 
   // event loop
   Long64_t nbytes = 0, nb = 0;
@@ -158,10 +217,13 @@ void NtupleDumper::Loop()
 
     // update number of processed events appearing on screen
     if (jentry%10000==0) { if(runmc) cout<<"running mc "; else cout<<"running data "; cout << jentry << '\r'; cout.flush(); }
-
+	bool IsGoodEvent = true;
     // excludes event with no reco jets with warning.
     njets_event = jet_pt->size();
-    if (njets_event < 1){
+    ntrackjets_event = trackjet_pt->size();
+	
+    if ((njets_event < 2) || (ntrackjets_event < 2)) {
+	IsGoodEvent = false;
       //std::cout << "Warning: event with no reco jet. Run/EventNumber: " << runnum << ", " << evtnum << std::endl; 
       continue;
     }
@@ -184,20 +246,26 @@ void NtupleDumper::Loop()
       evtpuw = 1.0;
       evtJVTw = 1.0;
     }
-
+    
     // find leading jet pt - BEFORE ANY CUTS APPLIED
     double pt1_noCut = 0.;
+    double pttrack1_noCut = 0.;
     for (int i = 0; i< njets_event; ++i){
       if ((*jet_pt)[i]/1000.>pt1_noCut) pt1_noCut = (*jet_pt)[i]/1000.; // GeV
     }
+    for (int i = 0; i< ntrackjets_event; ++i){
+      if ((*trackjet_pt)[i]/1000.>pttrack1_noCut) pttrack1_noCut = (*trackjet_pt)[i]/1000.; // GeV
+    }
 
-    // fill histogram with trigger decisions - BEFORE ANY CUT APPLIED
+    // fill histogram with trigger decisions - BEFORE ANY CUT APPLIED (removed te JVT weight from the track pt fill.  The other weights I should keep, correct?)
     for (auto trigger: trigger_names){
       h2_triggers->Fill(pt1_noCut, trigger.c_str(), puweight*mc_evtweight*JVTweight * *      trigger_decision[trigger]);
       h2_total_events->Fill(pt1_noCut, trigger.c_str(), mc_evtweight*puweight*JVTweight);
+      h2_tracktriggers->Fill(pttrack1_noCut, trigger.c_str(), puweight*mc_evtweight * *      trigger_decision[trigger]);
+      h2_total_trackevents->Fill(pttrack1_noCut, trigger.c_str(), mc_evtweight*puweight);
     }
 
-    // start of cutflow
+    // start of cutflow (Not sure if we need tack jet cutflow?  Most of the cutflow has to do with back to back and jvt cuts in the calo jets, so for now I didn't touch it.)
     h_cutflow->Fill("C0:Input", mc_evtweight*puweight*JVTweight);
 
     nevents[0] += mc_evtweight*puweight*JVTweight;
@@ -441,7 +509,118 @@ void NtupleDumper::Loop()
       evtJVTw_sys[1] = 1;
     }
 
-    outtree->Fill();
+
+
+// Track Jet loop
+
+
+    int trackj1 = -1, trackj2 = -1; // index of leading and subleading jet
+    double trackpt1 = 0, trackpt2 = 0; // pt of leading and subleading jet 
+    int ntrackj=0;
+    for (int j = 0; j<ntrackjets_event; ++j) {
+
+      double trackpt = (*trackjet_pt)[j]/1000.; // GeV
+      double etatrack_abs = fabs((*trackjet_eta)[j]);
+      double trackjetntrack = ((*trackjet_ntrk)[j]);
+      if (trackpt<trackptcut) continue;
+      if (etatrack_abs > etacut) continue;
+      if (trackjetntrack < trackntrackcut) continue;
+
+                 
+
+      if (trackpt>trackpt1) {
+    	trackj2 = trackj1; trackpt2 = trackpt1; 
+    	trackj1 = j; trackpt1 = trackpt; 	
+      } 
+      else if (trackpt>trackpt2) {
+    	trackj2 = j; trackpt2 = trackpt; 
+      }
+      ntrackj++;
+    }
+    ntrackjets_event = ntrackj;  // number of reco track jets in the event passing pT/eta/ntrk cut
+
+// sanity check track
+   if (trackpt1 < trackpt2) cout << "error " << trackpt1 << "<" << trackpt2 << endl;
+
+
+
+      // average pT of the two leading reco jets
+      //double trackpt_avg = ((*trackjet_pt)[trackj1]+(*trackjet_pt)[trackj2])/2./1000.;
+      //h_trackpTavg->Fill(trackpt_avg, mc_evtweight*puweight); 
+
+        //}
+
+      //}
+
+
+
+ // checks trigger firing and filling of the variable
+    ntrackj=0;
+    for (int j: {trackj1,trackj2}){
+      if (trackj1 == -1 || trackj2 == -1){ 
+	IsGoodEvent = false;
+	continue;}
+      int m_trackjetpass = 0;
+      double pttrackj = (*trackjet_pt)[j]/1000.;
+      // check if trigger associated to pT bin has fired
+      if (!check_trigger_pt_bin(pttrackj)) m_trackjetpass += 1;
+
+      // check if pttrackj is out of the defined pT bins
+      if(pttrackj >= conf::pt_lowedges[conf::n_pt]) m_trackjetpass += 2;  
+
+       
+
+      // Summary (Just removed cleaning part since there is no cleaning done on track jets.  Is this what needs to be done?
+      // m_trackjetpass == 0, good trigger fired, within range, cleaning ok
+      // m_trackjetpass == 1, NO GOOD TRIGGER FIRED, within range
+
+      // m_trackjetpass == 2, good trigger fired, out of range
+      // m_trackjetpass == 3, NO GOOD TRIGGER FIRED, out of range
+
+      
+
+      trackjetpt[ntrackj] = pttrackj;
+      trackjetphi[ntrackj] = (*trackjet_phi)[j];
+      trackjeteta[ntrackj] = (*trackjet_eta)[j];
+      trackjetpass[ntrackj] = m_trackjetpass;
+      trackjetntrack[ntrackj] = (*trackjet_ntrk)[j];
+      if(j==trackj1) trackisleading[ntrackj] = true;
+      else      trackisleading[ntrackj] = false;
+
+      if(runmc) trackflavor[ntrackj] = (*trackjet_truth)[j];
+      else trackflavor[ntrackj] = 0;
+
+      trackjetHasKShort[ntrackj] = (*trackjet_hasKShort)[j];
+      trackjetHasLambda[ntrackj] = (*trackjet_hasLambda)[j];
+      trackjetHasConversion[ntrackj] = (*trackjet_hasConversion)[j];
+      trackjetHasHadMatInt[ntrackj] = (*trackjet_hasHadMatInt)[j];
+      trackntrack_IP3DNeg[ntrackj] = (*trackjet_IP3DNeg_ntrk)[j];
+      trackntrack_IP3D[ntrackj] = (*trackjet_IP3D_ntrk)[j];
+      trackntrack_IP2DNeg[ntrackj] = (*trackjet_IP2DNeg_ntrk)[j];
+      trackntrack_IP2D[ntrackj] = (*trackjet_IP2D_ntrk)[j];
+      trackntrack_SV1Flip[ntrackj] = (*trackjet_SV1Flip_ntrk)[j];
+      trackntrack_SV1[ntrackj] = (*trackjet_SV1_ntrk)[j];
+      trackntrack_JetFitterFlip[ntrackj] = (*trackjet_JetFitterFlip_ntrk)[j];
+      trackntrack_JetFitter[ntrackj] = (*trackjet_JetFitter_ntrk)[j];
+
+      // *_subtagger_out defined at the beginning
+      for (auto &pair: float_subtagger_trackjet_out){
+	// cout << pair.first << endl;
+	pair.second[ntrackj] = (*float_subtagger_trackjet[pair.first])[j];
+      }
+      for (auto &pair: int_subtagger_trackjet_out){
+	//cout << pair.first << endl;
+	pair.second[ntrackj] = (*int_subtagger_trackjet[pair.first])[j];
+      }
+      for (auto &pair: double_subtagger_trackjet_out){
+	pair.second[ntrackj] = (*double_subtagger_trackjet[pair.first])[j];
+      }
+
+
+      ntrackj++; 
+    }
+	if (IsGoodEvent) {
+    outtree->Fill();}
   }
 
   for(int icut=0; icut<ncuts; icut++){
@@ -450,6 +629,7 @@ void NtupleDumper::Loop()
   }
 
 }
+
 
 bool NtupleDumper::check_trigger_pt_bin(double jetpt){
 

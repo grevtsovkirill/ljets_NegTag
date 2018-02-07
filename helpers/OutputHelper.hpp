@@ -34,3 +34,37 @@ int getEtaBin(const double eta){
   std::cout << "!!! fabs(eta) out of range: " << ieta << std::endl;
   return -1;
 }
+
+
+std::map<int, std::map<int, std::string>> getTrackKinLabels(){
+  std::map<int, std::map<int, std::string>> track_labels;
+  for (int itrackpt = 1; itrackpt<=conf::n_pt; ++itrackpt) {
+    for (int itracketa = 1; itracketa<=conf::n_eta; ++itracketa) {
+      track_labels[itrackpt][itracketa] = std::string("trackpt")+std::to_string(itrackpt)+"tracketa"+std::to_string(itracketa);
+    }
+  }
+  return track_labels;
+}
+
+int getTrackPtBin(const double trackpt){
+  if (trackpt >= conf::pt_lowedges[0] && trackpt < conf::pt_lowedges[conf::n_pt]){
+    for (int i = 1; i <= conf::n_pt; ++i){
+      if (trackpt < conf::pt_lowedges[i]) return i;
+    }
+  }
+  std::cout << std::endl;
+  std::cout << "!!! trackpt out of range: " << trackpt << std::endl;
+  return -1;
+}
+
+int getTrackEtaBin(const double tracketa){
+  double itracketa = fabs(tracketa);
+  if (itracketa >= conf::eta_lowedges[0] && itracketa <= conf::eta_lowedges[conf::n_eta]){
+    for (int i = 1; i <= conf::n_eta; ++i){
+      if (itracketa <= conf::eta_lowedges[i]) return i;
+    }
+  }
+  std::cout << "!!! fabs(tracketa) out of range: " << itracketa << std::endl;
+  return -1;
+}
+

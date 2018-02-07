@@ -68,17 +68,20 @@ int main(int argc, char* argv[]) {
   if (period_slice.size() != 1) { cout << "provide exactly 1 period/slice" << endl; return 0;}
 
   TString filename;
+  TString outputpath;
+  outputpath = "root://eosatlas//eos/user/m/mstrauss/BTagDumpedNtuples/Release21";
   if (runmc){
     cout << "## running mc " << period_slice[0] << " ##" << endl;
-    filename = "res/mc" + period_slice[0] + ".root";
+    filename = outputpath + "/mc" + period_slice[0] + ".root";
     // if -split mode activated, create one file per systematic
-    if(file_per_syst) filename = "res/mc" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
-  }
+    if(file_per_syst) filename = outputpath +  "/mc" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
+ } 
+  
   else{
     cout << "## running data " << period_slice[0] << " ##" << endl;
-    filename = "res/data" + period_slice[0] + ".root";
+    filename = outputpath + "/data" + period_slice[0] + ".root";
     // if -split mode activated, create one file per systematic
-    if(file_per_syst) filename = "res/data" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
+    if(file_per_syst) filename = outputpath +  "/data" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
   }
  
 
@@ -90,39 +93,38 @@ int main(int argc, char* argv[]) {
     tchains.push_back(tchain);
   }
 
-  for ( auto file: files){
-    // cout << file << endl;
-    int nbranches, entries;
-    TFile *f=TFile::Open(file);
-    TH1D *h = (TH1D*)f->Get("MetaData_EventCount");
-    if ( h_event_count == 0){
-      h_event_count = (TH1D*)h->Clone("evcount");
-      h_event_count->SetDirectory(0); // otherwise histogram gets deleted...
-    }
-    else{
-      h_event_count->Add(h);
-    }
-    int metadata_entries = h->GetBinContent(3); 
-    TTree* nom_tree = (TTree*)f->Get("FlavourTagging_Nominal");
-    if (nom_tree) entries = nom_tree->GetEntries();
-    else entries = 0;
-    // nbranches = ((TTree*)f->Get("FlavourTagging_Nominal"))->GetListOfBranches()->GetEntries();
-    if (metadata_entries < 1) cout << "(0 entries) skip file: " << file << endl;
-    else if (entries == 0){
-      cout << "(0 entries in tree || no nominal tree) skip file: " << file << endl;
-    }
-    else{
-      cout << " use file: " << file << endl;
-      for (auto chain: tchains){
-	chain->Add(file);      
-      }
-    }
-    if (entries != metadata_entries){
-      cout << "***** entries tree and entries metadata do not match: " << entries << "\t" << metadata_entries << endl;
-    }
-    f->Close();
-    delete f;
-  }
+    for (auto file: files) {
+	TFile *f = TFile::Open(file);
+	if ((!f) || (f->IsZombie())){
+	   std::cout << "(no file || file is zombie) skip file: " << file << std::endl;
+           delete f;
+	   continue;
+	}
+	TH1D *h; 
+	f->GetObject("MetaData_EventCount", h);
+	if ((!h) || (h->GetBinContent(3) < 1)){
+	  std::cout << "(no histogram || 0 entries in histogram) skip file: " << file << std::endl;
+          delete f;
+	  continue;
+	}
+	TTree *t;
+	f->GetObject("FlavourTagging_Nominal", t);
+	if ((!t) || (t->GetEntries() < 1)) {
+	   std::cout << "(no tree || 0 entires in tree) skip file " << file << std::endl;
+	  delete f;
+	  continue;
+	}
+	if (h_event_count) h_event_count->Add(h);
+	else {
+	   h->SetDirectory(0);
+	   h->SetName("evcount");
+	   h_event_count = h;
+	}
+	delete f;
+	
+	std::cout << "use file: " << file << std::endl;
+	for (auto chain: tchains) chain->Add(file);
+}
 
   TFile *histofile = new TFile(filename, "RECREATE");
   for (auto syst: systematics){

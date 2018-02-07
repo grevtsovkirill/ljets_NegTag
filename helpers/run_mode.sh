@@ -66,10 +66,48 @@ run() {
         OUTPUT_DIR="log/"
         mkdir -p "$OUTPUT_DIR" 
 
-	#echo "here"
         # send job
-	qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+        qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+    
+    # ----------------------------------------------------------------
+    # for lxplus batch system: split by period (NtupleDumper ONLY)
+    # ----------------------------------------------------------------
+    elif [[ "$RUNMODE" == "send2lx_NtupleDumper" ]]; then
+        echo "enable lxbatch mode for NtupleDumper (one job per period)"
 
+        # determine slice
+        args=("$@")
+        var="0"
+        for ((i=0; i<${#args[@]}; i++)); do
+           if [[ "${args[i]}" == "-ps" ]]; then
+              var=${args[i+1]}
+              break
+           fi
+        done
+
+        # trick to identify if NtupleDumper is ran 
+        if [[ "$var" == "0" ]]; then
+           echo "ERROR: send2lx applies to NtupleDumpler only. Exiting program ..."
+           exit 1
+        fi
+	# create run directory
+	RUNDIR=`pwd`
+        # create job file
+        PBSDIR="pbs_files"
+        PBSFILE="$PBSDIR/$var.pbs"
+        mkdir -p "$PBSDIR"
+        cp ../setup.sh $PBSFILE
+        # adding some lines
+	echo "cd $RUNDIR" >> "$PBSFILE"
+        echo " " >> "$PBSFILE"
+        echo "$@" >> "$PBSFILE"
+
+        # create log directory
+        OUTPUT_DIR="log/"
+        mkdir -p "$OUTPUT_DIR"
+
+        # send job
+	bsub -q 1nd -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $RUNDIR < $PBSFILE
     # -----------------------------------------------------------------------
     # for grid engine batch system: split in period + syst (NtupleDumper ONLY)
     # ------------------------------------------------------------------------
@@ -128,8 +166,73 @@ run() {
              mkdir -p "$OUTPUT_DIR" 
 
              # send job
-             qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+              qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+            
            fi
+        done
+    # -----------------------------------------------------------------------
+    # for lxplus batch system: split in period + syst (NtupleDumper ONLY)
+    # ------------------------------------------------------------------------
+    elif [[ "$RUNMODE" == "send2lx++_NtupleDumper" ]]; then
+        echo "enable lxbatch ++ mode for NtupleDumper (one job per period and per syst)"
+
+        # determine position of -s flag
+        args=("$@")
+        s_index=0
+        for ((j=0; j<${#args[@]}; j++)); do
+           if [[ "${args[j]}" == "-s" ]]; then
+              s_index=$j
+              break
+           fi
+        done
+
+        # determine slice
+        var="0"
+        ps_index=0
+        d_flag=0
+        for ((i=0; i<${#args[@]}; i++)); do
+           if [[ "${args[i]}" == "-d" ]]; then
+              d_flag=1
+           fi
+           if [[ "${args[i]}" == "-ps" ]]; then
+              ps_index=$i
+              var=${args[i+1]}
+              break
+           fi
+        done
+        # trick to identify if NtupleDumper is ran
+        if [[ "$var" == "0" ]]; then
+           echo "ERROR: send2lx++ applies to NtupleDumpler only. Exiting program ..."
+           exit 1
+        fi
+
+
+        # loop on systematics
+        for syst in $(getxAODsysts); do
+           # for data, skip if it is different than nominal
+           if [[ "$d_flag" == "1" ]] && [[ "$syst" != "FlavourTagging_Nominal" ]] ; then
+             echo "skipping running on systematics for data"
+           else
+	     # create run directory
+	     RUNDIR=`pwd`
+
+             # create 1 job file per systematic
+             PBSDIR="pbs_files"
+             PBSFILE="$PBSDIR"/"$var"_"$syst".pbs
+             mkdir -p "$PBSDIR"
+             cp ../setup.sh $PBSFILE
+
+             # adding some lines
+             echo " " >> "$PBSFILE"
+             echo "${@:1:$s_index+1} $syst ${@:$ps_index+1} -split " >> "$PBSFILE"
+
+             # create log directory
+             OUTPUT_DIR="log/"
+             mkdir -p "$OUTPUT_DIR"
+
+             # send job
+           bsub-q 1nd -W 24:00 -M 8000 -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $RUNDIR < $PBSFILE
+	   fi
         done
 
     # -----------------------------------------------------------------------
@@ -198,6 +301,74 @@ run() {
         done
 
     # -----------------------------------------------------------------------
+    # for lxplus batch system: split in syst (Reweighting ONLY)
+    # -----------------------------------------------------------------------
+    elif [[ "$RUNMODE" == "send2lx_Reweighting" ]]; then
+        echo "enable lxplus batch syst mode for reweighting (1 job per systematic and 2 bootstrap replicas ran per job for nominal)"
+
+        # determine position of -s and -d flag
+        args=("$@")
+        s_index=0
+        d_flag=0
+        suffix="mc"
+        for ((j=0; j<${#args[@]}; j++)); do
+           if [[ "${args[j]}" == "-d" ]]; then
+              d_flag=1
+              suffix="data"
+           fi
+           if [[ "${args[j]}" == "-s" ]]; then
+              s_index=$j
+              break
+           fi
+        done
+
+        # loop on systematics
+        for syst in $(getxAODsystsAndOthers); do
+           # for data, skip if it is different than nominal
+           if [[ "$d_flag" == "1" ]] && [[ "$syst" != "FlavourTagging_Nominal" ]] ; then
+             echo "skipping running on systematics for data"
+           else
+            if [[ "$syst" != "FlavourTagging_Nominal" ]] ; then
+               RUNDIR= pwd
+		# create 1 job file per systematic
+               PBSDIR="pbs_files"
+               PBSFILE="$PBSDIR"/"$suffix"_"$syst".pbs
+               mkdir -p "$PBSDIR"
+               cp ../setup.sh $PBSFILE
+               # adding some lines
+               echo " " >> "$PBSFILE"
+               echo "${@:1:$s_index+1} $syst -split 0" >> "$PBSFILE"
+               # create log directory
+               OUTPUT_DIR="log/"
+               mkdir -p "$OUTPUT_DIR"
+               # send job
+		bsub -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $RUNDIR < $PBSFILE
+		# bootstrap replica splitting
+             else
+               for k in {1..500}
+               do
+		 RUNDIR= pwd
+                 # create 1 job file per systematic and per 2 bootstrap
+                 PBSDIR="pbs_files"
+                 PBSFILE="$PBSDIR"/"$suffix"_"$syst"_"$k".pbs
+                 mkdir -p "$PBSDIR"
+                 cp ../setup.sh $PBSFILE
+                 # adding some lines
+                 echo " " >> "$PBSFILE"
+                 echo "${@:1:$s_index+1} $syst -split $k" >> "$PBSFILE"
+                 # create log directory
+                 OUTPUT_DIR="log/"
+                 mkdir -p "$OUTPUT_DIR"
+                 # send job
+       		 bsub -q 1nd -W 6:00 -M 4000 -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $RUNDIR < $PBSFILE        
+		done
+             fi
+
+           fi
+        done
+
+
+    # -----------------------------------------------------------------------
     # for grid engine batch system: split in syst - NO BOOTSTRAP (Reweighting ONLY)
     # -----------------------------------------------------------------------
     elif [[ "$RUNMODE" == "send2ge_Reweighting_noBootstrap" ]]; then
@@ -242,6 +413,52 @@ run() {
         done
 
     # -----------------------------------------------------------------------
+    # for grid engine batch system: split in syst - NO BOOTSTRAP (Reweighting ONLY)
+    # -----------------------------------------------------------------------
+    elif [[ "$RUNMODE" == "send2lx_Reweighting_noBootstrap" ]]; then
+        echo "enable grid engine syst mode for reweighting (1 job per systematic, no run on bootstrap replicas)"
+
+        # determine position of -s and -d flag
+        args=("$@")
+        s_index=0
+        d_flag=0
+        suffix="mc"
+        for ((j=0; j<${#args[@]}; j++)); do
+           if [[ "${args[j]}" == "-d" ]]; then
+              d_flag=1
+              suffix="data"
+           fi
+           if [[ "${args[j]}" == "-s" ]]; then
+              s_index=$j
+              break
+           fi
+        done
+
+        # loop on systematics
+        for syst in $(getxAODsystsAndOthers); do
+           # for data, skip if it is different than nominal
+           if [[ "$d_flag" == "1" ]] && [[ "$syst" != "FlavourTagging_Nominal" ]] ; then
+             echo "skipping running on systematics for data"
+           else
+	     RUNDIR= pwd
+             # create 1 job file per systematic
+             PBSDIR="pbs_files"
+             PBSFILE="$PBSDIR"/"$suffix"_"$syst".pbs
+             mkdir -p "$PBSDIR"
+             cp ../setup.sh $PBSFILE
+             # adding some lines
+             echo " " >> "$PBSFILE"
+             echo "${@:1:$s_index+1} $syst -split 0" >> "$PBSFILE"
+             # create log directory
+             OUTPUT_DIR="log/"
+             mkdir -p "$OUTPUT_DIR"
+             # send job
+             bsub -q 8nh -W 6:00 -M 4000 -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $RUNDIR < $PBSFILE
+
+	   fi
+        done
+
+    # -----------------------------------------------------------------------
     # for grid engine batch system: no bootstrap (NtupleReader)
     # -----------------------------------------------------------------------
     elif [[ "$RUNMODE" == "send2ge_NtupleReader_noBootstrap" ]]; then
@@ -276,6 +493,42 @@ run() {
         mkdir -p "$OUTPUT_DIR" 
         # send job
         qsub -P atlas -l cvmfs=1 -l h_rt=12:00:00 -l h_vmem=6000M -l h_fsize=2000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+
+    # -----------------------------------------------------------------------
+    # for grid engine batch system: no bootstrap (NtupleReader)
+    # -----------------------------------------------------------------------
+    elif [[ "$RUNMODE" == "send2lx_NtupleReader_noBootstrap" ]]; then
+        echo "enable grid engine mode for NtupleReader (no run on bootstrap replicas)"
+
+        # determine position of -s flag
+        args=("$@")
+        s_index=0
+        d_flag=0
+        suffix="mc"
+        for ((j=0; j<${#args[@]}; j++)); do
+           if [[ "${args[j]}" == "-d" ]]; then
+              d_flag=1
+              suffix="data"
+           fi
+           if [[ "${args[j]}" == "-s" ]]; then
+              s_index=$j
+              break
+           fi
+        done
+	RUNDIR= pwd
+        # create job file
+        PBSDIR="pbs_files"
+        PBSFILE="$PBSDIR"/"$suffix"_"${args[$s_index+1]}".pbs
+        mkdir -p "$PBSDIR"
+        cp ../setup.sh $PBSFILE
+        # adding some lines
+        echo " " >> "$PBSFILE"
+        echo "$@" >> "$PBSFILE"
+        # create log directory
+        OUTPUT_DIR="log/"
+        mkdir -p "$OUTPUT_DIR"
+        # send job
+	bsub -q 1nd -W 12:00 -M 6000 -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $RUNDIR < $PBSFILE
 
     # -----------------------------------------------------------------------
     # for grid engine batch system: bootstrap splitting (NtupleReader)
@@ -333,6 +586,67 @@ run() {
             qsub -P atlas -l cvmfs=1 -l h_rt=12:00:00 -l h_vmem=6000M -l h_fsize=2000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
           done 
         fi
+    # -----------------------------------------------------------------------
+    # for lxplus batch system: bootstrap splitting (NtupleReader)
+    # -----------------------------------------------------------------------
+    elif [[ "$RUNMODE" == "send2lx_NtupleReader" ]]; then
+        echo "enable grid engine mode for NtupleReader (1 job per bootstrap)"
+
+        # determine position of -s flag
+        args=("$@")
+        s_index=0
+        d_flag=0
+        suffix="mc"
+        for ((j=0; j<${#args[@]}; j++)); do
+           if [[ "${args[j]}" == "-d" ]]; then
+              d_flag=1
+              suffix="data"
+           fi
+           if [[ "${args[j]}" == "-s" ]]; then
+              s_index=$j
+              break
+           fi
+        done
+        # normal execution
+        if [[ "${args[$s_index+1]}" != "FlavourTagging_Nominal" ]] && [[ "${args[$s_index+1]}" != "subleadingjet" ]] ; then
+          # create job file
+	  RUNDIR= pwd
+          PBSDIR="pbs_files"
+          PBSFILE="$PBSDIR"/"$suffix"_"${args[$s_index+1]}".pbs
+          mkdir -p "$PBSDIR"
+          cp ../setup.sh $PBSFILE
+          # adding some lines
+          echo " " >> "$PBSFILE"
+          echo "$@" >> "$PBSFILE"
+          # create log directory
+          OUTPUT_DIR="log/"
+          mkdir -p "$OUTPUT_DIR"
+          # send job
+          bsub -W 12:00 -M 6000 -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $RUNDIR < $PBSFILE
+
+        # bootstrap replica splitting
+        else
+          for k in {0..1000}
+          do
+            # create 1 job file per 1 bootstrap. index 0 is for nominal
+	    RUNDIR= pwd
+            PBSDIR="pbs_files"
+            PBSFILE="$PBSDIR"/"$suffix"_"${args[$s_index+1]}"_"$k".pbs
+            mkdir -p "$PBSDIR"
+            cp ../setup.sh $PBSFILE
+            # adding some lines
+            echo " " >> "$PBSFILE"
+            echo "$@ -split $k" >> "$PBSFILE"
+            # create log directory
+            OUTPUT_DIR="log/"
+            mkdir -p "$OUTPUT_DIR"
+            # send job
+            bsub -q 1nd -W 12:00 -M 6000 -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $RUNDIR < $PBSFILE
+
+          done
+        fi
+
+
 
    # else
 
