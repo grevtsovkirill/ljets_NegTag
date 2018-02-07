@@ -19,8 +19,8 @@ int getPtBin(const double pt){
       if (pt < conf::pt_lowedges[i]) return i;
     }
   }
-  std::cout << std::endl;
-  std::cout << "!!! pt out of range: " << pt << std::endl;
+  //std::cout << std::endl;
+  //std::cout << "!!! pt out of range: " << pt << std::endl;
   return -1;
 }
 

@@ -1,4 +1,5 @@
 #define NtupleDumper_cxx
+#include "NtupleDumper.h"
 #include <TH2.h>
 #include <TFile.h>
 #include <TRandom3.h>
@@ -8,10 +9,9 @@
 #include <map>
 #include <cmath>
 #include <cassert>
-#include "NtupleDumper.h"
-
 
 using namespace std;
+const int debug =1;
 
 void NtupleDumper::Loop()
 {
@@ -119,6 +119,7 @@ void NtupleDumper::Loop()
   outtree->Branch("jettruthpt", jettruthpt, "jettruthpt[njets]/F");
   outtree->Branch("jettrutheta", jettrutheta, "jettrutheta[njets]/F");
   outtree->Branch("jettruthphi", jettruthphi, "jettruthphi[njets]/F");
+  outtree->Branch("jettruthpdgId", jettruthpdgId, "jettruthpdgId[njets]/I");
 
 
   // for bootstrap
@@ -132,6 +133,8 @@ void NtupleDumper::Loop()
   }
 
   // tagger branches to be added to the tree
+  if(debug == 1) std::cout << "tagger branches to be added to the tree "<< std::endl;
+
   for (auto const &name: subtagger::floats){
     float* a = new float[2];
     float_subtagger_out[name.first] = a;
@@ -171,7 +174,18 @@ void NtupleDumper::Loop()
     if ( xsec ==  conf::xsec.end()) cout << "####\ncould not find cross-section!\n####" << endl;
     else cout << "cross-section*filtereff: " << xsec->second<< endl;
     xsec_correction = xsec->second / m_total_events * 1e3 * conf::int_lumi; // should scale the sample to int lumi
-  }
+    cout << "default : " << xsec_correction << endl;     
+    TString mctype = xsec->first.back();
+    if (mctype=="H" || mctype=="S" ){
+      xsec_correction = xsec->second / m_sum_of_weights * 1e3 * conf::int_lumi; // should scale the sample to int lumi
+      
+      //cout << "normalizations: m_total_events= "<< m_total_events << "; m_sum_of_weights = "<< m_sum_of_weights<< endl;
+      //cout << "check  inputs xsec1: " << xsec->first.back() << endl;  
+      cout << "Sherpa/Herwig" << endl;  
+    }
+    cout << "after mctype check : " << xsec_correction << endl;     
+
+}
 
   // total number of entries of the tree
   Long64_t nentries = fChain->GetEntries();
@@ -213,6 +227,7 @@ void NtupleDumper::Loop()
       //std::cout << "Warning: event with no reco jet. Run/EventNumber: " << runnum << ", " << evtnum << std::endl; 
       continue;
     }
+
 
     // prepare weights
     double puweight = evtpuw;
@@ -295,15 +310,10 @@ void NtupleDumper::Loop()
       nj++;
     }
 
-
     njets_event = nj; // number of reco jets in the event passing pT/eta/JVT cut
-
-
 
     // sanity check    
     if (pt1 < pt2) cout << "error " << pt1 << "<" << pt2 << endl;
- 
-
 
     // select dijet events with leading passing tightBad
     if (j1<0 || j2<0 || tightBad1!=1 ) continue;
@@ -332,6 +342,8 @@ void NtupleDumper::Loop()
     jettrutheta[1] = -999;
     jettruthphi[0] = -999;
     jettruthphi[1] = -999;
+    jettruthpdgId[0] = -999;
+    jettruthpdgId[1] = -999;
 
     if (runmc){
 
@@ -346,22 +358,28 @@ void NtupleDumper::Loop()
       double eta_sublead = -999;
       double phi_lead = -999;  
       double phi_sublead = -999;
+      int pdgId_lead = -999;  
+      int pdgId_sublead = -999;
+
 
       for (int j = 0; j<truthjet_pt->size(); j++) 
       {
         float jpt = (*truthjet_pt)[j];
         float jeta = (*truthjet_eta)[j];
         float jphi = (*truthjet_phi)[j];
+        int jpdgId = (*truthjet_pdgId)[j];
 
         if (jpt/1000.>pt_lead)
         {
           pt_sublead = pt_lead;
           eta_sublead = eta_lead;
           phi_sublead = phi_lead;
+          pdgId_sublead = pdgId_lead;
 
           pt_lead = jpt/1000.;
           eta_lead = jeta;
           phi_lead = jphi;
+          pdgId_lead = jpdgId;
         }
 
         else if(jpt/1000.>pt_sublead)
@@ -369,6 +387,7 @@ void NtupleDumper::Loop()
           pt_sublead = jpt/1000.;
           eta_sublead = jeta;
           phi_sublead = jphi;
+          pdgId_sublead = jpdgId;
         }
 
       }
@@ -381,6 +400,9 @@ void NtupleDumper::Loop()
 
       jettruthphi[0] = phi_lead;
       jettruthphi[1] = phi_sublead;
+
+      jettruthpdgId[0] = pdgId_lead;
+      jettruthpdgId[1] = pdgId_sublead;
 
       // calculate the truth cleaning discriminant    
       // lower cut set to 0 after talk with Jim Lacey
@@ -403,7 +425,8 @@ void NtupleDumper::Loop()
     for (int j: {j1,j2}){
 
       int m_jetpass = 0;
-      double ptj = jet_pt->at(j)/1000.;
+      double ptj = (*jet_pt)[j]/1000.;
+
       // check if trigger associated to pT bin has fired
       if (!check_trigger_pt_bin(ptj)) m_jetpass += 1;
 
@@ -645,4 +668,3 @@ float NtupleDumper::check_triggerPrescales_pt_bin(double jetpt){
   // return trigger prescales
   return *trigger_prescales[("eve_" + conf::bin_trigger[pt_bin] + "_ps")];
 }
-
