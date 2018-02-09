@@ -85,6 +85,12 @@ void NtupleDumper::Loop()
   outtree->Branch("jetHasLambda", jetHasLambda, "jetHasLambda[njets]/I");
   outtree->Branch("jetHasConversion", jetHasConversion, "jetHasConversion[njets]/I");
   outtree->Branch("jetHasHadMatInt", jetHasHadMatInt, "jetHasHadMatInt[njets]/I");
+  outtree->Branch("jetIsDL1_Tagged", jetIsDL1_Tagged, "jetIsDL1_Tagged[njets]/I");
+  outtree->Branch("jetIsDL1Flip_Tagged", jetIsDL1Flip_Tagged, "jetIsDL1Flip_Tagged[njets]/I");
+//  outtree->Branch("jetIsDL1mu_Tagged", jetIsDL1mu_Tagged, "jetIsDL1mu_Tagged[njets]/I");
+//  outtree->Branch("jetIsDL1Flipmu_Tagged", jetIsDL1Flipmu_Tagged, "jetIsDL1Flipmu_Tagged[njets]/I");
+//  outtree->Branch("jetIsDL1rnn_Tagged", jetIsDL1rnn_Tagged, "jetIsDL1rnn_Tagged[njets]/I");
+//  outtree->Branch("jetIsDL1Fliprnn_Tagged", jetIsDL1Fliprnn_Tagged, "jetIsDL1Fliprnn_Tagged[njets]/I");
   outtree->Branch("ntrack_IP3DNeg",ntrack_IP3DNeg,"ntrack_IP3DNeg[njets]/I");
   outtree->Branch("ntrack_IP3D",ntrack_IP3D,"ntrack_IP3D[njets]/I");
   outtree->Branch("ntrack_IP2DNeg",ntrack_IP2DNeg,"ntrack_IP2DNeg[njets]/I");
@@ -105,6 +111,12 @@ void NtupleDumper::Loop()
   outtree->Branch("trackjetHasLambda", trackjetHasLambda, "trackjetHasLambda[ntrackjets]/I");
   outtree->Branch("trackjetHasConversion", trackjetHasConversion, "trackjetHasConversion[ntrackjets]/I");
   outtree->Branch("trackjetHasHadMatInt", trackjetHasHadMatInt, "trackjetHasHadMatInt[ntrackjets]/I");
+//  outtree->Branch("trackjetIsDL1_Tagged", trackjetIsDL1_Tagged, "trackjetIsDL1_Tagged[ntrackjets]/I");
+//  outtree->Branch("trackjetIsDL1Flip_Tagged", trackjetIsDL1Flip_Tagged, "tracketIsDL1Flip_Tagged[ntrackjets]/I");
+//  outtree->Branch("trackjetIsDL1mu_Tagged", trackjetIsDL1mu_Tagged, "trackjetIsDL1mu_Tagged[ntrackjets]/I");
+//  outtree->Branch("trackjetIsDL1Flipmu_Tagged", trackjetIsDL1Flipmu_Tagged, "trackjetIsDL1Flipmu_Tagged[ntrackjets]/I");
+//  outtree->Branch("trackjetIsDL1rnn_Tagged", trackjetIsDL1rnn_Tagged, "trackjetIsDL1rnn_Tagged[ntrackjets]/I");
+//  outtree->Branch("trackjetIsDL1Fliprnn_Tagged", trackjetIsDL1Fliprnn_Tagged, "trackjetIsDL1Fliprnn_Tagged[ntrackjets]/I");
   outtree->Branch("trackntrack_IP3DNeg",trackntrack_IP3DNeg,"trackntrack_IP3DNeg[ntrackjets]/I");
   outtree->Branch("trackntrack_IP3D",trackntrack_IP3D,"trackntrack_IP3D[ntrackjets]/I");
   outtree->Branch("trackntrack_IP2DNeg",trackntrack_IP2DNeg,"trackntrack_IP2DNeg[ntrackjets]/I");
@@ -440,7 +452,12 @@ void NtupleDumper::Loop()
       jetHasLambda[nj] = (*jet_hasLambda)[j];
       jetHasConversion[nj] = (*jet_hasConversion)[j];
       jetHasHadMatInt[nj] = (*jet_hasHadMatInt)[j];
-
+      jetIsDL1_Tagged[nj] = (*jet_IsDL1Tagged)[j];
+      jetIsMV2_Tagged[nj] = (*jet_IsMV2Tagged)[j];
+      jetIsDL1mu_Tagged[nj] = (*jet_IsDL1muTagged)[j];
+      jetIsMV2mu_Tagged[nj] = (*jet_IsMV2muTagged)[j];
+      jetIsDL1rnn_Tagged[nj] = (*jet_IsDL1rnnTagged)[j];
+      jetIsMV2rnn_Tagged[nj] = (*jet_IsMV2rnnTagged)[j];
       ntrack_IP3DNeg[nj] = (*jet_IP3DNeg_ntrk)[j];
       ntrack_IP3D[nj] = (*jet_IP3D_ntrk)[j];
       ntrack_IP2DNeg[nj] = (*jet_IP2DNeg_ntrk)[j];
@@ -571,6 +588,12 @@ void NtupleDumper::Loop()
       trackjetHasLambda[ntrackj] = (*trackjet_hasLambda)[j];
       trackjetHasConversion[ntrackj] = (*trackjet_hasConversion)[j];
       trackjetHasHadMatInt[ntrackj] = (*trackjet_hasHadMatInt)[j];
+      trackjetIsDL1_Tagged[nj] = (*trackjet_IsDL1Tagged)[j];
+      trackjetIsMV2_Tagged[nj] = (*trackjet_IsMV2Tagged)[j];
+      trackjetIsDL1mu_Tagged[nj] = (*trackjet_IsDL1muTagged)[j];
+      trackjetIsMV2mu_Tagged[nj] = (*trackjet_IsMV2muTagged)[j];
+      trackjetIsDL1rnn_Tagged[nj] = (*trackjet_IsDL1rnnTagged)[j];
+      trackjetIsMV2rnn_Tagged[nj] = (*trackjet_IsMV2rnnTagged)[j];
       trackntrack_IP3DNeg[ntrackj] = (*trackjet_IP3DNeg_ntrk)[j];
       trackntrack_IP3D[ntrackj] = (*trackjet_IP3D_ntrk)[j];
       trackntrack_IP2DNeg[ntrackj] = (*trackjet_IP2DNeg_ntrk)[j];
