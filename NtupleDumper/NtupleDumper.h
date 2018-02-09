@@ -42,6 +42,12 @@ public :
   std::vector<int>   *jet_hasLambda;
   std::vector<int>   *jet_hasConversion;
   std::vector<int>   *jet_hasHadMatInt;
+  std::vector<int>   *jet_isDL1_Tagged;
+  std::vector<int>   *jet_isDL1Flip_Tagged;
+  //std::vector<int>   *jet_isDL1mu_Tagged;
+  //std::vector<int>   *jet_isDL1muFlip_Tagged;
+  //std::vector<int>   *jet_isDL1rnn_Tagged;
+  //std::vector<int>   *jet_isDL1rnnFlip_Tagged;
 
   // calo jets - track multiplicity studies
   std::vector<int>   *jet_IP3DNeg_ntrk; // jet_IP3DNeg_nTracks (IP3DNeg input)
@@ -57,11 +63,18 @@ public :
   std::vector<float> *trackjet_phi;
   std::vector<float> *trackjet_eta;
   std::vector<int>   *trackjet_truth;
+  std::vector<int>   *trackjet_ntrk;
   std::vector<int>   *trackjet_hasKShort;
   std::vector<int>   *trackjet_hasLambda;
   std::vector<int>   *trackjet_hasConversion;
   std::vector<int>   *trackjet_hasHadMatInt;
-  std::vector<int>   *trackjet_ntrk;
+  std::vector<int>   *trackjet_isDL1_Tagged;
+  std::vector<int>   *trackjet_isDL1Flip_Tagged;
+  //std::vector<int>   *trackjet_isDL1mu_Tagged;
+  //std::vector<int>   *trackjet_isDL1muFlip_Tagged;
+  //std::vector<int>   *trackjet_isDL1rnn_Tagged;
+  //std::vector<int>   *trackjet_isDL1rnnFlip_Tagged;
+  
 
   // track jets - track multiplicity studies
   std::vector<int>   *trackjet_IP3DNeg_ntrk; // jet_IP3DNeg_nTracks (IP3DNeg input)
@@ -77,7 +90,6 @@ public :
   std::vector<float> *truthjet_pt;
   std::vector<float> *truthjet_phi;
   std::vector<float> *truthjet_eta;
-  std::vector<int> *truthjet_pdgId;
 
   // additional subtagger information
   // see ../conf/subTagger.hpp
@@ -164,6 +176,12 @@ public :
   int   jetHasLambda[2];
   int   jetHasConversion[2];
   int   jetHasHadMatInt[2];
+  int   jetIsDL1_Tagged[2];
+  int   jetIsDL1Flip_Tagged[2];
+//  int   jetIsDL1mu_Tagged[2];
+//  int   jetIsDL1Flipmu_Tagged[2];
+//  int   jetIsDL1rnn_Tagged[2];
+//  int   jetIsDL1Fliprnn_Tagged[2];
   int   ntrack_IP3DNeg[2];
   int   ntrack_IP3D[2];
   int   ntrack_IP2DNeg[2];
@@ -187,6 +205,12 @@ public :
   int   trackjetHasLambda[2];
   int   trackjetHasConversion[2];
   int   trackjetHasHadMatInt[2];
+//  int   trackjetIsDL1_Tagged[2];
+//  int   trackjetIsDL1Flip_Tagged[2];
+//  int   trackjetIsDL1mu_Tagged[2];
+//  int   trackjetIsDL1Flipmu_Tagged[2];
+//  int   trackjetIsDL1rnn_Tagged[2];
+//  int   trackjetIsDL1Fliprnn_Tagged[2];
   int   trackntrack_IP3DNeg[2];
   int   trackntrack_IP3D[2];
   int   trackntrack_IP2DNeg[2];
@@ -201,7 +225,6 @@ public :
   float jettruthpt[2];
   float jettrutheta[2];
   float jettruthphi[2];
-  int jettruthpdgId[2];
 
   // extra
   int    njets_event;
@@ -290,7 +313,12 @@ void NtupleDumper::Init(TTree *tree)
   jet_hasLambda = new std::vector<int>;
   jet_hasConversion = new std::vector<int>;
   jet_hasHadMatInt = new std::vector<int>;
-
+  jet_IsDL1Tagged = new std::vector<int>;
+  jet_IsDL1FlipTagged = new std::vector<int>;
+//  jet_IsDL1muTagged = new std::vector<int>;
+//  jet_IsDL1FlipmuTagged = new std::vector<int>;
+//  jet_IsDL1rnnTagged = new std::vector<int>;
+//  jet_IsDL1FliprnnTagged = new std::vector<int>;
   // calo jets - track multiplicity studies
   jet_IP3DNeg_ntrk = new std::vector<int>; // jet_IP3DNeg_nTracks (IP3DNeg input)
   jet_IP3D_ntrk = new std::vector<int>; // jet_IP3D_nTracks (IP3D input)
@@ -311,6 +339,12 @@ void NtupleDumper::Init(TTree *tree)
   trackjet_hasLambda = new std::vector<int>;
   trackjet_hasConversion = new std::vector<int>;
   trackjet_hasHadMatInt = new std::vector<int>;
+//  trackjet_IsDL1Tagged = new std::vector<int>;
+//  trackjet_IsDL1FlipTagged = new std::vector<int>;
+//  trackjet_IsDL1muTagged = new std::vector<int>;
+//  trackjet_IsDL1FlipmuTagged = new std::vector<int>;
+//  trackjet_IsDL1rnnTagged = new std::vector<int>;
+//  trackjet_IsDL1FliprnnTagged = new std::vector<int>;
 
   // track jets - track multiplicity studies
   trackjet_IP3DNeg_ntrk = new std::vector<int>; // jet_IP3DNeg_nTracks (IP3DNeg input)
@@ -327,7 +361,6 @@ void NtupleDumper::Init(TTree *tree)
   truthjet_pt = new std::vector<float>;
   truthjet_phi = new std::vector<float>;
   truthjet_eta = new std::vector<float>;
-  truthjet_pdgId = new std::vector<int>;
 
    // Set branch addresses and branch pointers
    if (!tree) return;
@@ -340,7 +373,6 @@ void NtupleDumper::Init(TTree *tree)
      fChain->SetBranchAddress("truthjet_pt", &truthjet_pt);
      fChain->SetBranchAddress("truthjet_eta", &truthjet_eta);
      fChain->SetBranchAddress("truthjet_phi", &truthjet_phi);
-     fChain->SetBranchAddress("truthjet_pdgId", &truthjet_pdgId);
    }
 
    fChain->SetBranchAddress("jet_pt", &jet_pt);
@@ -363,7 +395,12 @@ void NtupleDumper::Init(TTree *tree)
    fChain->SetBranchAddress("jet_hasLambda", &jet_hasLambda);
    fChain->SetBranchAddress("jet_hasConversion", &jet_hasConversion);
    fChain->SetBranchAddress("jet_hasHadMatInt", &jet_hasHadMatInt);
-
+   fChain->SetBranchAddress("jet_IsDL1FlipTagged", &jet_IsDL1FlipTagged);
+   fChain->SetBranchAddress("jet_IsDL1Tagged", &jet_IsDL1Tagged);
+//   fChain->SetBranchAddress("jet_IsDL1FlipmuTagged", &jet_IsDL1FlipmuTagged);
+//   fChain->SetBranchAddress("jet_IsDL1muTagged", &jet_IsDL1muTagged);
+//   fChain->SetBranchAddress("jet_IsDL1FliprnnTagged", &jet_IsDL1FliprnnTagged);
+//   fChain->SetBranchAddress("jet_IsDL1rnnTagged", &jet_IsDL1rnnTagged);
   // track jets
    fChain->SetBranchAddress("trackjet_pt", &trackjet_pt);
    fChain->SetBranchAddress("trackjet_phi", &trackjet_phi);
@@ -383,6 +420,12 @@ void NtupleDumper::Init(TTree *tree)
    fChain->SetBranchAddress("trackjet_hasLambda", &trackjet_hasLambda);
    fChain->SetBranchAddress("trackjet_hasConversion", &trackjet_hasConversion);
    fChain->SetBranchAddress("trackjet_hasHadMatInt", &trackjet_hasHadMatInt);
+//   fChain->SetBranchAddress("trackjet_IsMV2Tagged", &trackjet_IsMV2Tagged);
+//   fChain->SetBranchAddress("trackjet_IsDL1Tagged", &trackjet_IsDL1Tagged);
+//   fChain->SetBranchAddress("trackjet_IsMV2muTagged", &trackjet_IsMV2muTagged);
+//   fChain->SetBranchAddress("trackjet_IsDL1muTagged", &trackjet_IsDL1muTagged);
+//   fChain->SetBranchAddress("trackjet_IsMV2rnnTagged", &trackjet_IsMV2rnnTagged);
+//   fChain->SetBranchAddress("trackjet_IsDL1rnnTagged", &trackjet_IsDL1rnnTagged);
 
    for (auto &pair: trigger_decision){
      pair.second = new int;
@@ -487,6 +530,24 @@ void NtupleDumper::Init(TTree *tree)
 
    jetHasHadMatInt[0] = -99;
    jetHasHadMatInt[1] = -99;
+   
+   jetIsDL1_Tagged[0] = -99;
+   jetIsDL1_Tagged[1] = -99;
+
+   jetIsDL1Flip_Tagged[0] = -99;
+   jetIsDL1Flip_Tagged[1] = -99;
+
+ //  jetIsDL1mu_Tagged[0] = -99;
+ //  jetIsDL1mu_Tagged[1] = -99;
+
+//   jetIsDL1Flipmu_Tagged[0] = -99;
+//   jetIsDL1Flipmu_Tagged[1] = -99;
+
+//   jetIsDL1rnn_Tagged[0] = -99;
+//   jetIsDL1rnn_Tagged[1] = -99;
+
+//   jetIsDL1FLiprnn_Tagged[0] = -99;
+//   jetIsDL1FLiprnn_Tagged[1] = -99;
 
    ntrack_IP3DNeg[0] = -99;
    ntrack_IP3DNeg[1] = -99;
@@ -562,6 +623,24 @@ void NtupleDumper::Init(TTree *tree)
 
    trackjetHasHadMatInt[0] = -99;
    trackjetHasHadMatInt[1] = -99;
+
+//   trackjetIsDL1_Tagged[0] = -99;
+//   trackjetIsDL1_Tagged[1] = -99;
+
+//   trackjetIsDL1Flip_Tagged[0] = -99;
+//   trackjetIsDL1FLip_Tagged[1] = -99;
+
+//   trackjetIsDL1mu_Tagged[0] = -99;
+//   trackjetIsDL1mu_Tagged[1] = -99;
+
+//   trackjetIsDL1Flipmu_Tagged[0] = -99;
+//   trackjetIsDL1Flipmu_Tagged[1] = -99;
+
+//   trackjetIsDL1rnn_Tagged[0] = -99;
+//   trackjetIsDL1rnn_Tagged[1] = -99;
+
+//   trackjetIsDL1Fliprnn_Tagged[0] = -99;
+//   trackjetIsDL1FLiprnn_Tagged[1] = -99;
 
    trackntrack_IP3DNeg[0] = -99;
    trackntrack_IP3DNeg[1] = -99;

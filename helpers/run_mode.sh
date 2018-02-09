@@ -7,8 +7,6 @@
 
 RUNSCHROOT="../helpers/run_schroot.sh"
 RUNSCRIPT="../helpers/run.sh"
-JOB_MAIL="kirill.grevtsov@desy.de"
-OUTPUT_DIR="log/"
 
 run() {
     if [[ "$RUNMODE" == "parallel" ]]; then
@@ -34,7 +32,6 @@ run() {
     # ----------------------------------------------------------------
     elif [[ "$RUNMODE" == "send2ge_NtupleDumper" ]]; then
         echo "enable grid engine mode for NtupleDumper (one job per period)"
-
 
         # determine slice
         args=("$@")
@@ -408,7 +405,7 @@ run() {
              OUTPUT_DIR="log/"
              mkdir -p "$OUTPUT_DIR" 
              # send job
-             qsub -P atlas -l cvmfs=1 -l h_rt=6:00:00 -l h_vmem=4000M -l h_fsize=8000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+             qsub -P atlas -l cvmfs=1 -l h_rt=6:00:00 -l h_vmem=4000M -l h_fsize=1000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
            fi
         done
 
@@ -689,15 +686,6 @@ get_mcHERWIG_ntupledumper(){
     echo $SAMPLES
 }
 
-SLICEFILE_S="../NtupleDumper/.slicesSHERPA.auto"
-get_mcSHERPA_ntupledumper(){
-    SAMPLES=""
-    while read slice; do
-	SAMPLES+=" ../NtupleDumper/res/mc$slice.root"
-    done < $SLICEFILE_S
-    echo $SAMPLES
-}
-
 getCleanSysts(){
     while read line; do
 	case "$line" in \#*) continue ;; esac
@@ -722,13 +710,13 @@ getxAODsystsAndOthers(){
 	fi
 
     done < <(getCleanSysts)
-    # echo "FlavourTagging_PRW_DATASF__1down"
-    # echo "FlavourTagging_PRW_DATASF__1up"
-    # echo "FlavourTagging_JVT_effSF__1down"
-    # echo "FlavourTagging_JVT_effSF__1up"
-    # echo "conversions__1up"
-    # echo "conversions__1down"
-    # echo "hadronic__1up"
-    # echo "hadronic__1down"
-    # echo "longlivedparticles"
+    echo "FlavourTagging_PRW_DATASF__1down"
+    echo "FlavourTagging_PRW_DATASF__1up"
+    echo "FlavourTagging_JVT_effSF__1down"
+    echo "FlavourTagging_JVT_effSF__1up"
+    echo "conversions__1up"
+    echo "conversions__1down"
+    echo "hadronic__1up"
+    echo "hadronic__1down"
+    echo "longlivedparticles"
 }
