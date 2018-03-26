@@ -1,0 +1,40 @@
+## Plotting
+
+
+  Goals: 
+	  - Create plots from already created histograms in from HistoMaker portion.  All sort of calculations are done in this section of software.
+
+
+ * Inputs: 
+ ** Uses histograms created in HistoMaker
+    - ../HistoMaker/HistoFiles/ + "Control/SF" + "M.root"
+    - Individual period and slice histograms exist in the same place.  Check the directory for naming.
+    - Inherits from AtlasStyle (files should be in ../AtlasStyle)
+ * Outputs: 
+ ** Plots of control observables and scale factors
+    - Control_Plots/jpg/*
+    - Each canvas is output as it's own jpg file for use in slides, etc.
+
+
+
+
+---------------------- Process ----------------------
+* Important * Check that the merged histograms are available, and that your input paths are correct.
+
+1.  Create control plots - Use .C files to draw to canves specific interesting control plots.  This is currently set into four portions:
+	- ControlPlotter.C - Plots the different data/MC comparisons for interesting kinematics (pT, eta, Tagger weights) to make sure that our simulation is well modelling our background.  It may be necessary to adjust the ratio plot scale often to get a good view of the ratio as newer simulations should improve on this.
+	- FlavorCompPlotter.C - Plots the flavor compositions of the different taggers.  Good to see the behavior of our Standard tagger and the flipped tagger.  Important to make sure that our discriminating power is validated.
+	- FracPlotter.C - Create 2D plots of the different pt/eta bins' heavy flavor (b, c) fraction contamination.  This value is also calculated in the Scale Factor calculation, but it is convenient to have this as it's own function.
+	- TriggerBinPlotter.C - The name was inherited from it's original use: to show the different trigger bins' pT distribution.  Can be easily edited to plot simultaneously any distribution (slice, period, trigger, sepcific pT/eta bin) that you would like to compare.
+
+2.  Calculate the light jet mistag rate scale factor and produce plots of these scale factors for the corresponding working points and pT/eta bins.
+	- ScaleFactorCalc.C - Takes in the histograms produced by sfHistoMaker.cpp and calculates all the needed variables for the negative tag calculation. **Tagger that you want to calculate for needs to be defined.**  Error propagation is carried out by hand so as to ensures it validity.  (ROOT's "smart" error propagation was not working for me originally.  Maybe at a future time this won't need to be done by hand.)  Output of each of the different negative tag variables and their corresponding uncertainties are printed out to "ValPrintouts.txt."
+	- VariationTest.C - Same process as ScaleFactorCalc.C, except instead of doing the normal Sumw2() error propagation for epsdata, toy experiments are ran using the observed value as the mean, and then selecting new pass-fail amounts from a Poisson distribution with the appropriate mean. Then the individual NTVariables are calculated with the shifted values.  The mean of all the calculations is used as the new central value, and the RMS of the distribution is used as the error.  For epslmc, the normal Sumw2() error propagation is used, and the normal error propagation calculation is calculated for the Scale Factors. 
+-------------------------------------------------------
+
+Things to do/look into:
+	- There is definitely correlation between jets that pass both the nominal and flipped taggers.  How to calculate this correlation, and the inclusion of it to the toy experiments is important for a more accurate measurement, but the overall effect on the Scale Factor should indeed be small.
+
+
+Last Updated On: 13-03-2018 by Nathan Grieser
+

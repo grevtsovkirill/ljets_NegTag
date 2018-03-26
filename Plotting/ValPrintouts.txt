@@ -1,0 +1,256 @@
+Working point and bins are 85_1_1
+el is 0.0668781+-1.11974e-06
+epslmcnom is 0.0671334+-0.000980035
+Scale Factor is 0.996196+-0.0145428
+Working point and bins are 77_1_1
+el is 0.0179771+-6.67594e-07
+epslmcnom is 0.0167282+-0.000476642
+Scale Factor is 1.07466+-0.0306206
+Working point and bins are 70_1_1
+el is 0.0074045+-5.04617e-07
+epslmcnom is 0.00745512+-0.000342758
+Scale Factor is 0.99321+-0.0456641
+Working point and bins are 60_1_1
+el is 0.00261293+-4.33858e-07
+epslmcnom is 0.00311131+-0.000253333
+Scale Factor is 0.839818+-0.0683809
+Working point and bins are 85_1_2
+el is 0.0977309+-2.66931e-06
+epslmcnom is 0.0882739+-0.00188208
+Scale Factor is 1.10713+-0.0236051
+Working point and bins are 77_1_2
+el is 0.0172113+-1.13684e-06
+epslmcnom is 0.0203105+-0.000946363
+Scale Factor is 0.847408+-0.0394849
+Working point and bins are 70_1_2
+el is 0.00765349+-9.32437e-07
+epslmcnom is 0.00892205+-0.000707786
+Scale Factor is 0.857817+-0.0680506
+Working point and bins are 60_1_2
+el is 0.00169484+-4.47796e-07
+epslmcnom is 0.00279371+-0.000366462
+Scale Factor is 0.606664+-0.0795785
+Working point and bins are 85_2_1
+el is 0.0607591+-1.38601e-06
+epslmcnom is 0.0584189+-0.00139771
+Scale Factor is 1.04006+-0.0248841
+Working point and bins are 77_2_1
+el is 0.0170066+-7.89957e-07
+epslmcnom is 0.0161702+-0.000520411
+Scale Factor is 1.05173+-0.0338481
+Working point and bins are 70_2_1
+el is 0.00800511+-6.30777e-07
+epslmcnom is 0.00724518+-0.000341086
+Scale Factor is 1.10489+-0.0520155
+Working point and bins are 60_2_1
+el is 0.00314251+-5.95494e-07
+epslmcnom is 0.00270371+-0.000220293
+Scale Factor is 1.1623+-0.0947014
+Working point and bins are 85_2_2
+el is 0.0677275+-2.63895e-06
+epslmcnom is 0.0653956+-0.00155175
+Scale Factor is 1.03566+-0.0245749
+Working point and bins are 77_2_2
+el is 0.00993596+-1.06723e-06
+epslmcnom is 0.0187928+-0.000944534
+Scale Factor is 0.528712+-0.0265734
+Working point and bins are 70_2_2
+el is 0.00412777+-8.32975e-07
+epslmcnom is 0.00895451+-0.000736083
+Scale Factor is 0.460971+-0.037893
+Working point and bins are 60_2_2
+el is 0+-0
+epslmcnom is 0.00314988+-0.000519032
+Scale Factor is 0+-nan
+Working point and bins are 85_3_1
+el is 0.0503832+-2.53341e-06
+epslmcnom is 0.0488451+-0.000452792
+Scale Factor is 1.03149+-0.00956202
+Working point and bins are 77_3_1
+el is 0.0152657+-1.52929e-06
+epslmcnom is 0.0141174+-0.00023967
+Scale Factor is 1.08134+-0.0183582
+Working point and bins are 70_3_1
+el is 0.00624701+-1.02538e-06
+epslmcnom is 0.0057521+-0.000142724
+Scale Factor is 1.08604+-0.0269479
+Working point and bins are 60_3_1
+el is 0.00222572+-7.68592e-07
+epslmcnom is 0.00181908+-8.48308e-05
+Scale Factor is 1.22354+-0.0570599
+Working point and bins are 85_3_2
+el is 0.0575085+-5.33705e-06
+epslmcnom is 0.0564805+-0.000875163
+Scale Factor is 1.0182+-0.0157773
+Working point and bins are 77_3_2
+el is 0.0161121+-2.98458e-06
+epslmcnom is 0.0171984+-0.000531185
+Scale Factor is 0.936839+-0.0289355
+Working point and bins are 70_3_2
+el is 0.00742648+-2.40713e-06
+epslmcnom is 0.00748849+-0.00037198
+Scale Factor is 0.991719+-0.0492632
+Working point and bins are 60_3_2
+el is 0.00289789+-1.976e-06
+epslmcnom is 0.00270171+-0.000277894
+Scale Factor is 1.07262+-0.11033
+Working point and bins are 85_4_1
+el is 0.0555812+-9.1075e-06
+epslmcnom is 0.0536226+-0.000341752
+Scale Factor is 1.03652+-0.00660824
+Working point and bins are 77_4_1
+el is 0.0180836+-5.47393e-06
+epslmcnom is 0.0164212+-0.000182936
+Scale Factor is 1.10123+-0.0122726
+Working point and bins are 70_4_1
+el is 0.00751213+-3.56951e-06
+epslmcnom is 0.00677697+-0.000117388
+Scale Factor is 1.10848+-0.0192078
+Working point and bins are 60_4_1
+el is 0.00221716+-1.96312e-06
+epslmcnom is 0.00193292+-6.18712e-05
+Scale Factor is 1.14705+-0.0367304
+Working point and bins are 85_4_2
+el is 0.0685852+-2.21336e-05
+epslmcnom is 0.0643043+-0.000724076
+Scale Factor is 1.06657+-0.0120147
+Working point and bins are 77_4_2
+el is 0.0209499+-1.29668e-05
+epslmcnom is 0.0201142+-0.000407162
+Scale Factor is 1.04155+-0.0210934
+Working point and bins are 70_4_2
+el is 0.00954877+-9.66855e-06
+epslmcnom is 0.00834311+-0.000247153
+Scale Factor is 1.14451+-0.0339243
+Working point and bins are 60_4_2
+el is 0.00311689+-6.14028e-06
+epslmcnom is 0.00277588+-0.000147113
+Scale Factor is 1.12285+-0.0595485
+Working point and bins are 85_5_1
+el is 0.0633091+-2.98521e-05
+epslmcnom is 0.0580984+-0.00049755
+Scale Factor is 1.08969+-0.00934614
+Working point and bins are 77_5_1
+el is 0.0207005+-1.83567e-05
+epslmcnom is 0.0183586+-0.000274352
+Scale Factor is 1.12757+-0.0168801
+Working point and bins are 70_5_1
+el is 0.0088302+-1.19981e-05
+epslmcnom is 0.00778571+-0.00017771
+Scale Factor is 1.13415+-0.025933
+Working point and bins are 60_5_1
+el is 0.00273038+-6.40658e-06
+epslmcnom is 0.0024341+-9.45195e-05
+Scale Factor is 1.12172+-0.0436373
+Working point and bins are 85_5_2
+el is 0.073585+-7.49755e-05
+epslmcnom is 0.0665204+-0.00103372
+Scale Factor is 1.1062+-0.0172272
+Working point and bins are 77_5_2
+el is 0.0262801+-5.05161e-05
+epslmcnom is 0.0221021+-0.000586167
+Scale Factor is 1.18903+-0.0316168
+Working point and bins are 70_5_2
+el is 0.0121276+-3.68859e-05
+epslmcnom is 0.00929496+-0.000374057
+Scale Factor is 1.30475+-0.052657
+Working point and bins are 60_5_2
+el is 0.00392913+-2.22433e-05
+epslmcnom is 0.0031054+-0.000216658
+Scale Factor is 1.26526+-0.0885645
+Working point and bins are 85_6_1
+el is 0.0823409+-0.000109978
+epslmcnom is 0.0720844+-0.000353611
+Scale Factor is 1.14229+-0.00580748
+Working point and bins are 77_6_1
+el is 0.0290986+-7.39994e-05
+epslmcnom is 0.0239011+-0.000197622
+Scale Factor is 1.21746+-0.0105317
+Working point and bins are 70_6_1
+el is 0.012777+-5.12533e-05
+epslmcnom is 0.0102548+-0.000128125
+Scale Factor is 1.24595+-0.0163498
+Working point and bins are 60_6_1
+el is 0.00357887+-2.80057e-05
+epslmcnom is 0.00299733+-6.84897e-05
+Scale Factor is 1.19402+-0.0288391
+Working point and bins are 85_6_2
+el is 0.108549+-0.00032883
+epslmcnom is 0.0931907+-0.000879766
+Scale Factor is 1.16481+-0.0115486
+Working point and bins are 77_6_2
+el is 0.0392637+-0.000245171
+epslmcnom is 0.0317238+-0.000497314
+Scale Factor is 1.23767+-0.0208847
+Working point and bins are 70_6_2
+el is 0.0173414+-0.000183552
+epslmcnom is 0.0138554+-0.000324341
+Scale Factor is 1.2516+-0.0321546
+Working point and bins are 60_6_2
+el is 0.00519563+-0.000111736
+epslmcnom is 0.00429002+-0.000180922
+Scale Factor is 1.2111+-0.057333
+Working point and bins are 85_7_1
+el is 0.104867+-0.000182935
+epslmcnom is 0.0980472+-0.000521342
+Scale Factor is 1.06956+-0.00598535
+Working point and bins are 77_7_1
+el is 0.0368565+-0.000137333
+epslmcnom is 0.0322555+-0.000291532
+Scale Factor is 1.14264+-0.0111706
+Working point and bins are 70_7_1
+el is 0.0157509+-9.81162e-05
+epslmcnom is 0.0137262+-0.000185434
+Scale Factor is 1.14751+-0.0170709
+Working point and bins are 60_7_1
+el is 0.00447408+-5.75069e-05
+epslmcnom is 0.004369+-0.000102583
+Scale Factor is 1.02405+-0.0274115
+Working point and bins are 85_7_2
+el is 0.129992+-0.000509987
+epslmcnom is 0.119875+-0.0013489
+Scale Factor is 1.0844+-0.0129226
+Working point and bins are 77_7_2
+el is 0.0474319+-0.000433547
+epslmcnom is 0.0406127+-0.000769077
+Scale Factor is 1.16791+-0.024558
+Working point and bins are 70_7_2
+el is 0.0208549+-0.000360729
+epslmcnom is 0.0174476+-0.000507684
+Scale Factor is 1.19529+-0.0404611
+Working point and bins are 60_7_2
+el is 0.00548336+-0.00022577
+epslmcnom is 0.0051555+-0.000254995
+Scale Factor is 1.06359+-0.0684483
+Working point and bins are 85_8_1
+el is 0.252164+-0.000566907
+epslmcnom is 0.250233+-0.00186938
+Scale Factor is 1.00772+-0.00786169
+Working point and bins are 77_8_1
+el is 0.0715344+-0.000347865
+epslmcnom is 0.0682776+-0.000898775
+Scale Factor is 1.0477+-0.0147024
+Working point and bins are 70_8_1
+el is 0.0270093+-0.000278417
+epslmcnom is 0.0234052+-0.000490137
+Scale Factor is 1.15399+-0.0269352
+Working point and bins are 60_8_1
+el is 0.0067806+-0.000198435
+epslmcnom is 0.00578833+-0.000246197
+Scale Factor is 1.17143+-0.0604792
+Working point and bins are 85_8_2
+el is 0.292018+-0.00121925
+epslmcnom is 0.282777+-0.00444676
+Scale Factor is 1.03268+-0.0168019
+Working point and bins are 77_8_2
+el is 0.07724+-0.000733532
+epslmcnom is 0.0721421+-0.00199856
+Scale Factor is 1.07066+-0.0313551
+Working point and bins are 70_8_2
+el is 0.0243792+-0.000574529
+epslmcnom is 0.0222781+-0.00104566
+Scale Factor is 1.09431+-0.0574744
+Working point and bins are 60_8_2
+el is 0.0069246+-0.000616289
+epslmcnom is 0.00522734+-0.000528714
+Scale Factor is 1.32469+-0.17847

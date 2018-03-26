@@ -32,32 +32,19 @@ public :
   //---------------Declaration of leaf types---------------//
   // calo jets
   std::vector<float> *jet_pt;
-  std::vector<float> *jet_phi;
   std::vector<float> *jet_eta;
+  std::vector<float> *jet_phi;
   std::vector<float> *jet_JVT;
-  std::vector<int>   *jet_clean;
-  std::vector<int>   *jet_tightBad;
-  std::vector<int>   *jet_truth;
-  std::vector<int>   *jet_hasKShort;
-  std::vector<int>   *jet_hasLambda;
-  std::vector<int>   *jet_hasConversion;
-  std::vector<int>   *jet_hasHadMatInt;
-  std::vector<int>   *jet_isDL1_Tagged;
-  std::vector<int>   *jet_isDL1Flip_Tagged;
-  //std::vector<int>   *jet_isDL1mu_Tagged;
-  //std::vector<int>   *jet_isDL1muFlip_Tagged;
-  //std::vector<int>   *jet_isDL1rnn_Tagged;
-  //std::vector<int>   *jet_isDL1rnnFlip_Tagged;
+  std::vector<int> *jet_clean;
+
+  // truth jets
+  std::vector<float> *truthjet_pt;
+  std::vector<float> *truthjet_phi;
+  std::vector<float> *truthjet_eta;
+  std::vector<int> *truthjet_pdgId;
 
   // calo jets - track multiplicity studies
-  std::vector<int>   *jet_IP3DNeg_ntrk; // jet_IP3DNeg_nTracks (IP3DNeg input)
-  std::vector<int>   *jet_IP3D_ntrk; // jet_IP3D_nTracks (IP3D input)
-  std::vector<int>   *jet_IP2DNeg_ntrk; // jet_IP2DNeg_nTracks (IP2DNeg input)
-  std::vector<int>   *jet_IP2D_ntrk; // jet_IP2D_nTracks (IP2D input)
-  std::vector<int>   *jet_SV1Flip_ntrk; // jet_SV1Flip_nTracks (SV1Flip input)
-  std::vector<int>   *jet_SV1_ntrk; // jet_SV1_nTracks (SV1 input)
-  std::vector<int>   *jet_JetFitterFlip_ntrk; // jet_JetFitterFlip_nTracks (JetFitterFlip input)
-  std::vector<int>   *jet_JetFitter_ntrk; // jet_JetFitter_nTracks (JetFitter input)
+
   // Track jets
   std::vector<float> *trackjet_pt;
   std::vector<float> *trackjet_phi;
@@ -70,8 +57,8 @@ public :
   std::vector<int>   *trackjet_hasHadMatInt;
   std::vector<int>   *trackjet_isDL1_Tagged;
   std::vector<int>   *trackjet_isDL1Flip_Tagged;
-  //std::vector<int>   *trackjet_isDL1mu_Tagged;
-  //std::vector<int>   *trackjet_isDL1muFlip_Tagged;
+  std::vector<int>   *trackjet_isMV2_Tagged;
+  std::vector<int>   *trackjet_isMV2Flip_Tagged;
   //std::vector<int>   *trackjet_isDL1rnn_Tagged;
   //std::vector<int>   *trackjet_isDL1rnnFlip_Tagged;
   
@@ -87,21 +74,15 @@ public :
   std::vector<int>   *trackjet_JetFitter_ntrk; // jet_JetFitter_nTracks (JetFitter input)
 
   // truth jets
-  std::vector<float> *truthjet_pt;
-  std::vector<float> *truthjet_phi;
-  std::vector<float> *truthjet_eta;
+
 
   // additional subtagger information
   // see ../conf/subTagger.hpp
-  std::map <std::string, std::vector<float>*> float_subtagger;
-  std::map <std::string, std::vector<int>*> int_subtagger;
-  std::map <std::string, std::vector<double>*> double_subtagger;
+
   std::map <std::string, std::vector<float>*> float_subtagger_trackjet;
   std::map <std::string, std::vector<int>*> int_subtagger_trackjet;
   std::map <std::string, std::vector<double>*> double_subtagger_trackjet;
-  std::map<std::string, float*> float_subtagger_out;
-  std::map<std::string, int*> int_subtagger_out;
-  std::map<std::string, double*> double_subtagger_out;
+
   std::map<std::string, float*> float_subtagger_trackjet_out;
   std::map<std::string, int*> int_subtagger_trackjet_out;
   std::map<std::string, double*> double_subtagger_trackjet_out;
@@ -147,13 +128,13 @@ public :
   int     HLTj110; // HLT_j110
   int     HLTj175; // HLT_j175
   int     HLTj380; // HLT_j380
-  float   evtpuw_sys[2]; // eve_pu_w_up/down
+  float   evtpuw_sys[1]; // eve_pu_w_up/down
   int     evt_hasPV; // eve_hasPV
   float   evt_averageInteractionsPerCrossing; // eve_averageInteractionsPerCrossing;
 
   // MC only
   float   evtJVTw; // eve_JvtSF
-  float   evtJVTw_sys[2]; // eve_JvtSF_up/down
+  float   evtJVTw_sys[1]; // eve_JvtSF_up/down
   int     mc_evtnum; // eve_mc_num
   int     mc_channum; // eve_mc_chan
   float   mc_evtweight; // eve_mc_w
@@ -163,72 +144,43 @@ public :
   //-------------Output tree variables---------------//
   // TO BE INITIALIZED TO 0
   // selected jets
-  float jetpt[2];
-  float jetphi[2];
-  float jeteta[2];
-  int   jetpass[2];
-  bool  isleading[2];
-  float JVT[2];
-  int   clean[2];
-  int   tightBad[2];
-  int   flavor[2];
-  int   jetHasKShort[2];
-  int   jetHasLambda[2];
-  int   jetHasConversion[2];
-  int   jetHasHadMatInt[2];
-  int   jetIsDL1_Tagged[2];
-  int   jetIsDL1Flip_Tagged[2];
-//  int   jetIsDL1mu_Tagged[2];
-//  int   jetIsDL1Flipmu_Tagged[2];
-//  int   jetIsDL1rnn_Tagged[2];
-//  int   jetIsDL1Fliprnn_Tagged[2];
-  int   ntrack_IP3DNeg[2];
-  int   ntrack_IP3D[2];
-  int   ntrack_IP2DNeg[2];
-  int   ntrack_IP2D[2];
-  int   ntrack_SV1Flip[2];
-  int   ntrack_SV1[2];
-  int   ntrack_JetFitterFlip[2];
-  int   ntrack_JetFitter[2];
-  float data_evtweight[2]; 
 
   // selected track jets
-  float trackjetpt[2];
-  float trackjetphi[2];
-  float trackjeteta[2];
-  int   trackjetpass[2];
-  int   trackjetntrack[2];
-  bool  trackisleading[2];
-  int   trackflavor[2];
-  int   trackjetntrk[2];
-  int   trackjetHasKShort[2];
-  int   trackjetHasLambda[2];
-  int   trackjetHasConversion[2];
-  int   trackjetHasHadMatInt[2];
-//  int   trackjetIsDL1_Tagged[2];
-//  int   trackjetIsDL1Flip_Tagged[2];
-//  int   trackjetIsDL1mu_Tagged[2];
-//  int   trackjetIsDL1Flipmu_Tagged[2];
-//  int   trackjetIsDL1rnn_Tagged[2];
-//  int   trackjetIsDL1Fliprnn_Tagged[2];
-  int   trackntrack_IP3DNeg[2];
-  int   trackntrack_IP3D[2];
-  int   trackntrack_IP2DNeg[2];
-  int   trackntrack_IP2D[2];
-  int   trackntrack_SV1Flip[2];
-  int   trackntrack_SV1[2];
-  int   trackntrack_JetFitterFlip[2];
-  int   trackntrack_JetFitter[2];
-  float trackdata_evtweight[2]; 
+  float trackjetpt[1];
+  float trackjetphi[1];
+  float trackjeteta[1];
+  int   trackjetntrack[1];
+  bool  trackisleading[1];
+  int   trackflavor[1];
+  int   trackjetntrk[1];
+  int   trackjetHasKShort[1];
+  int   trackjetHasLambda[1];
+  int   trackjetHasConversion[1];
+  int   trackjetHasHadMatInt[1];
+  int   trackjetIsDL1_Tagged[1];
+  int   trackjetIsMV2_Tagged[1];
+  int   trackjetIsDL1Flip_Tagged[1];
+  int   trackjetIsMV2Flip_Tagged[1];
+//  int   trackjetIsDL1rnn_Tagged;
+//  int   trackjetIsDL1Fliprnn_Tagged;
+  int   trackntrack_IP3DNeg[1];
+  int   trackntrack_IP3D[1];
+  int   trackntrack_IP2DNeg[1];
+  int   trackntrack_IP2D[1];
+  int   trackntrack_SV1Flip[1];
+  int   trackntrack_SV1[1];
+  int   trackntrack_JetFitterFlip[1];
+  int   trackntrack_JetFitter[1];
+  float trackdata_evtweight[1]; 
 
   // leading truth jets
   float jettruthpt[2];
   float jettrutheta[2];
   float jettruthphi[2];
+  int jettruthpdgId[2];
 
   // extra
   int    njets_event;
-  int    njets;
   int    ntrackjets_event;
   int    ntrackjets;
   int    nbootstrap;
@@ -300,34 +252,16 @@ void NtupleDumper::Init(TTree *tree)
    // (once per file to be processed).
    if (runmc) std::cout << "running mc" << std::endl;
    else std::cout << "running data" << std::endl;
-
-  // calo jets  
   jet_pt = new std::vector<float>;
-  jet_phi = new std::vector<float>;
   jet_eta = new std::vector<float>;
   jet_JVT = new std::vector<float>;
+  jet_phi = new std::vector<float>;
   jet_clean = new std::vector<int>;
-  jet_tightBad = new std::vector<int>;
-  jet_truth = new std::vector<int>;
-  jet_hasKShort = new std::vector<int>;
-  jet_hasLambda = new std::vector<int>;
-  jet_hasConversion = new std::vector<int>;
-  jet_hasHadMatInt = new std::vector<int>;
-  jet_IsDL1Tagged = new std::vector<int>;
-  jet_IsDL1FlipTagged = new std::vector<int>;
-//  jet_IsDL1muTagged = new std::vector<int>;
-//  jet_IsDL1FlipmuTagged = new std::vector<int>;
-//  jet_IsDL1rnnTagged = new std::vector<int>;
-//  jet_IsDL1FliprnnTagged = new std::vector<int>;
-  // calo jets - track multiplicity studies
-  jet_IP3DNeg_ntrk = new std::vector<int>; // jet_IP3DNeg_nTracks (IP3DNeg input)
-  jet_IP3D_ntrk = new std::vector<int>; // jet_IP3D_nTracks (IP3D input)
-  jet_IP2DNeg_ntrk = new std::vector<int>; // jet_IP2DNeg_nTracks (IP2DNeg input)
-  jet_IP2D_ntrk = new std::vector<int>; // jet_IP2D_nTracks (IP2D input)
-  jet_SV1Flip_ntrk = new std::vector<int>; // jet_SV1Flip_nTracks (SV1Flip input)
-  jet_SV1_ntrk = new std::vector<int>; // jet_SV1_nTracks (SV1 input)
-  jet_JetFitterFlip_ntrk = new std::vector<int>; // jet_JetFitterFlip_nTracks (JetFitterFlip input)
-  jet_JetFitter_ntrk = new std::vector<int>; // jet_JetFitter_nTracks (JetFitter input)
+  truthjet_pt = new std::vector<float>;
+  truthjet_phi = new std::vector<float>;
+  truthjet_eta = new std::vector<float>;
+  truthjet_pdgId = new std::vector<int>;
+
 
   // track jets  
   trackjet_pt = new std::vector<float>;
@@ -339,10 +273,10 @@ void NtupleDumper::Init(TTree *tree)
   trackjet_hasLambda = new std::vector<int>;
   trackjet_hasConversion = new std::vector<int>;
   trackjet_hasHadMatInt = new std::vector<int>;
-//  trackjet_IsDL1Tagged = new std::vector<int>;
-//  trackjet_IsDL1FlipTagged = new std::vector<int>;
-//  trackjet_IsDL1muTagged = new std::vector<int>;
-//  trackjet_IsDL1FlipmuTagged = new std::vector<int>;
+  trackjet_isDL1_Tagged = new std::vector<int>;
+  trackjet_isDL1Flip_Tagged = new std::vector<int>;
+  trackjet_isMV2_Tagged = new std::vector<int>;
+  trackjet_isMV2Flip_Tagged = new std::vector<int>;
 //  trackjet_IsDL1rnnTagged = new std::vector<int>;
 //  trackjet_IsDL1FliprnnTagged = new std::vector<int>;
 
@@ -358,9 +292,7 @@ void NtupleDumper::Init(TTree *tree)
 
   // truth jets
 
-  truthjet_pt = new std::vector<float>;
-  truthjet_phi = new std::vector<float>;
-  truthjet_eta = new std::vector<float>;
+
 
    // Set branch addresses and branch pointers
    if (!tree) return;
@@ -369,38 +301,19 @@ void NtupleDumper::Init(TTree *tree)
    fChain->SetMakeClass(1);
 
    // calo jets / truth jets
+   fChain->SetBranchAddress("jet_pt", &jet_pt);
+   fChain->SetBranchAddress("jet_eta", &jet_eta);
+   fChain->SetBranchAddress("jet_phi", &jet_phi);
+   fChain->SetBranchAddress("jet_JVT", &jet_JVT);
+   fChain->SetBranchAddress("jet_clean", &jet_clean);
    if(runmc){
      fChain->SetBranchAddress("truthjet_pt", &truthjet_pt);
      fChain->SetBranchAddress("truthjet_eta", &truthjet_eta);
      fChain->SetBranchAddress("truthjet_phi", &truthjet_phi);
+     fChain->SetBranchAddress("truthjet_pdgId", &truthjet_pdgId);
    }
 
-   fChain->SetBranchAddress("jet_pt", &jet_pt);
-   fChain->SetBranchAddress("jet_phi", &jet_phi);
-   fChain->SetBranchAddress("jet_eta", &jet_eta);
-   fChain->SetBranchAddress("jet_JVT", &jet_JVT);
-   fChain->SetBranchAddress("jet_clean", &jet_clean);
-   fChain->SetBranchAddress("jet_tightBad", &jet_tightBad);
-   fChain->SetBranchAddress("jet_IP3DNeg_ntrk", &jet_IP3DNeg_ntrk);
-   fChain->SetBranchAddress("jet_IP3D_ntrk", &jet_IP3D_ntrk);
-   fChain->SetBranchAddress("jet_IP2DNeg_ntrk", &jet_IP2DNeg_ntrk);
-   fChain->SetBranchAddress("jet_IP2D_ntrk", &jet_IP2D_ntrk);
-   fChain->SetBranchAddress("jet_SV1Flip_ntrk", &jet_SV1Flip_ntrk);
-   fChain->SetBranchAddress("jet_SV1_ntrk", &jet_SV1_ntrk);
-   fChain->SetBranchAddress("jet_JetFitter_ntrk", &jet_JetFitter_ntrk);
-   fChain->SetBranchAddress("jet_JetFitterFlip_ntrk", &jet_JetFitterFlip_ntrk);
 
-   fChain->SetBranchAddress("jet_truth", &jet_truth);
-   fChain->SetBranchAddress("jet_hasKShort", &jet_hasKShort);
-   fChain->SetBranchAddress("jet_hasLambda", &jet_hasLambda);
-   fChain->SetBranchAddress("jet_hasConversion", &jet_hasConversion);
-   fChain->SetBranchAddress("jet_hasHadMatInt", &jet_hasHadMatInt);
-   fChain->SetBranchAddress("jet_IsDL1FlipTagged", &jet_IsDL1FlipTagged);
-   fChain->SetBranchAddress("jet_IsDL1Tagged", &jet_IsDL1Tagged);
-//   fChain->SetBranchAddress("jet_IsDL1FlipmuTagged", &jet_IsDL1FlipmuTagged);
-//   fChain->SetBranchAddress("jet_IsDL1muTagged", &jet_IsDL1muTagged);
-//   fChain->SetBranchAddress("jet_IsDL1FliprnnTagged", &jet_IsDL1FliprnnTagged);
-//   fChain->SetBranchAddress("jet_IsDL1rnnTagged", &jet_IsDL1rnnTagged);
   // track jets
    fChain->SetBranchAddress("trackjet_pt", &trackjet_pt);
    fChain->SetBranchAddress("trackjet_phi", &trackjet_phi);
@@ -420,10 +333,10 @@ void NtupleDumper::Init(TTree *tree)
    fChain->SetBranchAddress("trackjet_hasLambda", &trackjet_hasLambda);
    fChain->SetBranchAddress("trackjet_hasConversion", &trackjet_hasConversion);
    fChain->SetBranchAddress("trackjet_hasHadMatInt", &trackjet_hasHadMatInt);
-//   fChain->SetBranchAddress("trackjet_IsMV2Tagged", &trackjet_IsMV2Tagged);
-//   fChain->SetBranchAddress("trackjet_IsDL1Tagged", &trackjet_IsDL1Tagged);
-//   fChain->SetBranchAddress("trackjet_IsMV2muTagged", &trackjet_IsMV2muTagged);
-//   fChain->SetBranchAddress("trackjet_IsDL1muTagged", &trackjet_IsDL1muTagged);
+   fChain->SetBranchAddress("trackjet_isMV2_Tagged", &trackjet_isMV2_Tagged);
+   fChain->SetBranchAddress("trackjet_isDL1_Tagged", &trackjet_isDL1_Tagged);
+   fChain->SetBranchAddress("trackjet_isMV2Flip_Tagged", &trackjet_isMV2Flip_Tagged);
+   fChain->SetBranchAddress("trackjet_isDL1Flip_Tagged", &trackjet_isDL1Flip_Tagged);
 //   fChain->SetBranchAddress("trackjet_IsMV2rnnTagged", &trackjet_IsMV2rnnTagged);
 //   fChain->SetBranchAddress("trackjet_IsDL1rnnTagged", &trackjet_IsDL1rnnTagged);
 
@@ -437,18 +350,7 @@ void NtupleDumper::Init(TTree *tree)
      fChain->SetBranchAddress(pair.first.c_str(), pair.second);
    }
    
-   for (const auto &name: subtagger::floats){
-     float_subtagger[name.first] = new std::vector<float>;
-     fChain->SetBranchAddress(name.first.c_str(), &float_subtagger[name.first]);
-   }
-   for (const auto &name: subtagger::ints){
-     int_subtagger[name.first] = new std::vector<int>;
-     fChain->SetBranchAddress(name.first.c_str(), &int_subtagger[name.first]);
-   }
-   for (const auto &name: subtagger::doubles){
-     double_subtagger[name.first] = new std::vector<double>;
-     fChain->SetBranchAddress(name.first.c_str(), &double_subtagger[name.first]);
-   }
+
    for (const auto &name: subtagger::floats_trackjet){
      float_subtagger_trackjet[name.first] = new std::vector<float>;
      fChain->SetBranchAddress(name.first.c_str(), &float_subtagger_trackjet[name.first]);
@@ -465,14 +367,12 @@ void NtupleDumper::Init(TTree *tree)
    // event wide
    // MC only
    fChain->SetBranchAddress("eve_JvtSF", &evtJVTw);
-   fChain->SetBranchAddress("eve_JvtSF_up", &evtJVTw_sys[0]);
-   fChain->SetBranchAddress("eve_JvtSF_down", &evtJVTw_sys[1]);
+   fChain->SetBranchAddress("eve_JvtSF_up", &evtJVTw_sys);
    fChain->SetBranchAddress("eve_mc_num", &mc_evtnum);
    fChain->SetBranchAddress("eve_mc_chan", &mc_channum);
    fChain->SetBranchAddress("eve_mc_w", &mc_evtweight);
    fChain->SetBranchAddress("eve_pu_w", &evtpuw);
-   fChain->SetBranchAddress("eve_pu_w_up", &evtpuw_sys[0]);
-   fChain->SetBranchAddress("eve_pu_w_down", &evtpuw_sys[1]);
+   fChain->SetBranchAddress("eve_pu_w_up", &evtpuw_sys);
    fChain->SetBranchAddress("eve_HLT_j15_ps", &evtHLTj15ps);    
    fChain->SetBranchAddress("eve_HLT_j25_ps", &evtHLTj25ps);
    fChain->SetBranchAddress("eve_HLT_j60_ps", &evtHLTj60ps);
@@ -492,186 +392,60 @@ void NtupleDumper::Init(TTree *tree)
    fChain->SetBranchAddress("eve_averageInteractionsPerCrossing", &evt_averageInteractionsPerCrossing);
 
    // Output tree variables to be initialized to 0
-   jetpt[0] = -99.;
-   jetpt[1] = -99.;
 
-   jetphi[0] = -99;
-   jetphi[1] = -99;
 
-   jeteta[0] = -99;
-   jeteta[1] = -99;
-
-   jetpass[0] = -99;
-   jetpass[1] = -99;
-
-   isleading[0] = -99;
-   isleading[1] = -99;
-
-   JVT[0] = -99;
-   JVT[1] = -99;
-
-   clean[0] = -99;
-   clean[1] = -99;
-
-   tightBad[0] = -99;
-   tightBad[1] = -99;
-
-   flavor[0] = -99;
-   flavor[1] = -99;
-
-   jetHasKShort[0] = -99;
-   jetHasKShort[1] = -99;
-
-   jetHasLambda[0] = -99;
-   jetHasLambda[1] = -99;
-
-   jetHasConversion[0] = -99;
-   jetHasConversion[1] = -99;
-
-   jetHasHadMatInt[0] = -99;
-   jetHasHadMatInt[1] = -99;
-   
-   jetIsDL1_Tagged[0] = -99;
-   jetIsDL1_Tagged[1] = -99;
-
-   jetIsDL1Flip_Tagged[0] = -99;
-   jetIsDL1Flip_Tagged[1] = -99;
-
- //  jetIsDL1mu_Tagged[0] = -99;
- //  jetIsDL1mu_Tagged[1] = -99;
-
-//   jetIsDL1Flipmu_Tagged[0] = -99;
-//   jetIsDL1Flipmu_Tagged[1] = -99;
-
-//   jetIsDL1rnn_Tagged[0] = -99;
-//   jetIsDL1rnn_Tagged[1] = -99;
-
-//   jetIsDL1FLiprnn_Tagged[0] = -99;
-//   jetIsDL1FLiprnn_Tagged[1] = -99;
-
-   ntrack_IP3DNeg[0] = -99;
-   ntrack_IP3DNeg[1] = -99;
-
-   ntrack_IP3D[0] = -99;
-   ntrack_IP3D[1] = -99;
-
-   ntrack_IP2DNeg[0] = -99;
-   ntrack_IP2DNeg[1] = -99;
-
-   ntrack_IP2D[0] = -99;
-   ntrack_IP2D[1] = -99;
-
-   ntrack_SV1Flip[0] = -99;
-   ntrack_SV1Flip[1] = -99;
-
-   ntrack_SV1[0] = -99;
-   ntrack_SV1[1] = -99;
-
-   ntrack_JetFitterFlip[0] = -99;
-   ntrack_JetFitterFlip[1] = -99;
-
-   ntrack_JetFitter[0] = -99;
-   ntrack_JetFitter[1] = -99;
-
-   data_evtweight[0] = -99;
-   data_evtweight[1] = -99;
-
-   jettruthpt[0] = -99;
-   jettruthpt[1] = -99;
-
-   jettrutheta[0] = -99;
-   jettrutheta[1] = -99;
-  
-   jettruthphi[0] = -99;
-   jettruthphi[1] = -99;
-  
-   njets_event = -99;
-   njets = 2; // 2 jets selected
 
    trackjetpt[0] = -99.;
-   trackjetpt[1] = -99.;
 
    trackjetphi[0] = -99;
-   trackjetphi[1] = -99;
 
    trackjeteta[0] = -99;
-   trackjeteta[1] = -99;
-
-   trackjetpass[0] = -99;
-   trackjetpass[1] = -99;
-
-   trackjetntrack[0] = -99;
-   trackjetntrack[1] = -99;
-
-   trackisleading[0] = -99;
-   trackisleading[1] = -99;
-
+ 
    trackjetntrk[0] = -99.;
-   trackjetntrk[1] = -99.;
 
    trackflavor[0] = -99;
-   trackflavor[1] = -99;
 
    trackjetHasKShort[0] = -99;
-   trackjetHasKShort[1] = -99;
 
    trackjetHasLambda[0] = -99;
-   trackjetHasLambda[1] = -99;
 
    trackjetHasConversion[0] = -99;
-   trackjetHasConversion[1] = -99;
 
    trackjetHasHadMatInt[0] = -99;
-   trackjetHasHadMatInt[1] = -99;
 
-//   trackjetIsDL1_Tagged[0] = -99;
-//   trackjetIsDL1_Tagged[1] = -99;
+   trackjetIsDL1_Tagged[0] = -99;
 
-//   trackjetIsDL1Flip_Tagged[0] = -99;
-//   trackjetIsDL1FLip_Tagged[1] = -99;
+   trackjetIsDL1Flip_Tagged[0] = -99;
 
-//   trackjetIsDL1mu_Tagged[0] = -99;
-//   trackjetIsDL1mu_Tagged[1] = -99;
+   trackjetIsMV2_Tagged[0] = -99;
 
-//   trackjetIsDL1Flipmu_Tagged[0] = -99;
-//   trackjetIsDL1Flipmu_Tagged[1] = -99;
+   trackjetIsMV2Flip_Tagged[0] = -99;
 
 //   trackjetIsDL1rnn_Tagged[0] = -99;
-//   trackjetIsDL1rnn_Tagged[1] = -99;
 
 //   trackjetIsDL1Fliprnn_Tagged[0] = -99;
-//   trackjetIsDL1FLiprnn_Tagged[1] = -99;
 
    trackntrack_IP3DNeg[0] = -99;
-   trackntrack_IP3DNeg[1] = -99;
 
    trackntrack_IP3D[0] = -99;
-   trackntrack_IP3D[1] = -99;
 
    trackntrack_IP2DNeg[0] = -99;
-   trackntrack_IP2DNeg[1] = -99;
 
    trackntrack_IP2D[0] = -99;
-   trackntrack_IP2D[1] = -99;
 
    trackntrack_SV1Flip[0] = -99;
-   trackntrack_SV1Flip[1] = -99;
 
    trackntrack_SV1[0] = -99;
-   trackntrack_SV1[1] = -99;
 
    trackntrack_JetFitterFlip[0] = -99;
-   trackntrack_JetFitterFlip[1] = -99;
 
    trackntrack_JetFitter[0] = -99;
-   trackntrack_JetFitter[1] = -99;
 
    trackdata_evtweight[0] = -99;
-   trackdata_evtweight[1] = -99;
 
-     
+   njets_event = -99;  
    ntrackjets_event = -99;
-   ntrackjets = 2; // 2 jets selected
+   ntrackjets = 1; // 1 jet selected
    nbootstrap = -99;
    for(int ibootstrap=0; ibootstrap<1000; ibootstrap++) weight_bootstrap[ibootstrap] = -99;
 

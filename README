@@ -1,0 +1,52 @@
+## Current work-in-progress development of light jet mistag calibration using the Negative Tag method.  Current goal of this package is to calculate simulation to data scale factors for track jets.  Development of calo jets is done in a separate branch, but soon will be merged into one.
+
+Authors: Nathan Grieser (ngrieser@cern.ch)
+
+Preface: The documentation that here follows and is within the sub-directories will be focused mostly towards qualification level students and address issues that I had I was learning and developing the software to carry out these calculations.  For more advanced users, there will be a simple chain to follow to produce scale factors out of the box.
+
+----------------------------- Process Outline -------------------------------
+
+0. CxAODS are to be produced from the FTAG1 derivation and be output with into Ntuples.  These will be used as inputs to the software, and are not produced too frequently so as to save disk space.
+
+1. NtupleDumper - This portion will read in the information from the CxAODs and "dump" the pertinent information from the CxAOD ntuples to smaller ntuples to be used in the calibration analysis.  Selection requirements for jets should be included in this portion (number of jets, cleaning, kinematic cuts, etc.).  Output is placed into the DumpedNtuples directory.
+
+2a.  HistoMaker - The first portion of the HistoMaker step is creating the histograms to be used in control plots to compare interesting kinematics in data and Monte-Carlo.  This step also includes looking at the distributions of the tagging algorithm outputs as function of jet flavors.  These serve as important tools to look at the behavior of the taggers and at the functionality of our sample.
+
+2b.  HistoMaker - The second portion of HistoMaker creates Histograms to use in the calculation of the different Negative Tag variables.  The control portion and this portion are kept separate so that they different approaches can be tried independently.
+
+3.  Plotting - Following the creation of the histograms, the plotting portion is able to produce plots of both the control plots and the Negative Tag variables.  The actual calculation of the scale factors is also carried out within this portion, so as to not clutter the software packages.
+
+
+----------------------------------------------------------------------------
+
+
+################### Auxiliary materials ############################# 
+
+1.  Config - Primary function is to house information that will be used by more than one portion of the software so as to not make the programs repetitive.  Making the input file lists for the NtupleDumper also takes place here.
+
+2.  Helpers - Includes run mode functionality for submitting paralell jobs on to grid engine or lxplus batch systems.  Includes subTagger information (members used to calculate the different tagging algorithms) to be included in dumped ntuples and possibly later plotting.  Ideally these should be commented out when running nominal dumping so as to save space and not clutter the ntuples, and only then included when wanting to explore them specifically.
+
+3. AtlasStyle - Store ATLAS plotting style functions.  Should be updated if ATLAS style is updated, otherwise should need no editing.
+
+#####################################################################
+
+
+
+To-Do List:
+
+1.  Include bootstrapping for improving Monte-Carlo Statistics. (High Priority)
+G. Bohm, Introduction to statistics and data analysis for physicists ,2050 Hamburg: Verl. Dt. Elektronen-Synchrotron, 2010, isbn: 978-3-935702-41-6
+
+2. Include systematics to error calculation. (High Priority)
+
+3. Compare results of nominal calculation to that with pT/eta reweighting in specific bins. (Medium Priority)
+
+4. Explore different methods to better match MC to data via parameter fitting or some other method (Low Priority)
+
+5. Include calo jet calculation into the same method as what is done with the track jets already here within to validate method. (Medium Priority)
+
+
+
+
+
+Last Updated On: 05-03-2018 by Nathan Grieser

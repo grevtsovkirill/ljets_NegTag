@@ -1,0 +1,60 @@
+## HistoMaker
+
+Goals:
+	- Create histograms to be used in control plots to look at data/MC comparison of different kinematics.  Also to look at the behavior of the taggers in the Monte-Carlo sample.
+	- Create histograms to specifically used in the calculation of Negative Tag variables to be used in the final scale factor calculation.
+
+* Inputs:
+** Uses Ntuples produced by NtupleDumper
+   - ../DumpedNtuples/ + "slice/dataPeriod"
+   - Lists are currently hardcoded into the functions (Look to improve).
+* Outputs:
+** Histograms merging all data/MC periods/slices 
+   - HistoFiles/
+   - Currently two types of data histo files (Control and SF)
+   - Currently two types of MC histo files (Control and SF)
+   - Histogram making functions always produce outputs into individual slice/period files, to be merged following.
+   - HistMerge.py used to merge these files into merged versions to be used in plotting.
+
+
+
+---------------------- Process ----------------------
+
+1. Create control plots - Use python scripts to run an event loop and fill the different interesting kinematics. Because we are trying to avoid mixing prescale weights, we require a trigger cut based on a pT region.  This is hardcoded into the ConHistoMaker.py files and should be adjusted if the pT binning is desired to change. 
+	*Uses dataRFL.txt and mcRFL.txt (data Root File List, etc.) as inputs to determine which periods/slices to run over.
+	  How to run:
+	- python dataConHistoMaker.py
+	- python mcConHistoMaker.py 
+
+2. Merging Histograms - Need to adjust dataHL.txt (data Histogram List, etc.) and mcHL.txt (mcFHL.txt)  to list the histograms to be merged to be studied in control plots (in the future the python scripts will print this automatically, TBD).
+	  How to merge:
+	- Open HistMerge.py and edit the Histogram lists at the beginning to pick up the histograms you want to merge.
+	- Adjust the naming to output either control, fraction, or SF naming convention.
+	- Set boolean mc = False (True) for MC (Data)
+	- python HistMerge.py
+
+3. Create NT Variable Histograms - Create the histograms that are to be used in the calculation of the variables used in the scale factor calculation.  Because we are almost only interested in the integral of these histograms, it isn't too important what we fill into this histograms, but it may be good practice to use the standard and flipped tagger outputs here.  A lot of the definitions to the method are defined in the beginning of sfHistoMaker.cpp, including pT/eta bins, WP bins, and the data/mc file names.  (Might look to move this to config file in the future).
+	- Select mc/data with boolean at beginning of file.
+	- Check that pT/eta/WP bins are what is desired for calculation.
+	- Check that your taggers and their pass/fail definitions are correct.  ** Needs to be done by hand **
+	- root -l sfHistoMaker.cpp
+	- .cpp file automatically creates mc(Data)SFHistList.txt to be used in HistMerge.py
+	- Carry out the same merging process as is done for the control plots.
+
+---------------------------------------------------------
+
+
+
+Improvements to be made:
+- Include parallelization for HistoMaking to run each period/slice at the same time.
+- Merge dataConHistoMaker.py and mcConHistoMaker.py and include boolean run option like sfHistoMaker.cpp
+- Make *ConHistoMaker.py output histogram lists in the same fashion as sfHistoMaker.cpp (Can't figure this out)
+
+
+
+
+
+
+
+
+Last Updated On: 21-03-2018 by Nathan Grieser
