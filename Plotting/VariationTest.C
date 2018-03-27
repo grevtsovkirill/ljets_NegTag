@@ -122,6 +122,10 @@ double fracb = N_incl_b / N_incl_mc;
 	std::map<TString,TH1D*> h_el;
 	TString varhistname = "h_el_ " + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k];
 	h_el[varhistname] = new TH1D(varhistname, varhistname, 10000, 0, 0.5);
+        TString varthistnamekll = "h_kll_ " + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k];
+        h_el[varthistnamekll] = new TH1D(varthistnamekll, varthistnamekll, 10000, 0, 10);
+        TString varthistnamekhf = "h_khf_ " + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k];
+        h_el[varthistnamekhf] = new TH1D(varthistnamekhf, varthistnamekhf, 10000, 0, 10);
 	 
 
 for (int n = 0; n < 10000; n++){
@@ -160,11 +164,19 @@ for (int n = 0; n < 10000; n++){
 	double tmp_el = tmp_epsd * tmp_Khf * tmp_Kll;
 	//std::cout << "Epsl is :" << tmp_el << std::endl;
 	h_el[varhistname]->Fill(tmp_el);
+	h_el[varhistnamekll]->Fill(tmp_Kll);
+	h_el[varhistnamekhf]->Fill(tmp_Khf);
 
 }
 	double e_el = h_el[varhistname]->GetRMS();
 	double el_mean = h_el[varhistname]->GetMean();
         text << "el is " << el_mean << "+-" << e_el << std::endl;
+        double e_kll = h_el[varhistnamekll]->GetRMS();
+        double kll_mean = h_el[varhistnamekll]->GetMean();
+        text << "Kll is " << kll_mean << "+-" << e_kll << std::endl;
+        double e_khf = h_el[varhistnamekhf]->GetRMS();
+        double khf_mean = h_el[varhistnamekhf]->GetMean();
+        text << "Khf is " << khf_mean << "+-" << e_khf << std::endl;
 
 	double epslmcnom = (N_l_p_S/N_incl_l);
 	double e_epslmc = epslmcnom * sqrt(pow(e_Ninclmc/N_incl_mc,2) + pow(e_nlps/N_l_p_S,2));
