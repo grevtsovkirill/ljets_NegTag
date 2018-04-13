@@ -81,12 +81,12 @@ for(int ivar=0; ivar<histo_var.size(); ivar++){
 	std::string histo_ratio_name = "ratio_" + histo_var.at(ivar);
 	TH1D *h_ratio = (TH1D*)h_data->Clone(histo_ratio_name.c_str());
 	h_ratio->Divide(h_mc);
-	h_ratio->SetMaximum(1.4);
-        h_ratio->SetMinimum(.6);
-	if(histo_var.at(ivar)=="hpT" || "hntrk"){
+	if(histo_var.at(ivar)=="hpT"||histo_var.at(ivar)=="hntrk"||histo_var.at(ivar)=="hNjet"){
 	h_ratio->SetMaximum(4);
 	h_ratio->SetMinimum(0);}
-	
+	else {
+	h_ratio->SetMaximum(1.4);
+        h_ratio->SetMinimum(.6);}	
 
 
 	// cosmetics

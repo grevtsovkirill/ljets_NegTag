@@ -3,3 +3,7 @@
 *.pdf
 *.out
 *.pbs
+*/LSF*
+*core*
+*.auto
+*.o

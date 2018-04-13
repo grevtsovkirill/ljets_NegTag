@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 
   TString filename;
   TString outputpath;
-  outputpath = "root://eosatlas//eos/user/m/mstrauss/BTagDumpedNtuples/Test21/DumpedNtuples/";
+  outputpath = "root://eosatlas//eos/user/m/mstrauss/BTagDumpedNtuples/TrackJetHome/ljets_NegTag/DumpedNtuplestest/";
   if (runmc){
     cout << "## running mc " << period_slice[0] << " ##" << endl;
     filename = outputpath + "/mc" + period_slice[0] + ".root";
