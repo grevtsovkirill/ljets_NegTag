@@ -45,17 +45,18 @@ namespace conf{
   const std::vector<std::string> flav_list = {"l", "c", "b"};
 
   // define here the taggers to have only one definition
-  const std::vector<std::string> tagger_list = {"MV2c10"/*,"MV2c20"*/};
+  const std::vector<std::string> tagger_list = {"MV2c10","DL1"/*,"MV2c20"*/};
 
   const int n_tag = tagger_list.size();
   const std::map<std::string, std::tuple<int, double, double>> tag_hist = {
     { "MV2c10", std::make_tuple(100, -1.0, 1.0)},
+    { "DL1", std::make_tuple(100, -6.0, 14.0)},
     //{ "MV2c20", std::make_tuple(100, -1.0, 1.0)},
   };
 
   std::map<std::string, std::tuple<int, double, double>> inputvariable_hist = {
     {"MV2c10", std::make_tuple(100, -1., 1.)},
-    {"MV2c20", std::make_tuple(100, -1., 1.)},
+    {"DL1", std::make_tuple(100, -6., 14.)},
     {"IP2D_logpbpc",std::make_tuple(100,-5.,5.)},
     {"IP2D_logpbpu",std::make_tuple(100,-5.,5.)},
     {"IP2D_logpcpu",std::make_tuple(100,-5.,5.)},
@@ -80,9 +81,12 @@ namespace conf{
   // https://twiki.cern.ch/twiki/bin/view/AtlasProtected/BTaggingBenchmarksRelease21
   const std::map <std::string, std::vector<double>> wpoint_map = {
     {"MV2c10", {0.11,0.645,0.831,0.939}},
+    {"DL1", {0.46,1.45,2.02,2.74}},
   };
   const std::map <std::string, std::vector<int>> wpoint_labels = {
     {"MV2c10", {85, 77, 70, 60}},
+    {"DL1", {85, 77, 70, 60}},
+    //{"FixedCut", {85, 77, 70, 60}},
   };
 
 
