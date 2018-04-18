@@ -407,7 +407,6 @@ void NtupleDumper::Loop()
 
       // *_subtagger_out defined at the beginning
       for (auto &pair: float_subtagger_out){
-	// cout << pair.first << endl;
 	pair.second[nj] = (*float_subtagger[pair.first])[j];
       }
       for (auto &pair: int_subtagger_out){
