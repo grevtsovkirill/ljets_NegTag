@@ -59,6 +59,12 @@ namespace subtagger{
     {"jet_JetFitterFlip_nSingleTracks",std::make_tuple(102, -2.5, 99.5)},
     {"jet_JetFitterFlip_nVTX",std::make_tuple(102, -2.5, 99.5)},
     {"jet_JetFitterFlip_nTracksAtVtx",std::make_tuple(102, -2.5, 99.5)},
+    //HybEffWP flags:
+    {"jet_isMV2_Tagged",std::make_tuple(221,0 , 220)},
+    {"jet_isMV2Flip_Tagged",std::make_tuple(221,0 , 220)},
+    {"jet_isDL1_Tagged",std::make_tuple(221,0 , 220)},
+    {"jet_isDL1Flip_Tagged",std::make_tuple(221,0 , 220)},
+
   };
 
   const std::map <std::string, std::tuple<int, double, double>> doubles = {
