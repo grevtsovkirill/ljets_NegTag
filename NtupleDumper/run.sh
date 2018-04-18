@@ -21,15 +21,16 @@ for syst in $(getxAODsysts); do
     ALL_SYSTS+=" $syst"
     echo $syst >> $SYSTFILE
 done
-
+# # run Pythia
 while read slice files; do
    case "$slice" in \#*) continue ;; esac
    [ -z "$slice" ] && continue
    LOGNAME=$slice
    #run ./NtupleDumperApp -s $ALL_SYSTS -ps $slice -f $files
-   run ./NtupleDumperApp -s "FlavourTagging_Nominal" -ps $slice -f $files
+   run ./NtupleDumperApp -s "FlavourTagging_Nominal" -ps $slice -f $files -c "a"
    echo $slice >> $SLICEFILE
 done < ../config/mc_files_pythia.txt
+#done < ../config/mc_files_pythiaNEW.txt
 slice=""
 
 # # ##run mc (HERWIG) - cannot be run in send2ge++ mode at the moment
@@ -52,7 +53,7 @@ slice=""
 # done < ../config/mc_files_16_sherpa.txt
 # slice=""
 
-##run data
+#run data
 # while read period files; do
 #     case "$period" in \#*) continue ;; esac
 #     [ -z "$period" ] && continue

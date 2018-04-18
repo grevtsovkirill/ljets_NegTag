@@ -29,6 +29,7 @@ int main(int argc, char* argv[]) {
   std::vector<TString> systematics;
   std::vector<TString> files;
   std::vector<TString> period_slice;
+  std::vector<TString> reco_comp;
   bool runmc = true;
   bool file_per_syst = false;
 
@@ -55,6 +56,10 @@ int main(int argc, char* argv[]) {
       file_per_syst = true;
       cout << "=== 1 file per systematic created ===" << endl;
     }
+    else if (strcmp(argv[i1], "-c")==0){
+      reco_comp = get_arguments(argc, argv, i1);;
+      cout << "=== mc16a / mc16d  ===" << endl;
+    }
     else {
       cout << "argument not recognized: " << argv[i1] << endl;
     }
@@ -70,9 +75,9 @@ int main(int argc, char* argv[]) {
   TString filename;
   if (runmc){
     cout << "## running mc " << period_slice[0] << " ##" << endl;
-    filename = "res/mc" + period_slice[0] + ".root";
+    filename = "res/mc16"+reco_comp[0]+"_" + period_slice[0] + ".root";
     // if -split mode activated, create one file per systematic
-    if(file_per_syst) filename = "res/mc" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
+    if(file_per_syst) filename = "res/mc16"+reco_comp[0]+"_" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
   }
   else{
     cout << "## running data " << period_slice[0] << " ##" << endl;
