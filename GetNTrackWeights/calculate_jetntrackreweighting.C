@@ -82,7 +82,7 @@ void DrawPlots(TFile* f_da, TFile* f_mc){ // Plotting results only for Nominal B
   //  f_output->Close();
 }
 
-void calculate_jetntrackreweighting()
+void calculate_jetntrackreweighting( string dname="data_FlavourTagging_Nominal_0.root",string mname="mc_FlavourTagging_Nominal_Pythia.root",int dosyst=0)
 {
  // separate reweighting for leading and next-to-leading pt jet in pt:eta
   const int nj = 2;
@@ -100,8 +100,8 @@ void calculate_jetntrackreweighting()
   //*/
 
   // input
-  TFile* f_da = new TFile("data_FlavourTagging_Nominal_0.root");
-  TFile* f_mc = new TFile("mc_FlavourTagging_Nominal_Pythia.root");
+  TFile* f_da = new TFile(dname.c_str());
+  TFile* f_mc = new TFile(mname.c_str());
 
   // output
   TFile *f_output = new TFile("reweight_ntrack2D.root", "RECREATE");
