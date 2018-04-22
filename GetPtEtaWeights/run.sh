@@ -29,7 +29,7 @@ done
 # ALL_SYSTS+=" longlivedparticles"
 
 echo 'run data'
-run ./CreateHistogramsApp -d -f $(get_data_ntupledumper) -s "FlavourTagging_Nominal"
+run ./CreateHistogramsApp -d -f $(get_data_ntupledumper) -s "FlavourTagging_Nominal" -c "17"
 #echo 'run mc nominal only'
 #run ./CreateHistogramsApp -f $(get_mc_ntupledumper) -s "FlavourTagging_Nominal"
 #echo 'run mc'
