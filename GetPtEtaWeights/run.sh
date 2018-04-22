@@ -28,10 +28,10 @@ done
 # # Add LL uncertainty
 # ALL_SYSTS+=" longlivedparticles"
 
-echo 'run data'
-run ./CreateHistogramsApp -d -f $(get_data_ntupledumper) -s "FlavourTagging_Nominal" -c "17"
-#echo 'run mc nominal only'
-#run ./CreateHistogramsApp -f $(get_mc_ntupledumper) -s "FlavourTagging_Nominal"
+#echo 'run data'
+#run ./CreateHistogramsApp -d -f $(get_data_ntupledumper) -c "1516" -s "FlavourTagging_Nominal" 
+echo 'run mc nominal only'
+run ./CreateHistogramsApp -f $(get_mc_ntupledumper d) -c "d" -s "FlavourTagging_Nominal"
 #echo 'run mc'
 #run ./CreateHistogramsApp -f $(get_mc_ntupledumper) -s $ALL_SYSTS
 #echo 'run HERWIG mc'
