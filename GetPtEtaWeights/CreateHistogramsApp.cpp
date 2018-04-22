@@ -81,10 +81,10 @@ int main(int argc, char* argv[])
   if (runmc)
     {
       cout << "## running mc ##" << endl;
-      filename = "mc.root";
+      filename = "mc_"+compagnie.at(0)+".root";
       if(HERWIG) filename = "mc_HERWIG.root";
       if(SHERPA) filename = "mc_SHERPA.root";
-      if(file_per_syst) filename = "mc_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
+      if(file_per_syst) filename = "mc_"+compagnie.at(0)+"_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
     }
   else
     {
