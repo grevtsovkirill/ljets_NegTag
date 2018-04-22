@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
   std::vector<TString> bootstrap_index;
   std::vector<TString> files;
   std::vector<TString> systematics;
+  std::vector<TString> compagnie;
 
   // read arguments from command line
   for( int i1 = 1; i1 < argc; ++i1) // start at 1 (0 script name)
@@ -58,6 +59,11 @@ int main(int argc, char* argv[])
           cout << "=== 1 file per systematic created ===" << endl;
 	  bootstrap_index = get_arguments(argc, argv, i1);
       }
+      else if (strcmp(argv[i1], "-c")==0)
+	{
+	  cout << "=== select compagnie ===" << endl;
+	  compagnie = get_arguments(argc, argv, i1);
+	}
       else {
 	cout << "argument not recognized: " << argv[i1] << endl;
       }
@@ -68,16 +74,16 @@ int main(int argc, char* argv[])
   if (runmc)
     {
       cout << "## running mc ##" << endl;
-      filename = "mc.root";
+      filename = "mc_"+compagnie.at(0)+".root";
       if(HERWIG) filename = "mc_HERWIG.root";
       if(SHERPA) filename = "mc_SHERPA.root";
-      if(file_per_syst) filename = "mc_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
+      if(file_per_syst) filename = "mc_"+compagnie.at(0)+"_"  + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
     }
   else
     {
       cout << "## running data ##" << endl;
-      filename = "data.root";
-      if(file_per_syst) filename = "data_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
+      filename = "data"+compagnie.at(0)+".root";
+      if(file_per_syst) filename = "data"+compagnie.at(0)+"_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
     }
 
   TFile* histofile = new TFile(filename, "RECREATE");
