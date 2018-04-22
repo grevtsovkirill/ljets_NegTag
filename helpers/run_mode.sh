@@ -39,13 +39,20 @@ run() {
         # determine slice
         args=("$@")
         var="0"
+	var_c="_"
         for ((i=0; i<${#args[@]}; i++)); do
            if [[ "${args[i]}" == "-ps" ]]; then
-              var=${args[i+1]}
+               var=${args[i+1]}
+	 #      echo $var
+           fi
+           if [[ "${args[i]}" == "-c" ]]; then
+               var_c=${args[i+1]}
+	  #     echo $var_c
               break
            fi
         done
-
+	var+=$var_c
+	#echo 'file = '$var
         # trick to identify if NtupleDumper is ran 
         if [[ "$var" == "0" ]]; then 
            echo "ERROR: send2ge applies to NtupleDumpler only. Exiting program ..."
@@ -208,10 +215,14 @@ run() {
         s_index=0
         d_flag=0
         suffix="mc"
+	var_c=""
         for ((j=0; j<${#args[@]}; j++)); do
            if [[ "${args[j]}" == "-d" ]]; then
               d_flag=1
               suffix="data"
+           fi
+           if [[ "${args[j]}" == "-c" ]]; then
+               var_c=${args[j+1]}
            fi
            if [[ "${args[j]}" == "-s" ]]; then
               s_index=$j
@@ -219,6 +230,7 @@ run() {
            fi
         done
 
+	echo $var_c
         # loop on systematics
         for syst in $(getxAODsystsAndOthers); do
            # for data, skip if it is different than nominal
@@ -227,7 +239,7 @@ run() {
            else 
              # create 1 job file per systematic
              PBSDIR="pbs_files"
-             PBSFILE="$PBSDIR"/"$suffix"_"$syst".pbs
+             PBSFILE="$PBSDIR"/"$suffix"_"$var_c"_"$syst".pbs
              mkdir -p "$PBSDIR"
              cp ../setup.sh $PBSFILE 
              # adding some lines
@@ -360,10 +372,13 @@ get_data_ntupledumper(){
 SLICEFILE="../NtupleDumper/.slices.auto"
 get_mc_ntupledumper(){
     SAMPLES=""
+    mcTYPE=$1
+
     while read slice; do
-	SAMPLES+=" ../NtupleDumper/res/mc$slice.root"
+	SAMPLES+=" ../NtupleDumper/res/mc16$mcTYPE"_"$slice.root"
     done < $SLICEFILE
     echo $SAMPLES
+#mc16a_JZ0W.root
 }
 
 SLICEFILE_H="../NtupleDumper/.slicesHERWIG.auto"
