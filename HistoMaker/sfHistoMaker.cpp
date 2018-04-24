@@ -16,10 +16,10 @@
 #include <TBranch.h>
 
 void sfHistoMaker(){
-	const TString DumpedMC[12] = {"JZ0Wd", "JZ1Wd", "JZ2Wd", "JZ3Wd", "JZ4Wd", "JZ5Wd", "JZ6Wd", "JZ7Wd", "JZ8Wd", "JZ10Wd", "JZ11Wd", "JZ12Wd"};
+	const TString DumpedMC[22] = {"JZ0Wd", "JZ1Wd", "JZ2Wd", "JZ3Wd", "JZ4Wd", "JZ5Wd", "JZ6Wd", "JZ7Wd", "JZ8Wd", "JZ10Wd", "JZ11Wd", "JZ12Wd", "JZ0W", "JZ10W", "JZ12W", "JZ1W", "JZ2W", "JZ3W", "JZ4W", "JZ7W", "JZ8W", "JZ9W"};
 	const TString DumpedDT[14] = {"D15", "G15", "E15", "F15", "H15", "F16", "G16", "A16", "L16", "J15", "B16", "C16", "D16", "K17"};
         const int n_DT = 14;
-	const int n_MC = 12;
+	const int n_MC = 22;
         const int n_pt = 7;
         const int n_eta = 2;
         const int n_WP = 4;
@@ -36,7 +36,7 @@ void sfHistoMaker(){
 	float negfiller = -99;
 // Set up loop over mc files.
 if (mc){
-for (int i = 3; i < 4; i++){
+for (int i = 2; i < 3; i++){
 	
 	TString mcfile = DumpedMC[i];
 	TFile* f_mc = new TFile("../DumpedNtuplestest/mc" + mcfile + ".root", "read");
@@ -47,7 +47,7 @@ for (int i = 3; i < 4; i++){
 
 
 
-	float mc_evtweight;
+	float data_evtweight;
 	float evtpuw;
 	float evtJVTw;
 	float trackjetpt[1];
@@ -67,7 +67,7 @@ for (int i = 3; i < 4; i++){
 	int trackjetIsDL1_Tagged[1];
 	int trackjetIsDL1Flip_Tagged[1];	
 	
-	TBranch *b_mc_evtweight;
+	TBranch *b_data_evtweight;
 	TBranch *b_evtpuw;
 	TBranch *b_evtJVTw;
 	TBranch *b_trackjetpt;
@@ -88,7 +88,7 @@ for (int i = 3; i < 4; i++){
 	TBranch	*b_trackjetIsDL1Flip_Tagged;
 
 
-        nominal->SetBranchAddress("mc_evtweight", &mc_evtweight, &b_mc_evtweight);
+        nominal->SetBranchAddress("data_evtweight", &data_evtweight, &b_data_evtweight);
         nominal->SetBranchAddress("evtpuw", &evtpuw, &b_evtpuw);
         nominal->SetBranchAddress("evtJVTw", &evtJVTw, &b_evtJVTw);
         nominal->SetBranchAddress("trackjetpt", &trackjetpt, &b_trackjetpt);
@@ -110,43 +110,43 @@ for (int i = 3; i < 4; i++){
 
 // Book the zillion histos we will need for scale factor calculations.
 // One histogram is needed for each pt, eta, WP, and tag.`
-// In MC, we need one of these for every flavor as well.  For control plots, use mc(data)HistMaker.py
-        std::ofstream mcHL;
-        mcHL.open ("mcSFHistoList.txt");
-	std::map<TString,TH1D*> mch_ptetaWPtagF;
+// In MC, we need one of these for every flavor as well.  For control plots, use data(data)HistMaker.py
+        std::ofstream dataHL;
+        dataHL.open ("dataSFHistoList.txt");
+	std::map<TString,TH1D*> datah_ptetaWPtagF;
 	for (int i = 1; i < n_pt + 1; i++){
 	for (int j = 1; j < n_eta +1; j++){
 	for (int k = 0; k < n_WP; k++){
 	for (int l = 0; l < n_taggers; l++){
 	for (int m = 0; m < 2; m++){
 	for (int n = 0; n < n_flav; n++){
-		TString histname = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] +  "_" + Tag[m] + "_" + Flav[n];
-		TString histnamefail = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_" + Flav[n] + "_Fail";
-                TString histnamefixed = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] +  "_" + Tag[m] + "_" + Flav[n] + "__Fixed";
-                TString histnamefailfixed = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_" + Flav[n] + "_Fail_Fixed";
-		mcHL << histnamefixed << std::endl;
-		mcHL << histnamefailfixed << std::endl;
-		mcHL << histnamefail << std::endl;
-		mcHL << histname << std::endl;
+		TString histname = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] +  "_" + Tag[m] + "_" + Flav[n];
+		TString histnamefail = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_" + Flav[n] + "_Fail";
+                TString histnamefixed = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] +  "_" + Tag[m] + "_" + Flav[n] + "__Fixed";
+                TString histnamefailfixed = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_" + Flav[n] + "_Fail_Fixed";
+		dataHL << histnamefixed << std::endl;
+		dataHL << histnamefailfixed << std::endl;
+		dataHL << histnamefail << std::endl;
+		dataHL << histname << std::endl;
 		if (l == 1){
-			mch_ptetaWPtagF[histname] = new TH1D(histname, histname, 50, -5, 10);
-                        mch_ptetaWPtagF[histnamefail] = new TH1D(histnamefail, histnamefail, 50, -5, 10);
-                        mch_ptetaWPtagF[histnamefixed] = new TH1D(histnamefixed, histnamefixed, 50, -5, 10);
-                        mch_ptetaWPtagF[histnamefailfixed] = new TH1D(histnamefailfixed, histnamefailfixed, 50, -5, 10);
+			datah_ptetaWPtagF[histname] = new TH1D(histname, histname, 50, -5, 5);
+                        datah_ptetaWPtagF[histnamefail] = new TH1D(histnamefail, histnamefail, 50, -5, 5);
+                        datah_ptetaWPtagF[histnamefixed] = new TH1D(histnamefixed, histnamefixed, 50, -5, 5);
+                        datah_ptetaWPtagF[histnamefailfixed] = new TH1D(histnamefailfixed, histnamefailfixed, 50, -5, 5);
 			}
 		else { 
-			mch_ptetaWPtagF[histname] = new TH1D(histname, histname, 20, -1, 1);
-			mch_ptetaWPtagF[histnamefail] = new TH1D(histnamefail, histnamefail, 20, -1, 1);
-                        mch_ptetaWPtagF[histnamefixed] = new TH1D(histnamefixed, histnamefixed, 20, -1, 1);
-                        mch_ptetaWPtagF[histnamefailfixed] = new TH1D(histnamefailfixed, histnamefailfixed, 20, -1, 1);
+			datah_ptetaWPtagF[histname] = new TH1D(histname, histname, 20, -1, 1);
+			datah_ptetaWPtagF[histnamefail] = new TH1D(histnamefail, histnamefail, 20, -1, 1);
+                        datah_ptetaWPtagF[histnamefixed] = new TH1D(histnamefixed, histnamefixed, 20, -1, 1);
+                        datah_ptetaWPtagF[histnamefailfixed] = new TH1D(histnamefailfixed, histnamefailfixed, 20, -1, 1);
 			}
-		mch_ptetaWPtagF[histnamefail]->Sumw2();
-		mch_ptetaWPtagF[histname]->Sumw2();
-                mch_ptetaWPtagF[histnamefailfixed]->Sumw2();
-                mch_ptetaWPtagF[histnamefixed]->Sumw2();
+		datah_ptetaWPtagF[histnamefail]->Sumw2();
+		datah_ptetaWPtagF[histname]->Sumw2();
+                datah_ptetaWPtagF[histnamefailfixed]->Sumw2();
+                datah_ptetaWPtagF[histnamefixed]->Sumw2();
 
 		}}}}}} // End histo booking loop	
-	mcHL.close();
+	dataHL.close();
 
 
 
@@ -159,10 +159,10 @@ for (int i = 3; i < 4; i++){
 
 		// Set up needed variables/weights
 		int ltj = 0; //Index for leading track jet
-		float mc_weight = mc_evtweight;
+		float data_weight = data_evtweight;
 		float PU_weight = evtpuw;
 		float JVT_weight = evtJVTw;
-		float mcw = mc_weight * PU_weight * JVT_weight;
+		float dataw = data_weight * PU_weight * JVT_weight;
 
 		// Check pT bin
 		float jetpt = trackjetpt[ltj];
@@ -227,7 +227,7 @@ for (int i = 3; i < 4; i++){
                         TString wp_name = WP[n];
                         TString tag_name = Tagger[m];
                         bool taggedfixed = false;
-                        TString passfailfixed = wp_name + "_" + tag_name + "Fixed";
+                        TString passfailfixed = wp_name + "_" + tag_name;
                         PassFixedTag[passfailfixed] = taggedfixed;
                         PassFixedNegTag[passfailfixed] = taggedfixed;
                         }} // End Pass/Fail loop for fixed tagger.
@@ -245,70 +245,70 @@ for (int i = 3; i < 4; i++){
 		double DL1w = trackjet_DL1_w[ltj];
 		int isDL1F = trackjetIsDL1Flip_Tagged[ltj];
 		double DL1Fw = trackjet_DL1Flip_w[ltj];
-		if (isMV2c10 % 2 == 0){
-			(PassTag["85_MV2c10"]) = true;}
-		if (isMV2c10 % 3 == 0){ 
-			(PassTag["77_MV2c10"]) = true;}
-		if (isMV2c10 % 5 == 0){
-			(PassTag["70_MV2c10"]) = true;}
 		if (isMV2c10 % 7 == 0){
+			(PassTag["85_MV2c10"]) = true;}
+		if (isMV2c10 % 5 == 0){ 
+			(PassTag["77_MV2c10"]) = true;}
+		if (isMV2c10 % 3 == 0){
+			(PassTag["70_MV2c10"]) = true;}
+		if (isMV2c10 % 2 == 0){
 			(PassTag["60_MV2c10"]) = true;}
-                if (isMV2c10F % 2 == 0){
-                        (PassNegTag["85_MV2c10"]) = true;}
-                if (isMV2c10F % 3 == 0){ 
-                        (PassNegTag["77_MV2c10"]) = true;}
-                if (isMV2c10F % 5 == 0){
-                        (PassNegTag["70_MV2c10"]) = true;}
                 if (isMV2c10F % 7 == 0){
+                        (PassNegTag["85_MV2c10"]) = true;}
+                if (isMV2c10F % 5 == 0){ 
+                        (PassNegTag["77_MV2c10"]) = true;}
+                if (isMV2c10F % 3 == 0){
+                        (PassNegTag["70_MV2c10"]) = true;}
+                if (isMV2c10F % 2 == 0){
                         (PassNegTag["60_MV2c10"]) = true;}
-                if (isDL1 % 2 == 0){
+                if (isDL1 % 7 == 0){
                         (PassTag["85_DL1"]) = true;}
-                if (isDL1 % 3 == 0) {   
+                if (isDL1 % 5 == 0) {   
                         (PassTag["77_DL1"]) = true;}
-                if (isDL1 % 5 == 0) {
+                if (isDL1 % 3 == 0) {
                         (PassTag["70_DL1"]) = true;}
-                if (isDL1 % 7 == 0) {
+                if (isDL1 % 2 == 0) {
                         (PassTag["60_DL1"]) = true;}
-                if (isDL1F % 2 == 0) {
-                        (PassNegTag["85_DL1"]) = true;}
-                if (isDL1F % 3 == 0) {    
-                        (PassNegTag["77_DL1"]) = true;}
-                if (isDL1F % 5 == 0) {
-                        (PassNegTag["70_DL1"]) = true;}
                 if (isDL1F % 7 == 0) {
+                        (PassNegTag["85_DL1"]) = true;}
+                if (isDL1F % 5 == 0) {    
+                        (PassNegTag["77_DL1"]) = true;}
+                if (isDL1F % 3 == 0) {
+                        (PassNegTag["70_DL1"]) = true;}
+                if (isDL1F % 2 == 0) {
                         (PassNegTag["60_DL1"]) = true;}
 		if (MV2c10w > -0.15) {
-			(PassFixedTag["85_MV2c10Fixed"]) = true;}
+			(PassFixedTag["85_MV2c10"]) = true;}
 		if (MV2c10w > 0.38) {
-			(PassFixedTag["77_MV2c10Fixed"]) = true;}
+			(PassFixedTag["77_MV2c10"]) = true;}
                 if (MV2c10w > 0.66) {
-                        (PassFixedTag["70_MV2c10Fixed"]) = true;}
+                        (PassFixedTag["70_MV2c10"]) = true;}
                 if (MV2c10w > 0.86) {
-                        (PassFixedNegTag["60_MV2c10Fixed"]) = true;}
+                        (PassFixedTag["60_MV2c10"]) = true;}
                 if (MV2c10Fw > -0.15) {
-                        (PassFixedNegTag["85_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["85_MV2c10"]) = true;}
                 if (MV2c10Fw > 0.38) {
-                        (PassFixedNegTag["77_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["77_MV2c10"]) = true;}
                 if (MV2c10Fw > 0.66) {
-                        (PassFixedNegTag["70_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["70_MV2c10"]) = true;}
                 if (MV2c10Fw > 0.86) {
-                        (PassFixedNegTag["60_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["60_MV2c10"]) = true;}
                 if (DL1w > 0.13) {
-                        (PassFixedTag["85_DL1Fixed"]) = true;}
+                        (PassFixedTag["85_DL1"]) = true;}
                 if (DL1w > 0.89) {
-                        (PassFixedTag["77_DL1Fixed"]) = true;}
+                        (PassFixedTag["77_DL1"]) = true;}
                 if (DL1w > 1.47) {
-                        (PassFixedTag["70_DL1Fixed"]) = true;}
+                        (PassFixedTag["70_DL1"]) = true;}
                 if (DL1w > 2.13) {
-                        (PassFixedNegTag["60_DL1Fixed"]) = true;}
+                        (PassFixedTag["60_DL1"]) = true;}
                 if (DL1Fw > 0.13) {
-                        (PassFixedNegTag["85_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["85_DL1"]) = true;}
                 if (DL1Fw > 0.89) {
-                        (PassFixedNegTag["77_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["77_DL1"]) = true;}
                 if (DL1Fw > 1.47) {
-                        (PassFixedNegTag["70_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["70_DL1"]) = true;}
                 if (DL1Fw > 2.13) {
-                        (PassFixedNegTag["60_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["60_DL1"]) = true;}
 
 
 
@@ -331,29 +331,29 @@ for (int i = 3; i < 4; i++){
 				filler = trackjet_DL1_w[ltj];
 				negfiller = trackjet_DL1Flip_w[ltj];}
 			if (PassTag[PassFail] == true){
-				TString fillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav;
-				mch_ptetaWPtagF[fillname]->Fill(filler, mcw);}
+				TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav;
+				datah_ptetaWPtagF[fillname]->Fill(filler, dataw);}
 			if (PassNegTag[PassFail] == true){
-                                TString negfillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav;
-                                mch_ptetaWPtagF[negfillname]->Fill(negfiller, mcw);}
+                                TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav;
+                                datah_ptetaWPtagF[negfillname]->Fill(negfiller, dataw);}
                         if (PassTag[PassFail] == false){
-                                TString fillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav + "_Fail";
-                                mch_ptetaWPtagF[fillname]->Fill(filler, mcw);}
+                                TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav + "_Fail";
+                                datah_ptetaWPtagF[fillname]->Fill(filler, dataw);}
                         if (PassNegTag[PassFail] == false){
-                                TString negfillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav + "_Fail";
-                                mch_ptetaWPtagF[negfillname]->Fill(negfiller, mcw);}
+                                TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav + "_Fail";
+                                datah_ptetaWPtagF[negfillname]->Fill(negfiller, dataw);}
                         if (PassFixedTag[PassFail] == true){
-                                TString fillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav + "__Fixed";
-                                mch_ptetaWPtagF[fillname]->Fill(filler, mcw);}
+                                TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav + "__Fixed";
+                                datah_ptetaWPtagF[fillname]->Fill(filler, dataw);}
                         if (PassFixedNegTag[PassFail] == true){
-                                TString negfillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav + "__Fixed";
-                                mch_ptetaWPtagF[negfillname]->Fill(negfiller, mcw);}
+                                TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav + "__Fixed";
+                                datah_ptetaWPtagF[negfillname]->Fill(negfiller, dataw);}
                         if (PassFixedTag[PassFail] == false){
-                                TString fillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav + "_Fail_Fixed";
-                                mch_ptetaWPtagF[fillname]->Fill(filler, mcw);}
+                                TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav + "_Fail_Fixed";
+                                datah_ptetaWPtagF[fillname]->Fill(filler, dataw);}
                         if (PassFixedNegTag[PassFail] == false){
-                                TString negfillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav + "_Fail_Fixed";
-                                mch_ptetaWPtagF[negfillname]->Fill(negfiller, mcw);}
+                                TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav + "_Fail_Fixed";
+                                datah_ptetaWPtagF[negfillname]->Fill(negfiller, dataw);}
                 }} // End of filling loop.
 			
 
@@ -365,7 +365,7 @@ for (int i = 3; i < 4; i++){
 }
 
 
-if (!mc){
+if (!data){
 for (int i = 0; i < n_DT; i++){
 
         TString datafile = DumpedDT[i];
@@ -377,7 +377,7 @@ for (int i = 0; i < n_DT; i++){
 
 
 
-        float mc_evtweight;
+        float data_evtweight;
         float evtpuw;
         float evtJVTw;
 	float trackdata_evtweight[1];
@@ -403,7 +403,7 @@ for (int i = 0; i < n_DT; i++){
         int trackjetIsDL1Flip_Tagged[1];
 	int trackjetIsMV2Flip_Tagged[1];
 
-        TBranch *b_mc_evtweight;
+        TBranch *b_data_evtweight;
         TBranch *b_evtpuw;
         TBranch *b_evtJVTw;
 	TBranch *b_trackdata_evtweight;
@@ -430,7 +430,7 @@ for (int i = 0; i < n_DT; i++){
         TBranch *b_trackjetIsDL1Flip_Tagged;
 
 
-        nominal->SetBranchAddress("mc_evtweight", &mc_evtweight, &b_mc_evtweight);
+        nominal->SetBranchAddress("data_evtweight", &data_evtweight, &b_data_evtweight);
         nominal->SetBranchAddress("evtpuw", &evtpuw, &b_evtpuw);
         nominal->SetBranchAddress("evtJVTw", &evtJVTw, &b_evtJVTw);
         nominal->SetBranchAddress("trackdata_evtweight", &trackdata_evtweight, &b_trackdata_evtweight);
@@ -468,14 +468,31 @@ for (int i = 0; i < n_DT; i++){
         for (int k = 0; k < n_WP; k++){
 	for (int l = 0; l < n_taggers; l++){
         for (int m = 0; m < 2; m++){
-                TString histname = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m];
-               TString histnamefail = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_Fail";
-		dataHL << histnamefail << std::endl;
-		dataHL << histname << std::endl;
-		datah_ptetaWPtag[histnamefail] = new TH1D(histnamefail, histnamefail, 20, -1, 1);
-                datah_ptetaWPtag[histname] = new TH1D(histname, histname, 20, -1, 1);
-		datah_ptetaWPtag[histnamefail]->Sumw2();
-                datah_ptetaWPtag[histname]->Sumw2();
+                TString histname = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] +  "_" + Tag[m];
+                TString histnamefail = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_Fail";
+                TString histnamefixed = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] +  "_" + Tag[m] + "__Fixed";
+                TString histnamefailfixed = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_Fail_Fixed";
+                dataHL << histnamefixed << std::endl;
+                dataHL << histnamefailfixed << std::endl;
+                dataHL << histnamefail << std::endl;
+                dataHL << histname << std::endl;
+
+                if (l == 1){
+                        datah_ptetaWPtagF[histname] = new TH1D(histname, histname, 50, -5, 5);
+                        datah_ptetaWPtagF[histnamefail] = new TH1D(histnamefail, histnamefail, 50, -5, 5);
+                        datah_ptetaWPtagF[histnamefixed] = new TH1D(histnamefixed, histnamefixed, 50, -5, 5);
+                        datah_ptetaWPtagF[histnamefailfixed] = new TH1D(histnamefailfixed, histnamefailfixed, 50, -5, 5);
+                        }
+                else {
+                        datah_ptetaWPtagF[histname] = new TH1D(histname, histname, 20, -1, 1);
+                        datah_ptetaWPtagF[histnamefail] = new TH1D(histnamefail, histnamefail, 20, -1, 1);
+                        datah_ptetaWPtagF[histnamefixed] = new TH1D(histnamefixed, histnamefixed, 20, -1, 1);
+                        datah_ptetaWPtagF[histnamefailfixed] = new TH1D(histnamefailfixed, histnamefailfixed, 20, -1, 1);
+                        }
+                datah_ptetaWPtagF[histnamefail]->Sumw2();
+                datah_ptetaWPtagF[histname]->Sumw2();
+                datah_ptetaWPtagF[histnamefailfixed]->Sumw2();
+                datah_ptetaWPtagF[histnamefixed]->Sumw2();
                 }}}}} // End histo booking loop 
 	dataHL.close();
 
@@ -567,71 +584,73 @@ for (int i = 0; i < n_DT; i++){
                 int isDL1F = trackjetIsDL1Flip_Tagged[ltj];
                 double DL1Fw = trackjet_DL1Flip_w[ltj];
 
-                if (isMV2c10 % 2 == 0){
-                        (PassTag["85_MV2c10"]) = true;}
-                if (isMV2c10 % 3 == 0){
-                        (PassTag["77_MV2c10"]) = true;}
-                if (isMV2c10 % 5 == 0){
-                        (PassTag["70_MV2c10"]) = true;}
                 if (isMV2c10 % 7 == 0){
+                        (PassTag["85_MV2c10"]) = true;}
+                if (isMV2c10 % 5 == 0){
+                        (PassTag["77_MV2c10"]) = true;}
+                if (isMV2c10 % 3 == 0){
+                        (PassTag["70_MV2c10"]) = true;}
+                if (isMV2c10 % 2 == 0){
                         (PassTag["60_MV2c10"]) = true;}
-                if (isMV2c10F % 2 == 0){
-                        (PassNegTag["85_MV2c10"]) = true;}
-                if (isMV2c10F % 3 == 0){
-                        (PassNegTag["77_MV2c10"]) = true;}
-                if (isMV2c10F % 5 == 0){
-                        (PassNegTag["70_MV2c10"]) = true;}
                 if (isMV2c10F % 7 == 0){
+                        (PassNegTag["85_MV2c10"]) = true;}
+                if (isMV2c10F % 5 == 0){
+                        (PassNegTag["77_MV2c10"]) = true;}
+                if (isMV2c10F % 3 == 0){
+                        (PassNegTag["70_MV2c10"]) = true;}
+                if (isMV2c10F % 2 == 0){
                         (PassNegTag["60_MV2c10"]) = true;}
-                if (isDL1 % 2 == 0){
-                        (PassTag["85_DL1"]) = true;}
-                if (isDL1 % 3 == 0){
-                        (PassTag["77_DL1"]) = true;}
-                if (isDL1 % 5 == 0){
-                        (PassTag["70_DL1"]) = true;}
                 if (isDL1 % 7 == 0){
+                        (PassTag["85_DL1"]) = true;}
+                if (isDL1 % 5 == 0) {
+                        (PassTag["77_DL1"]) = true;}
+                if (isDL1 % 3 == 0) {
+                        (PassTag["70_DL1"]) = true;}
+                if (isDL1 % 2 == 0) {
                         (PassTag["60_DL1"]) = true;}
-                if (isDL1F % 2 == 0){
+                if (isDL1F % 7 == 0) {
                         (PassNegTag["85_DL1"]) = true;}
-                if (isDL1F % 3 == 0){
+                if (isDL1F % 5 == 0) {
                         (PassNegTag["77_DL1"]) = true;}
-                if (isDL1F % 5 == 0){
+                if (isDL1F % 3 == 0) {
                         (PassNegTag["70_DL1"]) = true;}
-                if (isDL1F % 7 == 0){
+                if (isDL1F % 2 == 0) {
                         (PassNegTag["60_DL1"]) = true;}
                 if (MV2c10w > -0.15) {
-                        (PassFixedTag["85_MV2c10Fixed"]) = true;}
+                        (PassFixedTag["85_MV2c10"]) = true;}
                 if (MV2c10w > 0.38) {
-                        (PassFixedTag["77_MV2c10Fixed"]) = true;}
+                        (PassFixedTag["77_MV2c10"]) = true;}
                 if (MV2c10w > 0.66) {
-                        (PassFixedTag["70_MV2c10Fixed"]) = true;}
+                        (PassFixedTag["70_MV2c10"]) = true;}
                 if (MV2c10w > 0.86) {
-                        (PassFixedNegTag["60_MV2c10Fixed"]) = true;}
+                        (PassFixedTag["60_MV2c10"]) = true;}
                 if (MV2c10Fw > -0.15) {
-                        (PassFixedNegTag["85_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["85_MV2c10"]) = true;}
                 if (MV2c10Fw > 0.38) {
-                        (PassFixedNegTag["77_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["77_MV2c10"]) = true;}
                 if (MV2c10Fw > 0.66) {
-                        (PassFixedNegTag["70_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["70_MV2c10"]) = true;}
                 if (MV2c10Fw > 0.86) {
-                        (PassFixedNegTag["60_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["60_MV2c10"]) = true;}
                 if (DL1w > 0.13) {
-                        (PassFixedTag["85_DL1Fixed"]) = true;}
+                        (PassFixedTag["85_DL1"]) = true;}
                 if (DL1w > 0.89) {
-                        (PassFixedTag["77_DL1Fixed"]) = true;}
+                        (PassFixedTag["77_DL1"]) = true;}
                 if (DL1w > 1.47) {
-                        (PassFixedTag["70_DL1Fixed"]) = true;}
+                        (PassFixedTag["70_DL1"]) = true;}
                 if (DL1w > 2.13) {
-                        (PassFixedNegTag["60_DL1Fixed"]) = true;}
+                        (PassFixedTag["60_DL1"]) = true;}
                 if (DL1Fw > 0.13) {
-                        (PassFixedNegTag["85_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["85_DL1"]) = true;}
                 if (DL1Fw > 0.89) {
-                        (PassFixedNegTag["77_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["77_DL1"]) = true;}
                 if (DL1Fw > 1.47) {
-                        (PassFixedNegTag["70_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["70_DL1"]) = true;}
                 if (DL1Fw > 2.13) {
-                        (PassFixedNegTag["60_DL1Fixed"]) = true;}
-                //std::cout << "PTbin  " << pt_bin << "and pt " << jetpt << std::endl;
+                        (PassFixedNegTag["60_DL1"]) = true;}
+
+                
+		//std::cout << "PTbin  " << pt_bin << "and pt " << jetpt << std::endl;
                 //std::cout << "Etabin  " << eta_bin << std::endl;
                 for (int k = 0; k < n_WP; k++){
                 for (int i = 0; i < n_taggers; i++){
@@ -656,6 +675,18 @@ for (int i = 0; i < n_DT; i++){
                                 datah_ptetaWPtag[fillname]->Fill(filler, dw);}
                         if (PassNegTag[WP[k]] == false){
                                 TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_Fail";
+                                datah_ptetaWPtag[negfillname]->Fill(negfiller, dw);}
+                        if (PassTag[WP[k]] == true){
+                                TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Fixed";
+                                datah_ptetaWPtag[fillname]->Fill(filler, dw);}
+                        if (PassNegTag[WP[k]] == true){
+                                TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_Fixed";
+                                datah_ptetaWPtag[negfillname]->Fill(negfiller, dw);}
+                        if (PassTag[WP[k]] == false){
+                                TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__Fail_Fixed";
+                                datah_ptetaWPtag[fillname]->Fill(filler, dw);}
+                        if (PassNegTag[WP[k]] == false){
+                                TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_Fail_Fixed";
                                 datah_ptetaWPtag[negfillname]->Fill(negfiller, dw);}
 
                 }}
