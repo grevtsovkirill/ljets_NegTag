@@ -13,7 +13,7 @@ def main():
 		rootfile = j
 
 		print "Creating Histograms"
-		save_me =  TFile("HistoFiles/HistoFile" + rootfile + ".root",'recreate')
+		save_me =  TFile("HistoFiles/ConHistoFile" + rootfile + ".root",'recreate')
 	
 		# Book histograms of interesting kinematics.
 		hpT       = TH1F( 'hpT', 'Leading Track Jet p_{T}', 600, 0, 3000)
@@ -23,11 +23,12 @@ def main():
         	hMV2c10F  = TH1F( 'hMV2c10F', 'Track Jet MV2c10Flip Weight', 100, -1, 1)
         	hntrk     = TH1F( 'hntrk', 'Leading Track Jet Track Multiplicity', 30, 0, 30)
         	hNjet	  = TH1F( 'hNjet' , 'Leading Track Jet Multiplicity', 15, 0, 15)
+		hDL1	  = TH1F( 'hDL1' , 'Leading Track Jet DL1 Weight', 100, -10, 10)
+		hDL1F	  = TH1F( 'hDL1F', 'Leading Track Jet DL1Flip Weight', 100, -10, 10)
 
 
 
-
-		studyfile = TFile("../DumpedNtuples/" + rootfile + ".root")
+		studyfile = TFile("../DumpedNtuplestest/" + rootfile + ".root")
 		nominal = studyfile.Get("FlavourTagging_Nominal")
 
 		
@@ -76,6 +77,8 @@ def main():
                         	hMV2c10F.Fill(nominal.trackjet_MV2c10Flip[ltjindex], weightj25)
                         	hntrk.Fill(nominal.trackjetntrk[ltjindex], weightj25)
                         	hNjet.Fill(nominal.ntrackjets_event, weightj25)
+				hDL1.Fill(nominal.trackjet_DL1_w[ltjindex], weightj25)
+				hDL1F.Fill(nominal.trackjet_DL1Flip_w[ltjindex], weightj25)
 
                         if ((nominal.HLTj60 == 1) and ((nominal.trackjetpt[ltjindex] < 50.) and (nominal.trackjetpt[ltjindex] > 20.))):
                         	hpT.Fill(nominal.trackjetpt[ltjindex], weightj60)
@@ -85,6 +88,8 @@ def main():
                         	hMV2c10F.Fill(nominal.trackjet_MV2c10Flip[ltjindex], weightj60)
                         	hntrk.Fill(nominal.trackjetntrk[ltjindex], weightj60)
                         	hNjet.Fill(nominal.ntrackjets_event, weightj60)
+                                hDL1.Fill(nominal.trackjet_DL1_w[ltjindex], weightj60)
+                                hDL1F.Fill(nominal.trackjet_DL1Flip_w[ltjindex], weightj60)
 
                         if ((nominal.HLTj110 == 1) and ((nominal.trackjetpt[ltjindex] < 100.) and (nominal.trackjetpt[ltjindex] > 50.))):
                         	hpT.Fill(nominal.trackjetpt[ltjindex], weightj110)
@@ -93,6 +98,8 @@ def main():
                         	hMV2c10.Fill(nominal.trackjet_MV2c10[ltjindex], weightj110)
                         	hMV2c10F.Fill(nominal.trackjet_MV2c10Flip[ltjindex], weightj110)
                         	hntrk.Fill(nominal.trackjetntrk[ltjindex], weightj110)
+                                hDL1.Fill(nominal.trackjet_DL1_w[ltjindex], weightj110)
+                                hDL1F.Fill(nominal.trackjet_DL1Flip_w[ltjindex], weightj110)
                         	hNjet.Fill(nominal.ntrackjets_event, weightj110)
 
                         if ((nominal.HLTj175 == 1) and ((nominal.trackjetpt[ltjindex] < 150.) and (nominal.trackjetpt[ltjindex] > 100.))):
@@ -103,6 +110,8 @@ def main():
                         	hMV2c10F.Fill(nominal.trackjet_MV2c10Flip[ltjindex], weightj175)
                         	hntrk.Fill(nominal.trackjetntrk[ltjindex], weightj175)
                         	hNjet.Fill(nominal.ntrackjets_event, weightj175)
+                                hDL1.Fill(nominal.trackjet_DL1_w[ltjindex], weightj175)
+                                hDL1F.Fill(nominal.trackjet_DL1Flip_w[ltjindex], weightj175)
 
                         if ((nominal.HLTj380 == 1) and (nominal.trackjetpt[ltjindex] > 150.)):
                         	hpT.Fill(nominal.trackjetpt[ltjindex], weightj380)
@@ -112,7 +121,8 @@ def main():
                         	hMV2c10F.Fill(nominal.trackjet_MV2c10Flip[ltjindex], weightj380)
                         	hntrk.Fill(nominal.trackjetntrk[ltjindex], weightj380)
                         	hNjet.Fill(nominal.ntrackjets_event, weightj380)
-
+				hDL1.Fill(nominal.trackjet_DL1_w[ltjindex], weightj380)
+                                hDL1F.Fill(nominal.trackjet_DL1Flip_w[ltjindex], weightj380)
 
 
 

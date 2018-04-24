@@ -8,8 +8,8 @@ void FlavorCompPlotter(){
   	TFile *f_mc = new TFile("../HistoMaker/HistoFiles/mcConHistoFileM.root", "read");
   	TFile *f_output = new TFile("Control_plots/cplotsflavcomp.root", "recreate");
 
-
-  	std::vector<std::string> histo_var = {"hMV2c10_l", "hMV2c10F_l", "hMV2c10_b", "hMV2c10F_b", "hMV2c10_c", "hMV2c10F_c"};
+	std::string m_tagger = "MV2c10";
+  	std::vector<std::string> histo_var = {"h" + m_tagger +"_l", "h" + m_tagger + "F_l", "h" + m_tagger + "_b", "h" + m_tagger + "F_b", "h" + m_tagger + "_c", "h" + m_tagger + "F_c"};
 
 		bool flag_logy = true;
 		bool flag_logx = false;
@@ -248,27 +248,30 @@ void FlavorCompPlotter(){
     TPaveText *pt = new TPaveText(0.508772,0.851259,0.629073,0.919908,"brNDC");
     pt->SetBorderSize(0);
     pt->SetFillColor(0);
-    pt->SetTextSize(0.04);
+    pt->SetTextSize(0.03);
     pt->SetTextFont(72);
     pt->AddText("ATLAS");
     TPaveText *pt2 = new TPaveText(0.617794,0.850768,0.738095,0.921053,"brNDC");
     pt2->SetBorderSize(0);
     pt2->SetFillColor(0);
-    pt2->SetTextSize(0.04);
+    pt2->SetTextSize(0.03);
     pt2->SetTextFont(42);
     pt2->AddText("Internal");
     TPaveText *pt3 = new TPaveText(0.602757,0.713959,0.723058,0.864335,"brNDC");
     pt3->SetBorderSize(0);
     pt3->SetFillColor(0);
-    pt3->SetTextSize(0.04);
+    pt3->SetTextSize(0.03);
     pt3->SetTextFont(42);
-    pt3->AddText("#sqrt{s} = 13 TeV, 3.2 + 32.9 fb^{-1}, rel21");
+    pt3->AddText("#sqrt{s} = 13 TeV, 2015 + 2016 + 2017");
 
 	TCanvas *c = new TCanvas("FlavorComp", "", 800, 900);
 	c->Draw();
 	c->cd();
 	if(flag_logy) c->SetLogy();
     if(flag_logx) c->SetLogx();
+    h_b->SetMaximum(h_b->GetMaximum()*100);
+    h_c->SetMaximum(h_c->GetMaximum()*100);
+    h_l->SetMaximum(h_l->GetMaximum()*100);
     h_b->Draw("hist");
     h_c->Draw("hist SAME");
     h_c->Draw("AXISSAME");
@@ -287,6 +290,9 @@ void FlavorCompPlotter(){
 	cF->cd();
 	if(flag_logy) cF->SetLogy();
     if(flag_logx) cF->SetLogx();
+    h_bF->SetMaximum(h_bF->GetMaximum()*100);
+    h_cF->SetMaximum(h_cF->GetMaximum()*100);
+    h_lF->SetMaximum(h_lF->GetMaximum()*100);   
     h_bF->Draw("hist");
     h_cF->Draw("hist SAME");
     h_cF->Draw("AXISSAME");
@@ -305,6 +311,8 @@ void FlavorCompPlotter(){
 	cr->cd();
 	if(flag_logy) cr->SetLogy();
     if(flag_logx) cr->SetLogx();
+    h_ratiobl->SetMaximum(h_ratiobl->GetMaximum()*100);
+    h_ratiocl->SetMaximum(h_ratiocl->GetMaximum()*100);
     h_ratiobl->Draw("hist");
     h_ratiocl->Draw("hist SAME");
     h_ratiocl->Draw("AXISSAME");
@@ -321,6 +329,8 @@ void FlavorCompPlotter(){
 	crF->cd();
 	if(flag_logy) crF->SetLogy();
     if(flag_logx) crF->SetLogx();
+    h_ratioblF->SetMaximum(h_ratioblF->GetMaximum()*100);
+    h_ratioclF->SetMaximum(h_ratioclF->GetMaximum()*100);   
     h_ratioblF->Draw("hist");
     h_ratioclF->Draw("hist SAME");
     h_ratioclF->Draw("AXISSAME");

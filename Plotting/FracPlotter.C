@@ -7,7 +7,7 @@ void FracPlotter() {
 	SetAtlasStyle();
 	gStyle->SetPaintTextFormat("2.2f%");
 	gStyle->SetNumberContours(6);
-	TFile *f_mc = new TFile("../HistoMaker/HistoFiles/ConHistoFileFileM.root", "READ");
+	TFile *f_mc = new TFile("../HistoMaker/HistoFiles/mcConHistoFileM.root", "READ");
 	TFile *f_out = new TFile("../HistoFiles/Fracs.root", "RECREATE");
 
 	const int n_pt = 7;

@@ -16,33 +16,34 @@
 #include <TBranch.h>
 
 void sfHistoMaker(){
-	const TString DumpedMC[12] = {"JZ0W", "JZ1W", "JZ2W", "JZ3W", "JZ4W", "JZ5W", "JZ6W", "JZ7W", "JZ8W", "JZ10W", "JZ11W", "JZ12W"};
-	const TString DumpedDT[10] = {"D15", "G15", "E15", "F15", "H15", "I16", "Ia16", "L16", "La16", "J15"};
-        const int n_DT = 10;
+	const TString DumpedMC[12] = {"JZ0Wd", "JZ1Wd", "JZ2Wd", "JZ3Wd", "JZ4Wd", "JZ5Wd", "JZ6Wd", "JZ7Wd", "JZ8Wd", "JZ10Wd", "JZ11Wd", "JZ12Wd"};
+	const TString DumpedDT[14] = {"D15", "G15", "E15", "F15", "H15", "F16", "G16", "A16", "L16", "J15", "B16", "C16", "D16", "K17"};
+        const int n_DT = 14;
 	const int n_MC = 12;
-        const int n_pt = 8;
+        const int n_pt = 7;
         const int n_eta = 2;
         const int n_WP = 4;
 	const int n_taggers = 2;
 	const int n_flav = 3;
-        const double pt_lowedges[n_pt+1] = {10, 15, 20, 50, 100, 150, 300, 500, 3000};
+        const double pt_lowedges[n_pt+1] = {10, 20, 50, 100, 150, 300, 500, 3000};
         const double eta_lowedges[n_eta+1] = {0, 1.2, 2.5};
         const TString WP[n_WP] = {"85", "77", "70", "60"};
-        const TString Tagger[n_taggers] = {"MV2c10" , "DL1"}
+        const TString Tagger[n_taggers] = {"MV2c10" , "DL1"};
 	const TString Tag[2] = {"", "Neg"};
         const TString Flav[n_flav] = {"l", "b", "c"};
-	bool mc = false; // Set either data or MC
-
+	bool mc = true; // Set either data or MC
+	float filler = -99;
+	float negfiller = -99;
 // Set up loop over mc files.
 if (mc){
-for (int i = 0; i < n_MC; i++){
+for (int i = 3; i < 4; i++){
 	
 	TString mcfile = DumpedMC[i];
-	TFile* f_mc = new TFile("../DumpedNtuples/mc" + mcfile + ".root", "read");
+	TFile* f_mc = new TFile("../DumpedNtuplestest/mc" + mcfile + ".root", "read");
 	TTree* nominal = (TTree*)f_mc->Get("FlavourTagging_Nominal");
 	TFile* f_output = new TFile("HistoFiles/mc" + mcfile + "SFhistos.root", "recreate");
 	int entries = nominal->GetEntriesFast();
-	std::cout << "There are " << entries << "in slice " << DumpedMC[i] << std::endl;
+	std::cout << "There are " << entries << " entries in slice " << DumpedMC[i] << std::endl;
 
 
 
@@ -61,10 +62,10 @@ for (int i = 0; i < n_MC; i++){
 	float trackjet_MV2c10Flip[1];
 	float trackjet_DL1_w[1];
 	float trackjet_DL1Flip_w[1];
-	int trackjet_isMV2_Tagged[1];
-	int trackjet_isMV2_Tagged[1];
-	int trackjet_isDL1_Tagged[1];
-	int trackjet_isDL1Flip_Tagged[1];	
+	int trackjetIsMV2_Tagged[1];
+	int trackjetIsMV2Flip_Tagged[1];
+	int trackjetIsDL1_Tagged[1];
+	int trackjetIsDL1Flip_Tagged[1];	
 	
 	TBranch *b_mc_evtweight;
 	TBranch *b_evtpuw;
@@ -81,10 +82,10 @@ for (int i = 0; i < n_MC; i++){
 	TBranch *b_trackjet_MV2c10Flip;
 	TBranch *b_trackjet_DL1_w;
 	TBranch *b_trackjet_DL1Flip_w;
-	TBranch *b_trackjet_isMV2_Tagged;
-	TBranch *b_trackjet_isMV2Flip_Tagged;
-	TBranch *b_trackjet_isDL1_Tagged;
-	TBranch	*b_trackjet_isDL1Flip_Tagged;
+	TBranch *b_trackjetIsMV2_Tagged;
+	TBranch *b_trackjetIsMV2Flip_Tagged;
+	TBranch *b_trackjetIsDL1_Tagged;
+	TBranch	*b_trackjetIsDL1Flip_Tagged;
 
 
         nominal->SetBranchAddress("mc_evtweight", &mc_evtweight, &b_mc_evtweight);
@@ -102,10 +103,10 @@ for (int i = 0; i < n_MC; i++){
         nominal->SetBranchAddress("trackjet_MV2c10Flip", &trackjet_MV2c10Flip, &b_trackjet_MV2c10Flip);
         nominal->SetBranchAddress("trackjet_DL1_w", &trackjet_DL1_w, &b_trackjet_DL1_w);
         nominal->SetBranchAddress("trackjet_DL1Flip_w", &trackjet_DL1Flip_w, &b_trackjet_DL1Flip_w);
-	nominal->SetBranchAddress("trackjet_isMV2_Tagged", &trackjet_isMV2_Tagged, &b_trackjet_isMV2_Tagged);
-        nominal->SetBranchAddress("trackjet_isMV2Flip_Tagged", &trackjet_isMV2Flip_Tagged, &b_trackjet_isMV2Flip_Tagged);
-        nominal->SetBranchAddress("trackjet_isDL1_Tagged", &trackjet_isDL1_Tagged, &b_trackjet_isDL1_Tagged);
-        nominal->SetBranchAddress("trackjet_isDL1Flip_Tagged", &trackjet_isDL1Flip_Tagged, &b_trackjet_isDL1Flip_Tagged);
+	nominal->SetBranchAddress("trackjetIsMV2_Tagged", &trackjetIsMV2_Tagged, &b_trackjetIsMV2_Tagged);
+        nominal->SetBranchAddress("trackjetIsMV2Flip_Tagged", &trackjetIsMV2Flip_Tagged, &b_trackjetIsMV2Flip_Tagged);
+        nominal->SetBranchAddress("trackjetIsDL1_Tagged", &trackjetIsDL1_Tagged, &b_trackjetIsDL1_Tagged);
+        nominal->SetBranchAddress("trackjetIsDL1Flip_Tagged", &trackjetIsDL1Flip_Tagged, &b_trackjetIsDL1Flip_Tagged);
 
 // Book the zillion histos we will need for scale factor calculations.
 // One histogram is needed for each pt, eta, WP, and tag.`
@@ -116,17 +117,34 @@ for (int i = 0; i < n_MC; i++){
 	for (int i = 1; i < n_pt + 1; i++){
 	for (int j = 1; j < n_eta +1; j++){
 	for (int k = 0; k < n_WP; k++){
-	for (int l = 0; l < n_taggers; l++{
+	for (int l = 0; l < n_taggers; l++){
 	for (int m = 0; m < 2; m++){
 	for (int n = 0; n < n_flav; n++){
 		TString histname = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] +  "_" + Tag[m] + "_" + Flav[n];
 		TString histnamefail = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_" + Flav[n] + "_Fail";
+                TString histnamefixed = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] +  "_" + Tag[m] + "_" + Flav[n] + "__Fixed";
+                TString histnamefailfixed = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_" + Flav[n] + "_Fail_Fixed";
+		mcHL << histnamefixed << std::endl;
+		mcHL << histnamefailfixed << std::endl;
 		mcHL << histnamefail << std::endl;
 		mcHL << histname << std::endl;
-		mch_ptetaWPtagF[histname] = new TH1D(histname, histname, 20, -1, 1);
-		mch_ptetaWPtagF[histnamefail] = new TH1D(histnamefail, histnamefail, 20, -1, 1);
+		if (l == 1){
+			mch_ptetaWPtagF[histname] = new TH1D(histname, histname, 50, -5, 10);
+                        mch_ptetaWPtagF[histnamefail] = new TH1D(histnamefail, histnamefail, 50, -5, 10);
+                        mch_ptetaWPtagF[histnamefixed] = new TH1D(histnamefixed, histnamefixed, 50, -5, 10);
+                        mch_ptetaWPtagF[histnamefailfixed] = new TH1D(histnamefailfixed, histnamefailfixed, 50, -5, 10);
+			}
+		else { 
+			mch_ptetaWPtagF[histname] = new TH1D(histname, histname, 20, -1, 1);
+			mch_ptetaWPtagF[histnamefail] = new TH1D(histnamefail, histnamefail, 20, -1, 1);
+                        mch_ptetaWPtagF[histnamefixed] = new TH1D(histnamefixed, histnamefixed, 20, -1, 1);
+                        mch_ptetaWPtagF[histnamefailfixed] = new TH1D(histnamefailfixed, histnamefailfixed, 20, -1, 1);
+			}
 		mch_ptetaWPtagF[histnamefail]->Sumw2();
 		mch_ptetaWPtagF[histname]->Sumw2();
+                mch_ptetaWPtagF[histnamefailfixed]->Sumw2();
+                mch_ptetaWPtagF[histnamefixed]->Sumw2();
+
 		}}}}}} // End histo booking loop	
 	mcHL.close();
 
@@ -137,7 +155,7 @@ for (int i = 0; i < n_MC; i++){
 		if (j % 100000 == 0){ 
 			std::cout << "Event  " << j << "/" << entries << std::endl; }
 		nominal->GetEntry(j);
-	        int Triggers[n_pt] = {HLTj25, HLTj25, HLTj60, HLTj110, HLTj175, HLTj380, HLTj380, HLTj380};
+	        int Triggers[n_pt] = {HLTj25, HLTj60, HLTj110, HLTj175, HLTj380, HLTj380, HLTj380};
 
 		// Set up needed variables/weights
 		int ltj = 0; //Index for leading track jet
@@ -201,49 +219,98 @@ for (int i = 0; i < n_MC; i++){
 			TString passfail = wp_name + "_" + tag_name;
 			PassTag[passfail] = tagged;
 			PassNegTag[passfail] = tagged;
-			}} // End Pass/Fail loop.
+			}} // End Pass/Fail loop
+                std::map<TString,bool> PassFixedTag;
+                std::map<TString,bool> PassFixedNegTag;
+                for (int n = 0; n < n_WP; n++){
+                for (int m = 0; m < n_taggers; m++){
+                        TString wp_name = WP[n];
+                        TString tag_name = Tagger[m];
+                        bool taggedfixed = false;
+                        TString passfailfixed = wp_name + "_" + tag_name + "Fixed";
+                        PassFixedTag[passfailfixed] = taggedfixed;
+                        PassFixedNegTag[passfailfixed] = taggedfixed;
+                        }} // End Pass/Fail loop for fixed tagger.
 		
 		// Set up definition of passing or failing tags. 
 		// THIS NEEDS TO BE ADJUSTED BY HAND WHEN ADDING NEW TAGGERS.
 		// I propse that we leave this to be adjusted by hand, as the definitions to
 		// "is tagged" changed quite a bit.
 		// https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/BTaggingBenchmarksRelease21
-		int isMV2c10 = trackjet_isMV2_Tagged[ltj];
-		int isMV2c10F = trackjet_isMV2Flip_Tagged[ltj];
-		int isDL1 = trackjet_isDL1_Tagged[ltj];
-		int isDL1F = trackjet_isDL1Flip_Tagged[ltj];
-		if (isMV2c10 *= 2){
-			(PassTag[85_MV2c10]) = true;}
-		if (isMV2c10 *= 3){ 
-			(PassTag[77_MV2c10]) = true;}
-		if (isMV2c10 *= 5){
-			(PassTag[70_MV2c10]) = true;}
-		if (isMV2c10 *= 7){
-			(PassTag[60_MV2c10]) = true;}
-                if (isMV2c10F *= 2){
-                        (PassNegTag[85_MV2c10]) = true;}
-                if (isMV2c10F *= 3){ 
-                        (PassNegTag[77_MV2c10]) = true;}
-                if (isMV2c10F *= 5){
-                        (PassNegTag[70_MV2c10]) = true;}
-                if (isMV2c10F *= 7){
-                        (PassNegTag[60_MV2c10]) = true;}
-                if (isDL1 *= 2){
-                        (PassTag[85_DL1]) = true;}
-                if (isDL1 *= 3){   
-                        (PassTag[77_DL1]) = true;}
-                if (isDL1 *= 5){
-                        (PassTag[70_DL1]) = true;}
-                if (isDL1 *= 7){
-                        (PassTag[60_DL1]) = true;}
-                if (isDL1F *= 2){
-                        (PassNegTag[85_DL1]) = true;}
-                if (isDL1F *= 3){    
-                        (PassNegTag[77_DL1]) = true;}
-                if (isDL1F *= 5){
-                        (PassNegTag[70_DL1]) = true;}
-                if (isDL1F *= 7){
-                        (PassNegTag[60_DL1]) = true;}
+		int isMV2c10 = trackjetIsMV2_Tagged[ltj];
+		float MV2c10w = trackjet_MV2c10[ltj];
+		int isMV2c10F = trackjetIsMV2Flip_Tagged[ltj];
+		float MV2c10Fw = trackjet_MV2c10Flip[ltj];
+		int isDL1 = trackjetIsDL1_Tagged[ltj];
+		double DL1w = trackjet_DL1_w[ltj];
+		int isDL1F = trackjetIsDL1Flip_Tagged[ltj];
+		double DL1Fw = trackjet_DL1Flip_w[ltj];
+		if (isMV2c10 % 2 == 0){
+			(PassTag["85_MV2c10"]) = true;}
+		if (isMV2c10 % 3 == 0){ 
+			(PassTag["77_MV2c10"]) = true;}
+		if (isMV2c10 % 5 == 0){
+			(PassTag["70_MV2c10"]) = true;}
+		if (isMV2c10 % 7 == 0){
+			(PassTag["60_MV2c10"]) = true;}
+                if (isMV2c10F % 2 == 0){
+                        (PassNegTag["85_MV2c10"]) = true;}
+                if (isMV2c10F % 3 == 0){ 
+                        (PassNegTag["77_MV2c10"]) = true;}
+                if (isMV2c10F % 5 == 0){
+                        (PassNegTag["70_MV2c10"]) = true;}
+                if (isMV2c10F % 7 == 0){
+                        (PassNegTag["60_MV2c10"]) = true;}
+                if (isDL1 % 2 == 0){
+                        (PassTag["85_DL1"]) = true;}
+                if (isDL1 % 3 == 0) {   
+                        (PassTag["77_DL1"]) = true;}
+                if (isDL1 % 5 == 0) {
+                        (PassTag["70_DL1"]) = true;}
+                if (isDL1 % 7 == 0) {
+                        (PassTag["60_DL1"]) = true;}
+                if (isDL1F % 2 == 0) {
+                        (PassNegTag["85_DL1"]) = true;}
+                if (isDL1F % 3 == 0) {    
+                        (PassNegTag["77_DL1"]) = true;}
+                if (isDL1F % 5 == 0) {
+                        (PassNegTag["70_DL1"]) = true;}
+                if (isDL1F % 7 == 0) {
+                        (PassNegTag["60_DL1"]) = true;}
+		if (MV2c10w > -0.15) {
+			(PassFixedTag["85_MV2c10Fixed"]) = true;}
+		if (MV2c10w > 0.38) {
+			(PassFixedTag["77_MV2c10Fixed"]) = true;}
+                if (MV2c10w > 0.66) {
+                        (PassFixedTag["70_MV2c10Fixed"]) = true;}
+                if (MV2c10w > 0.86) {
+                        (PassFixedNegTag["60_MV2c10Fixed"]) = true;}
+                if (MV2c10Fw > -0.15) {
+                        (PassFixedNegTag["85_MV2c10Fixed"]) = true;}
+                if (MV2c10Fw > 0.38) {
+                        (PassFixedNegTag["77_MV2c10Fixed"]) = true;}
+                if (MV2c10Fw > 0.66) {
+                        (PassFixedNegTag["70_MV2c10Fixed"]) = true;}
+                if (MV2c10Fw > 0.86) {
+                        (PassFixedNegTag["60_MV2c10Fixed"]) = true;}
+                if (DL1w > 0.13) {
+                        (PassFixedTag["85_DL1Fixed"]) = true;}
+                if (DL1w > 0.89) {
+                        (PassFixedTag["77_DL1Fixed"]) = true;}
+                if (DL1w > 1.47) {
+                        (PassFixedTag["70_DL1Fixed"]) = true;}
+                if (DL1w > 2.13) {
+                        (PassFixedNegTag["60_DL1Fixed"]) = true;}
+                if (DL1Fw > 0.13) {
+                        (PassFixedNegTag["85_DL1Fixed"]) = true;}
+                if (DL1Fw > 0.89) {
+                        (PassFixedNegTag["77_DL1Fixed"]) = true;}
+                if (DL1Fw > 1.47) {
+                        (PassFixedNegTag["70_DL1Fixed"]) = true;}
+                if (DL1Fw > 2.13) {
+                        (PassFixedNegTag["60_DL1Fixed"]) = true;}
+
+
 
 
 		// Determine which histograms to fill.  Tags must be true, using the pt and flavor bins from above as well.
@@ -252,18 +319,17 @@ for (int i = 0; i < n_MC; i++){
 		//std::cout << "Etabin  " << eta_bin << std::endl;
 		//std::cout << "Flavor   " << flav << std::endl;	
 		for (int k = 0; k < n_WP; k++){
-		for (int i = 0; i < n_taggers){
+		for (int i = 0; i < n_taggers; i++){
 			TString wpname = WP[k];
+			//std::cout << wpname << endl;
 			TString tagname = Tagger[i];
 			TString PassFail = wpname + "_" + tagname;
-			float filler = -99;
-			float negfiller = -99;
 			if (tagname == "MV2c10"){
 				filler = trackjet_MV2c10[ltj];
 				negfiller = trackjet_MV2c10Flip[ltj];}
 			if (tagname == "DL1"){
-				filler = trackjet_DL1[ltj];
-				negfiller = trackjet_DL1Flip[ltj];}
+				filler = trackjet_DL1_w[ltj];
+				negfiller = trackjet_DL1Flip_w[ltj];}
 			if (PassTag[PassFail] == true){
 				TString fillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav;
 				mch_ptetaWPtagF[fillname]->Fill(filler, mcw);}
@@ -275,6 +341,18 @@ for (int i = 0; i < n_MC; i++){
                                 mch_ptetaWPtagF[fillname]->Fill(filler, mcw);}
                         if (PassNegTag[PassFail] == false){
                                 TString negfillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav + "_Fail";
+                                mch_ptetaWPtagF[negfillname]->Fill(negfiller, mcw);}
+                        if (PassFixedTag[PassFail] == true){
+                                TString fillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav + "__Fixed";
+                                mch_ptetaWPtagF[fillname]->Fill(filler, mcw);}
+                        if (PassFixedNegTag[PassFail] == true){
+                                TString negfillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav + "__Fixed";
+                                mch_ptetaWPtagF[negfillname]->Fill(negfiller, mcw);}
+                        if (PassFixedTag[PassFail] == false){
+                                TString fillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__" + flav + "_Fail_Fixed";
+                                mch_ptetaWPtagF[fillname]->Fill(filler, mcw);}
+                        if (PassFixedNegTag[PassFail] == false){
+                                TString negfillname = "mch_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_" + flav + "_Fail_Fixed";
                                 mch_ptetaWPtagF[negfillname]->Fill(negfiller, mcw);}
                 }} // End of filling loop.
 			
@@ -291,7 +369,7 @@ if (!mc){
 for (int i = 0; i < n_DT; i++){
 
         TString datafile = DumpedDT[i];
-        TFile* f_data = new TFile("../DumpedNtuples/data" + datafile + ".root", "read");
+        TFile* f_data = new TFile("../DumpedNtuplestest/data" + datafile + ".root", "read");
         TTree* nominal = (TTree*)f_data->Get("FlavourTagging_Nominal");
         TFile* f_outputdt = new TFile("HistoFiles/data" + datafile + "SFhistos.root", "recreate");
         int entries = nominal->GetEntriesFast();
@@ -320,10 +398,10 @@ for (int i = 0; i < n_DT; i++){
         float trackjet_MV2c10Flip[1];
         float trackjet_DL1_w[1];
         float trackjet_DL1Flip_w[1];
-        int trackjet_isMV2_Tagged[1];
-        int trackjet_isMV2_Tagged[1];
-        int trackjet_isDL1_Tagged[1];
-        int trackjet_isDL1Flip_Tagged[1];
+        int trackjetIsMV2_Tagged[1];
+        int trackjetIsDL1_Tagged[1];
+        int trackjetIsDL1Flip_Tagged[1];
+	int trackjetIsMV2Flip_Tagged[1];
 
         TBranch *b_mc_evtweight;
         TBranch *b_evtpuw;
@@ -346,10 +424,10 @@ for (int i = 0; i < n_DT; i++){
         TBranch *b_trackjet_MV2c10Flip;
         TBranch *b_trackjet_DL1_w;
         TBranch *b_trackjet_DL1Flip_w;
-        TBranch *b_trackjet_isMV2_Tagged;
-        TBranch *b_trackjet_isMV2Flip_Tagged;
-        TBranch *b_trackjet_isDL1_Tagged;
-        TBranch *b_trackjet_isDL1Flip_Tagged;
+        TBranch *b_trackjetIsMV2_Tagged;
+        TBranch *b_trackjetIsMV2Flip_Tagged;
+        TBranch *b_trackjetIsDL1_Tagged;
+        TBranch *b_trackjetIsDL1Flip_Tagged;
 
 
         nominal->SetBranchAddress("mc_evtweight", &mc_evtweight, &b_mc_evtweight);
@@ -373,10 +451,10 @@ for (int i = 0; i < n_DT; i++){
         nominal->SetBranchAddress("trackjet_MV2c10Flip", &trackjet_MV2c10Flip, &b_trackjet_MV2c10Flip);
         nominal->SetBranchAddress("trackjet_DL1_w", &trackjet_DL1_w, &b_trackjet_DL1_w);
         nominal->SetBranchAddress("trackjet_DL1Flip_w", &trackjet_DL1Flip_w, &b_trackjet_DL1Flip_w);
-        nominal->SetBranchAddress("trackjet_isMV2_Tagged", &trackjet_isMV2_Tagged, &b_trackjet_isMV2_Tagged);
-        nominal->SetBranchAddress("trackjet_isMV2Flip_Tagged", &trackjet_isMV2Flip_Tagged, &b_trackjet_isMV2Flip_Tagged);
-        nominal->SetBranchAddress("trackjet_isDL1_Tagged", &trackjet_isDL1_Tagged, &b_trackjet_isDL1_Tagged);
-        nominal->SetBranchAddress("trackjet_isDL1Flip_Tagged", &trackjet_isDL1Flip_Tagged, &b_trackjet_isDL1Flip_Tagged);
+        nominal->SetBranchAddress("trackjetIsMV2_Tagged", &trackjetIsMV2_Tagged, &b_trackjetIsMV2_Tagged);
+        nominal->SetBranchAddress("trackjetIsMV2Flip_Tagged", &trackjetIsMV2Flip_Tagged, &b_trackjetIsMV2Flip_Tagged);
+        nominal->SetBranchAddress("trackjetIsDL1_Tagged", &trackjetIsDL1_Tagged, &b_trackjetIsDL1_Tagged);
+        nominal->SetBranchAddress("trackjetIsDL1Flip_Tagged", &trackjetIsDL1Flip_Tagged, &b_trackjetIsDL1Flip_Tagged);
 
 
 
@@ -406,8 +484,8 @@ for (int i = 0; i < n_DT; i++){
                 if (j % 100000 == 0){
                         std::cout << "Event  " << j << "/" << entries << std::endl; }
                 nominal->GetEntry(j);
-                int Triggers[n_pt] = {HLTj25, HLTj25, HLTj60, HLTj110, HLTj175, HLTj380, HLTj380, HLTj380};
-                float Prescales[n_pt] = {evtHLTj25ps, evtHLTj25ps, evtHLTj60ps, evtHLTj110ps, evtHLTj175ps, evtHLTj380ps, evtHLTj380ps, evtHLTj380ps};
+                int Triggers[n_pt] = {HLTj25, HLTj60, HLTj110, HLTj175, HLTj380, HLTj380, HLTj380};
+                float Prescales[n_pt] = {evtHLTj25ps, evtHLTj60ps, evtHLTj110ps, evtHLTj175ps, evtHLTj380ps, evtHLTj380ps, evtHLTj380ps};
                 int ltj = 0; //Index for leading track jet
                 float mc_weight = mc_evtweight;
                 float PU_weight = evtpuw;
@@ -460,7 +538,18 @@ for (int i = 0; i < n_DT; i++){
                         TString passfail = wp_name + "_" + tag_name;
                         PassTag[passfail] = tagged;
                         PassNegTag[passfail] = tagged;
-                        }} // End Pass/Fail loop.
+                        }} // End Pass/Fail loop
+                std::map<TString,bool> PassFixedTag;
+                std::map<TString,bool> PassFixedNegTag;
+                for (int n = 0; n < n_WP; n++){
+                for (int m = 0; m < n_taggers; m++){
+                        TString wp_name = WP[n];
+                        TString tag_name = Tagger[m];
+                        bool taggedfixed = false;
+                        TString passfailfixed = wp_name + "_" + tag_name + "Fixed";
+                        PassFixedTag[passfailfixed] = taggedfixed;
+                        PassFixedNegTag[passfailfixed] = taggedfixed;
+                        }} // End Pass/Fail loop for fixed tagger.
 
 
 
@@ -469,58 +558,92 @@ for (int i = 0; i < n_DT; i++){
                 // I propse that we leave this to be adjusted by hand, as the definitions to
                 // "is tagged" changed quite a bit.
                 // https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/BTaggingBenchmarksRelease21
-                int isMV2c10 = trackjet_isMV2_Tagged[ltj];
-                int isMV2c10F = trackjet_isMV2Flip_Tagged[ltj];
-                int isDL1 = trackjet_isDL1_Tagged[ltj];
-                int isDL1F = trackjet_isDL1Flip_Tagged[ltj];
-                if (isMV2c10 *= 2){
-                        (PassTag[85_MV2c10]) = true;}
-                if (isMV2c10 *= 3){
-                        (PassTag[77_MV2c10]) = true;}
-                if (isMV2c10 *= 5){
-                        (PassTag[70_MV2c10]) = true;}
-                if (isMV2c10 *= 7){
-                        (PassTag[60_MV2c10]) = true;}
-                if (isMV2c10F *= 2){
-                        (PassNegTag[85_MV2c10]) = true;}
-                if (isMV2c10F *= 3){
-                        (PassNegTag[77_MV2c10]) = true;}
-                if (isMV2c10F *= 5){
-                        (PassNegTag[70_MV2c10]) = true;}
-                if (isMV2c10F *= 7){
-                        (PassNegTag[60_MV2c10]) = true;}
-                if (isDL1 *= 2){
-                        (PassTag[85_DL1]) = true;}
-                if (isDL1 *= 3){
-                        (PassTag[77_DL1]) = true;}
-                if (isDL1 *= 5){
-                        (PassTag[70_DL1]) = true;}
-                if (isDL1 *= 7){
-                        (PassTag[60_DL1]) = true;}
-                if (isDL1F *= 2){
-                        (PassNegTag[85_DL1]) = true;}
-                if (isDL1F *= 3){
-                        (PassNegTag[77_DL1]) = true;}
-                if (isDL1F *= 5){
-                        (PassNegTag[70_DL1]) = true;}
-                if (isDL1F *= 7){
-                        (PassNegTag[60_DL1]) = true;}
+                int isMV2c10 = trackjetIsMV2_Tagged[ltj];
+                float MV2c10w = trackjet_MV2c10[ltj];
+                int isMV2c10F = trackjetIsMV2Flip_Tagged[ltj];
+                float MV2c10Fw = trackjet_MV2c10Flip[ltj];
+                int isDL1 = trackjetIsDL1_Tagged[ltj];
+                double DL1w = trackjet_DL1_w[ltj];
+                int isDL1F = trackjetIsDL1Flip_Tagged[ltj];
+                double DL1Fw = trackjet_DL1Flip_w[ltj];
 
+                if (isMV2c10 % 2 == 0){
+                        (PassTag["85_MV2c10"]) = true;}
+                if (isMV2c10 % 3 == 0){
+                        (PassTag["77_MV2c10"]) = true;}
+                if (isMV2c10 % 5 == 0){
+                        (PassTag["70_MV2c10"]) = true;}
+                if (isMV2c10 % 7 == 0){
+                        (PassTag["60_MV2c10"]) = true;}
+                if (isMV2c10F % 2 == 0){
+                        (PassNegTag["85_MV2c10"]) = true;}
+                if (isMV2c10F % 3 == 0){
+                        (PassNegTag["77_MV2c10"]) = true;}
+                if (isMV2c10F % 5 == 0){
+                        (PassNegTag["70_MV2c10"]) = true;}
+                if (isMV2c10F % 7 == 0){
+                        (PassNegTag["60_MV2c10"]) = true;}
+                if (isDL1 % 2 == 0){
+                        (PassTag["85_DL1"]) = true;}
+                if (isDL1 % 3 == 0){
+                        (PassTag["77_DL1"]) = true;}
+                if (isDL1 % 5 == 0){
+                        (PassTag["70_DL1"]) = true;}
+                if (isDL1 % 7 == 0){
+                        (PassTag["60_DL1"]) = true;}
+                if (isDL1F % 2 == 0){
+                        (PassNegTag["85_DL1"]) = true;}
+                if (isDL1F % 3 == 0){
+                        (PassNegTag["77_DL1"]) = true;}
+                if (isDL1F % 5 == 0){
+                        (PassNegTag["70_DL1"]) = true;}
+                if (isDL1F % 7 == 0){
+                        (PassNegTag["60_DL1"]) = true;}
+                if (MV2c10w > -0.15) {
+                        (PassFixedTag["85_MV2c10Fixed"]) = true;}
+                if (MV2c10w > 0.38) {
+                        (PassFixedTag["77_MV2c10Fixed"]) = true;}
+                if (MV2c10w > 0.66) {
+                        (PassFixedTag["70_MV2c10Fixed"]) = true;}
+                if (MV2c10w > 0.86) {
+                        (PassFixedNegTag["60_MV2c10Fixed"]) = true;}
+                if (MV2c10Fw > -0.15) {
+                        (PassFixedNegTag["85_MV2c10Fixed"]) = true;}
+                if (MV2c10Fw > 0.38) {
+                        (PassFixedNegTag["77_MV2c10Fixed"]) = true;}
+                if (MV2c10Fw > 0.66) {
+                        (PassFixedNegTag["70_MV2c10Fixed"]) = true;}
+                if (MV2c10Fw > 0.86) {
+                        (PassFixedNegTag["60_MV2c10Fixed"]) = true;}
+                if (DL1w > 0.13) {
+                        (PassFixedTag["85_DL1Fixed"]) = true;}
+                if (DL1w > 0.89) {
+                        (PassFixedTag["77_DL1Fixed"]) = true;}
+                if (DL1w > 1.47) {
+                        (PassFixedTag["70_DL1Fixed"]) = true;}
+                if (DL1w > 2.13) {
+                        (PassFixedNegTag["60_DL1Fixed"]) = true;}
+                if (DL1Fw > 0.13) {
+                        (PassFixedNegTag["85_DL1Fixed"]) = true;}
+                if (DL1Fw > 0.89) {
+                        (PassFixedNegTag["77_DL1Fixed"]) = true;}
+                if (DL1Fw > 1.47) {
+                        (PassFixedNegTag["70_DL1Fixed"]) = true;}
+                if (DL1Fw > 2.13) {
+                        (PassFixedNegTag["60_DL1Fixed"]) = true;}
                 //std::cout << "PTbin  " << pt_bin << "and pt " << jetpt << std::endl;
                 //std::cout << "Etabin  " << eta_bin << std::endl;
                 for (int k = 0; k < n_WP; k++){
-                for (int i = 0; i < n_taggers){
+                for (int i = 0; i < n_taggers; i++){
                         TString wpname = WP[k];
                         TString tagname = Tagger[i];
                         TString PassFail = wpname + "_" + tagname;
-                        float filler = -99;
-                        float negfiller = -99;
                         if (tagname == "MV2c10"){
                                 filler = trackjet_MV2c10[ltj];
                                 negfiller = trackjet_MV2c10Flip[ltj];}
                         if (tagname == "DL1"){
-                                filler = trackjet_DL1[ltj];
-                                negfiller = trackjet_DL1Flip[ltj];}
+                                filler = trackjet_DL1_w[ltj];
+                                negfiller = trackjet_DL1Flip_w[ltj];}
 
 			if (PassTag[WP[k]] == true){
                                 TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_";

@@ -20,19 +20,6 @@ void NtupleDumper::Loop()
 
   // book histograms
 
-  TH1F *h_trackpTavg = new TH1F("trackptavg_"+m_systematic, "p_{T}^{avg}", 300, 0, 3000);
-
-  // for trigger check 
-
-
-  TH2F *h2_tracktriggers = new TH2F("tracktriggers_"+m_systematic, "triggers firing in track pT bins; lead trackjet p_{T}", 
-			       conf::n_pt, conf::pt_lowedges, 
-			       25, 0, 25);
-  TH2F *h2_total_trackevents = new TH2F("tot_track_evts_"+m_systematic, "", 
-			       conf::n_pt, conf::pt_lowedges, 
-			       25, 0, 25);
-
-
   ntrackjets = 1;  // select only leading track jet
 
   // create tree
@@ -79,10 +66,6 @@ void NtupleDumper::Loop()
   outtree->Branch("trackjetIsDL1Flip_Tagged", trackjetIsDL1Flip_Tagged, "tracketIsDL1Flip_Tagged[ntrackjets]/I");
   outtree->Branch("trackjetIsMV2_Tagged", trackjetIsMV2_Tagged, "trackjetIsMV2_Tagged[ntrackjets]/I");
   outtree->Branch("trackjetIsMV2Flip_Tagged", trackjetIsMV2Flip_Tagged, "tracketIsMV2Flip_Tagged[ntrackjets]/I");
-//  outtree->Branch("trackjetIsDL1mu_Tagged", trackjetIsDL1mu_Tagged, "trackjetIsDL1mu_Tagged/I");
-//  outtree->Branch("trackjetIsDL1Flipmu_Tagged", trackjetIsDL1Flipmu_Tagged, "trackjetIsDL1Flipmu_Tagged/I");
-//  outtree->Branch("trackjetIsDL1rnn_Tagged", trackjetIsDL1rnn_Tagged, "trackjetIsDL1rnn_Tagged/I");
-//  outtree->Branch("trackjetIsDL1Fliprnn_Tagged", trackjetIsDL1Fliprnn_Tagged, "trackjetIsDL1Fliprnn_Tagged/I");
   outtree->Branch("trackntrack_IP3DNeg",trackntrack_IP3DNeg,"trackntrack_IP3DNeg[ntrackjets]/I");
   outtree->Branch("trackntrack_IP3D",trackntrack_IP3D,"trackntrack_IP3D[ntrackjets]/I");
   outtree->Branch("trackntrack_IP2DNeg",trackntrack_IP2DNeg,"trackntrack_IP2DNeg[ntrackjets]/I");
@@ -108,19 +91,18 @@ void NtupleDumper::Loop()
 
   // tagger branches to be added to the tree
 
-// tagger branches to be added to the tree for track jets (Does this need to be done since njets = ntrackjets?)
   for (auto const &name: subtagger::floats_trackjet){
-    float* a = new float[2];
+    float* a = new float[1];
     float_subtagger_trackjet_out[name.first] = a;
     outtree->Branch(name.first.c_str(), a, (name.first + "[ntrackjets]/F").c_str());
   }
   for (auto const &name: subtagger::ints_trackjet){
-    int* a = new int[2];
+    int* a = new int[1];
     int_subtagger_trackjet_out[name.first] = a;
     outtree->Branch(name.first.c_str(), a, (name.first + "[ntrackjets]/I").c_str());
   }
   for (auto const &name: subtagger::doubles_trackjet){
-    double* a = new double[2];
+    double* a = new double[1];
     double_subtagger_trackjet_out[name.first] = a;
     outtree->Branch(name.first.c_str(), a, (name.first + "[ntrackjets]/D").c_str());
   }
@@ -164,7 +146,7 @@ void NtupleDumper::Loop()
      ntrackjets_event = trackjet_pt->size();
      njets_event = jet_pt->size();
 	
-    if ( ntrackjets_event < 1 || njets_event < 0) {
+    if ( ntrackjets_event < 1 || njets_event < 2) {
 	IsGoodEvent = false;
       //std::cout << "Warning: event with no reco jet. Run/EventNumber: " << runnum << ", " << evtnum << std::endl; 
       continue;
@@ -196,11 +178,6 @@ void NtupleDumper::Loop()
       if ((*trackjet_pt)[i]/1000.>pttrack1_noCut) pttrack1_noCut = (*trackjet_pt)[i]/1000.; // GeV
     }
 
-    // fill histogram with trigger decisions - BEFORE ANY CUT APPLIED 
-    for (auto trigger: trigger_names){
-      h2_tracktriggers->Fill(pttrack1_noCut, trigger.c_str(), puweight*mc_evtweight * *     trigger_decision[trigger]);
-      h2_total_trackevents->Fill(pttrack1_noCut, trigger.c_str(), mc_evtweight*puweight);
-    }
 
 
 
@@ -348,7 +325,7 @@ void NtupleDumper::Loop()
     }
 	}
 
-    double dphi = fabs((*jet_phi)[caloj1] - (*trackjet_phi)[j1]);
+    double dphi = fabs((*jet_phi)[caloj1] - (*jet_phi)[caloj2]);
     if (dphi>M_PI) dphi = 2*M_PI - dphi;
     if (dphi<2.){
 	IsGoodEvent=false;
@@ -457,12 +434,11 @@ void NtupleDumper::Loop()
 
 
 
-// Track Jet loop
 
 
 	if (IsGoodEvent) {
     outtree->Fill();}
-  }
+  } // Track jet loop
 
 
 

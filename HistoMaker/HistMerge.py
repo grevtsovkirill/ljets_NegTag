@@ -11,18 +11,18 @@ with open('mcSFHistoList.txt') as f2:
     	mcSFHL = f2.read().splitlines()
 with open('dataRFL.txt') as f3:
         dataRFL = f3.read().splitlines()
-with open('DataSFHistList.txt') as f4:
+with open('DataSFHistoList.txt') as f4:
         dataSFHL = f4.read().splitlines()
-with open('DataSFHistList.txt') as f4:
+with open('dataHL.txt') as f4:
         dataConHL = f4.read().splitlines()
 
-mc = False #Choose data/MC
+mc = True #Choose data/MC
 suffix = ""
 prefix = ""
 # Only one of these should be set as true:
-Control = False 
+Control = True 
 Fraction = False # Only true when mc is true.
-ScaleFac = True
+ScaleFac = False
 if Control:
 	mcHL = mcConHL
 	dataHL = dataConHL
@@ -36,7 +36,7 @@ if ScaleFac:
 def main():
 	if mc:
 		save_me =  TFile("HistoFiles/mc" + prefix + suffix + "M.root","RECREATE")
-		h_baserootfile = TFile("HistoFiles/" + prefix + "mcJZ1W" + suffix + ".root") # This should be the first file that would be in your root file list
+		h_baserootfile = TFile("HistoFiles/" + prefix + "mcJZ0Wd" + suffix + ".root") # This should be the first file that would be in your root file list
 		for histname in mcHL:
 			baseHist = h_baserootfile.Get(histname)
 			for index, filename in enumerate(mcRFL): 
@@ -55,7 +55,7 @@ def main():
 
 	if (mc == False):
 		save_me =  TFile("HistoFiles/data" + prefix + suffix + "M.root",'recreate')
-		h_baserootfile = TFile("HistoFiles/" + prefix + "dataD15" + suffix + ".root") # This should be the first file that would be in your root file list
+		h_baserootfile = TFile("HistoFiles/" + prefix + "dataA16" + suffix + ".root") # This should be the first file that would be in your root file list
 		for histname in dataHL: # Set up base histograms to be added to
 			baseHist = h_baserootfile.Get(histname)
         		for index, filename in enumerate(dataRFL): # Skip first file as it is the base

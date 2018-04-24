@@ -10,8 +10,8 @@ void ControlPlotter() {
   	TFile *f_output = new TFile("Control_plots/cplots.root", "recreate");
 
 
-  	std::vector<std::string> histo_var = {"hpT", "heta", "hphi", "hntrk","hNjet", "hMV2c10", "hMV2c10F"};
-  	std::vector<std::string> histo_Xlabels = {"p_{T}^{Trackjet} [GeV]", "#eta^{Trackjet}", "#phi^{jet} [rad.]", "N_{trk}^{Trackjet}","N_{Trackjet}", "MV2c10 Weight", "MV2c10Flip Weight"};
+  	std::vector<std::string> histo_var = {"hpT", "heta", "hphi", "hntrk","hNjet", "hMV2c10", "hMV2c10F", "hDL1", "hDL1F"};
+  	std::vector<std::string> histo_Xlabels = {"p_{T}^{Trackjet} [GeV]", "#eta^{Trackjet}", "#phi^{jet} [rad.]", "N_{trk}^{Trackjet}","N_{Trackjet}", "MV2c10 Weight", "MV2c10Flip Weight", "DL1 Weight", "DL1Flip Weight"};
 
 for(int ivar=0; ivar<histo_var.size(); ivar++){
 	
@@ -31,9 +31,7 @@ for(int ivar=0; ivar<histo_var.size(); ivar++){
 	TH1D *h_mc = (TH1D*)h_tmp->Clone(histo_mc_name.c_str());
 	h_tmp =NULL;
 	h_data->Scale(h_mc->Integral()/h_data->Integral());
-	if(histo_var.at(ivar)=="hMV2c10"||"hMV2c10Flip"||
-							"hMV2c10_c"||"hMV2c10F_c"
-							"hMV2c10_b"||"hMV2c10F_b")
+	if(histo_var.at(ivar)=="hMV2c10"||"hMV2c10Flip"||"hMV2c10_c"||"hMV2c10F_c"||"hMV2c10_b"||"hMV2c10F_b")
 	{
 		h_data->GetXaxis()->SetRangeUser(-1,1);
         h_mc->GetXaxis()->SetRangeUser(-1,1);
@@ -44,6 +42,12 @@ for(int ivar=0; ivar<histo_var.size(); ivar++){
 		h_data->GetXaxis()->SetRangeUser(0,3000);
         h_mc->GetXaxis()->SetRangeUser(0,3000);
 	}
+
+        if(histo_var.at(ivar)=="hDL1"||"hDL1Flip")
+        {
+                h_data->GetXaxis()->SetRangeUser(-10,5);
+        h_mc->GetXaxis()->SetRangeUser(-10,5);
+        }
 
 	if(histo_var.at(ivar)=="heta")
 	{
@@ -82,7 +86,7 @@ for(int ivar=0; ivar<histo_var.size(); ivar++){
 	TH1D *h_ratio = (TH1D*)h_data->Clone(histo_ratio_name.c_str());
 	h_ratio->Divide(h_mc);
 	if(histo_var.at(ivar)=="hpT"||histo_var.at(ivar)=="hntrk"||histo_var.at(ivar)=="hNjet"){
-	h_ratio->SetMaximum(4);
+	h_ratio->SetMaximum(2);
 	h_ratio->SetMinimum(0);}
 	else {
 	h_ratio->SetMaximum(1.4);
@@ -125,21 +129,21 @@ for(int ivar=0; ivar<histo_var.size(); ivar++){
     TPaveText *pt = new TPaveText(0.508772,0.851259,0.629073,0.919908,"brNDC");
     pt->SetBorderSize(0);
     pt->SetFillColor(0);
-    pt->SetTextSize(0.04);
+    pt->SetTextSize(0.03);
     pt->SetTextFont(72);
     pt->AddText("ATLAS");
     TPaveText *pt2 = new TPaveText(0.617794,0.850768,0.738095,0.921053,"brNDC");
     pt2->SetBorderSize(0);
     pt2->SetFillColor(0);
-    pt2->SetTextSize(0.04);
+    pt2->SetTextSize(0.03);
     pt2->SetTextFont(42);
     pt2->AddText("Internal");
     TPaveText *pt3 = new TPaveText(0.602757,0.713959,0.723058,0.864335,"brNDC");
     pt3->SetBorderSize(0);
     pt3->SetFillColor(0);
-    pt3->SetTextSize(0.04);
+    pt3->SetTextSize(0.03);
     pt3->SetTextFont(42);
-    pt3->AddText("#sqrt{s} = 13 TeV, 3.2 + 32.9 fb^{-1}, rel21");
+    pt3->AddText("#sqrt{s} = 13 TeV, 2015 + 2016 + 2017 data");
     
     std::string canvas_name = "c_" + histo_var.at(ivar);
     std::string pad1_name = "pad1_" + histo_var.at(ivar);

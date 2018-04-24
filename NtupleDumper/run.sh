@@ -22,14 +22,14 @@ for syst in $(getxAODsysts); do
 done
 
 # run mc
-#while read slice files; do
-#    case "$slice" in \#*) continue ;; esac
-#    [ -z "$slice" ] && continue
-#    LOGNAME=$slice
-#    run ./NtupleDumperApp -s $ALL_SYSTS -ps $slice -f $files
-#    echo $slice >> $SLICEFILE
-#done < ../config/mc_files_16d.txt
-#slice=""
+while read slice files; do
+    case "$slice" in \#*) continue ;; esac
+    [ -z "$slice" ] && continue
+    LOGNAME=$slice
+    run ./NtupleDumperApp -s $ALL_SYSTS -ps $slice -f $files
+    echo $slice >> $SLICEFILE
+done < ../config/mc_files_16d.txt
+slice=""
 
 ## run mc (HERWIG) - cannot be run in send2ge++ mode at the moment
 #while read slice files; do
@@ -42,14 +42,14 @@ done
 #slice=""
 
 # run data
-while read period files; do
-    case "$period" in \#*) continue ;; esac
-    [ -z "$period" ] && continue
-    LOGNAME=$period
-    run ./NtupleDumperApp -d -s "FlavourTagging_Nominal" -ps $period -f $files
-    echo $period >> $PERIODFILE
-done < ../config/data_files_151617.txt
-period=""
-
-wait
-echo "done"
+#while read period files; do
+#    case "$period" in \#*) continue ;; esac
+#    [ -z "$period" ] && continue
+#    LOGNAME=$period
+#    run ./NtupleDumperApp -d -s "FlavourTagging_Nominal" -ps $period -f $files
+#    echo $period >> $PERIODFILE
+#done < ../config/data_files_151617.txt
+#period=""
+#
+#wait
+#echo "done"
