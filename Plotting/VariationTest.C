@@ -12,10 +12,10 @@ void VariationTest(){
         TFile* f_mc = new TFile("../HistoMaker/HistoFiles/mcSFhistosM.root", "read");
         TFile* f_output = new TFile("../HistoMaker/HistoFiles/ScaleFactors.root", "Recreate");
         // Set up lists for bins, WPs, Flavors, and Tags
-        const int n_pt = 8;
+        const int n_pt = 7;
         const int n_eta = 2;
         const int n_WP = 4;
-        const double pt_lowedges[n_pt+1] = {10, 15, 20, 50, 100, 150, 300, 500, 3000};
+        const double pt_lowedges[n_pt+1] = {10, 20, 50, 100, 150, 300, 500, 3000};
         const double eta_lowedges[n_eta+1] = {0, 1.2, 2.5};
         const std::string WP[n_WP] = {"85", "77", "70", "60"};
         const std::string Tag[2] = {"", "Neg"};
@@ -27,8 +27,9 @@ void VariationTest(){
 	// here is where you set which tagger you want to calculate scale factors for.
 	// Multiple can be booked in ../HistoMaker/sfHistoMaker.cpp, so select accordingly.
 
-	TString WhatTagger = "MV2c10";
-
+	std::string WhatTagger = "MV2c10";
+	std::string FixedSuff = "_Fixed";
+	std::string mcFixedSuff = "__Fixed";
         // All MC input histograms will follow the form: "mch_"+ptbin+"_"+etabin"+"_"+WP+"_"+Tag+"_"+Flav
         // All Data input histograms will follow the form: "datah_"+ptbin+"_"+etabin"+"_"+WP+"_"+Tag
 
@@ -51,20 +52,20 @@ void VariationTest(){
                 for (int i=1; i < n_pt + 1; i++){
                 for (int j=1; j < n_eta + 1; j++){
                 for (int k=0; k < n_WP; k++){
-	                std::string id_l = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "__l" ;
-                        std::string id_c = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "__c" ;
-                        std::string id_b = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +"_" + WhatTagger + "__b" ;
-                        std::string id_l_neg = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + WhatTagger + "_Neg_l" ;
-                        std::string id_c_neg = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_c" ;
-                        std::string id_b_neg = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_b" ;
-                        std::string id_data_neg = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg" ;
-                        std::string id_l_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "__l_Fail" ;
-                        std::string id_c_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "__c_Fail" ;
-                        std::string id_b_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "__b_Fail" ;
-                        std::string id_l_neg_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_l_Fail" ;
-                        std::string id_c_neg_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_c_Fail" ;
-                        std::string id_b_neg_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_b_Fail" ;
-                        std::string id_data_neg_f = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_Fail" ;
+	                std::string id_l = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "__l" + mcFixedSuff;
+                        std::string id_c = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "__c" + mcFixedSuff;
+                        std::string id_b = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +"_" + WhatTagger + "__b" + mcFixedSuff;
+                        std::string id_l_neg = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + WhatTagger + "_Neg_l" + mcFixedSuff ;
+                        std::string id_c_neg = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_c" + mcFixedSuff;
+                        std::string id_b_neg = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_b" + mcFixedSuff;
+                        std::string id_data_neg = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg" + FixedSuff;
+                        std::string id_l_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "__l_Fail" + FixedSuff;
+                        std::string id_c_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "__c_Fail" + FixedSuff;
+                        std::string id_b_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "__b_Fail" + FixedSuff;
+                        std::string id_l_neg_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_l_Fail" + FixedSuff;
+                        std::string id_c_neg_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_c_Fail" + FixedSuff;
+                        std::string id_b_neg_f = "mch_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_b_Fail" + FixedSuff;
+                        std::string id_data_neg_f = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] +  "_" + WhatTagger + "_Neg_Fail" + FixedSuff;
 
                         TH1D *data_neg = (TH1D*)f_data->Get(id_data_neg.c_str());
                         TH1D *mch_l = (TH1D*)f_mc->Get(id_l.c_str());
@@ -82,7 +83,6 @@ void VariationTest(){
                         TH1D *mch_b_neg_f = (TH1D*)f_mc->Get(id_b_neg_f.c_str());
 
                         text << "Working point and bins are " << WP[k] << "_" << i << "_" << j << std::endl;
-                        
                 int highbin = mch_l->GetNbinsX();
 
 // Numbers to be varied:
@@ -122,10 +122,10 @@ double fracb = N_incl_b / N_incl_mc;
 	std::map<TString,TH1D*> h_el;
 	TString varhistname = "h_el_ " + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k];
 	h_el[varhistname] = new TH1D(varhistname, varhistname, 10000, 0, 0.5);
-        TString varthistnamekll = "h_kll_ " + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k];
-        h_el[varthistnamekll] = new TH1D(varthistnamekll, varthistnamekll, 10000, 0, 10);
-        TString varthistnamekhf = "h_khf_ " + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k];
-        h_el[varthistnamekhf] = new TH1D(varthistnamekhf, varthistnamekhf, 10000, 0, 10);
+        TString varhistnamekll = "h_kll_ " + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k];
+        h_el[varhistnamekll] = new TH1D(varhistnamekll, varhistnamekll, 10000, 0, 10);
+        TString varhistnamekhf = "h_khf_ " + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k];
+        h_el[varhistnamekhf] = new TH1D(varhistnamekhf, varhistnamekhf, 10000, 0, 10);
 	 
 
 for (int n = 0; n < 10000; n++){
@@ -353,7 +353,7 @@ for (int n = 0; n < 10000; n++){
     pt3->SetFillColor(0);
     pt3->SetTextSize(0.015);
     pt3->SetTextFont(42);
-    pt3->AddText("#sqrt{s} = 13 TeV, 3.2 + 32.9 fb^{-1}, rel21");
+    pt3->AddText("#sqrt{s} = 13 TeV, 2015 + 2016 + 2017 data, rel21");
 
         gStyle->SetOptStat(0);
 

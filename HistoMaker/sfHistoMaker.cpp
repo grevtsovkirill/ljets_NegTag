@@ -16,10 +16,10 @@
 #include <TBranch.h>
 
 void sfHistoMaker(){
-	const TString DumpedMC[12] = {"JZ0Wd", "JZ1Wd", "JZ2Wd", "JZ3Wd", "JZ4Wd", "JZ5Wd", "JZ6Wd", "JZ7Wd", "JZ8Wd", "JZ10Wd", "JZ11Wd", "JZ12Wd"};
-	const TString DumpedDT[14] = {"D15", "G15", "E15", "F15", "H15", "F16", "G16", "A16", "L16", "J15", "B16", "C16", "D16", "K17"};
-        const int n_DT = 14;
-	const int n_MC = 12;
+	const TString DumpedMC[21] = {"JZ0Wd", "JZ1Wd", "JZ2Wd", "JZ3Wd", "JZ4Wd", "JZ5Wd", "JZ6Wd", "JZ8Wd", "JZ9Wd", "JZ10Wd", "JZ11Wd", "JZ12Wd", "JZ0W", "JZ1W", "JZ2W", "JZ3W", "JZ7W", "JZ8W", "JZ9W", "JZ10W", "JZ12W"};
+	const TString DumpedDT[15] = {"D15", "G15", "E15", "E16", "F15", "H15", "F16", "G16", "A16", "L16", "J15", "B16", "C16", "D16", "K17"};
+        const int n_DT = 15;
+	const int n_MC = 21;
         const int n_pt = 7;
         const int n_eta = 2;
         const int n_WP = 4;
@@ -31,12 +31,12 @@ void sfHistoMaker(){
         const TString Tagger[n_taggers] = {"MV2c10" , "DL1"};
 	const TString Tag[2] = {"", "Neg"};
         const TString Flav[n_flav] = {"l", "b", "c"};
-	bool mc = true; // Set either data or MC
+	bool mc = false; // Set either data or MC
 	float filler = -99;
 	float negfiller = -99;
 // Set up loop over mc files.
 if (mc){
-for (int mciter = 0; mciter < 1; mciter++){
+for (int mciter = 18; mciter < 19; mciter++){
 	
 	TString mcfile = DumpedMC[mciter];
 	TFile* f_mc = new TFile("../DumpedNtuplestest/mc" + mcfile + ".root", "read");
@@ -169,9 +169,6 @@ for (int mciter = 0; mciter < 1; mciter++){
 		int pt_bin = 0;
 		bool GoodTriggerEvent = true;
 		int trigger = 0;
-                if (jetpt > pt_lowedges[n_pt]){
-                        continue;
-                } // Skip jets that are above top pt bin edge.
 		for (int i = 1; i < n_pt+1; ++i){
 			if (jetpt <= pt_lowedges[i]){
 			GoodTriggerEvent = true;
@@ -183,11 +180,11 @@ for (int mciter = 0; mciter < 1; mciter++){
 			break;
 				}
 			    }
-			  
 		if (!GoodTriggerEvent)  { 
 			//std::cout << "This event failed with Pt " << jetpt << "and pt_bin " << pt_bin<< "and trigger " << trigger << std::endl;
 			continue;
 			} // Skip event if trigger doesn't match pt bin or if low MC slice and pT is too high.
+		if ((pt_bin > n_pt + 1) || (pt_bin ==0)) {continue;}
 		// Check eta bin
 		float jeteta = trackjeteta[ltj];
                 int eta_bin = 0;
@@ -207,7 +204,6 @@ for (int mciter = 0; mciter < 1; mciter++){
 		if (trackflavor[ltj] == 5){
                                 flav = "b";
 			}
-
 		// Determine Pass/Fail based on WP/Tagger
 		std::map<TString,bool> PassTag;
 		std::map<TString,bool> PassNegTag;
@@ -284,7 +280,7 @@ for (int mciter = 0; mciter < 1; mciter++){
                 if (MV2c10w > 0.66) {
                         (PassFixedTag["70_MV2c10"]) = true;}
                 if (MV2c10w > 0.86) {
-                        (PassFixedNegTag["60_MV2c10"]) = true;}
+                        (PassFixedTag["60_MV2c10"]) = true;}
                 if (MV2c10Fw > -0.15) {
                         (PassFixedNegTag["85_MV2c10"]) = true;}
                 if (MV2c10Fw > 0.38) {
@@ -300,7 +296,7 @@ for (int mciter = 0; mciter < 1; mciter++){
                 if (DL1w > 1.47) {
                         (PassFixedTag["70_DL1"]) = true;}
                 if (DL1w > 2.13) {
-                        (PassFixedNegTag["60_DL1"]) = true;}
+                        (PassFixedTag["60_DL1"]) = true;}
                 if (DL1Fw > 0.13) {
                         (PassFixedNegTag["85_DL1"]) = true;}
                 if (DL1Fw > 0.89) {
@@ -367,14 +363,14 @@ for (int mciter = 0; mciter < 1; mciter++){
 
 
 if (!mc){
-for (int i = 0; i < n_DT; i++){
+for (int diter = 3; diter < 4; diter++){
 
-        TString datafile = DumpedDT[i];
+        TString datafile = DumpedDT[diter];
         TFile* f_data = new TFile("../DumpedNtuplestest/data" + datafile + ".root", "read");
         TTree* nominal = (TTree*)f_data->Get("FlavourTagging_Nominal");
         TFile* f_outputdt = new TFile("HistoFiles/data" + datafile + "SFhistos.root", "recreate");
         int entries = nominal->GetEntriesFast();
-        std::cout << "There are  " << entries << "  events in period " << DumpedDT[i] << std::endl;
+        std::cout << "There are  " << entries << "  events in period " << DumpedDT[diter] << std::endl;
 
 
 
@@ -469,15 +465,33 @@ for (int i = 0; i < n_DT; i++){
         for (int k = 0; k < n_WP; k++){
 	for (int l = 0; l < n_taggers; l++){
         for (int m = 0; m < 2; m++){
-                TString histname = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m];
-               TString histnamefail = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_Fail";
-		dataHL << histnamefail << std::endl;
-		dataHL << histname << std::endl;
-		datah_ptetaWPtag[histnamefail] = new TH1D(histnamefail, histnamefail, 20, -1, 1);
-                datah_ptetaWPtag[histname] = new TH1D(histname, histname, 20, -1, 1);
-		datah_ptetaWPtag[histnamefail]->Sumw2();
+                TString histname = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] +  "_" + Tag[m];
+                TString histnamefail = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] + "_Fail";
+                TString histnamefixed = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] +  "_" + Tag[m] + "_Fixed";
+                TString histnamefailfixed = "datah_" + std::to_string(i) + "_" + std::to_string(j) + "_" + WP[k] + "_" + Tagger[l] + "_" + Tag[m] +  + "_Fail_Fixed";
+                dataHL << histnamefixed << std::endl;
+                dataHL << histnamefailfixed << std::endl;
+                dataHL << histnamefail << std::endl;
+                dataHL << histname << std::endl;
+                if (l == 1){
+                        datah_ptetaWPtag[histname] = new TH1D(histname, histname, 50, -5, 5);
+                        datah_ptetaWPtag[histnamefail] = new TH1D(histnamefail, histnamefail, 50, -5, 5);
+                        datah_ptetaWPtag[histnamefixed] = new TH1D(histnamefixed, histnamefixed, 50, -5, 5);
+                        datah_ptetaWPtag[histnamefailfixed] = new TH1D(histnamefailfixed, histnamefailfixed, 50, -5, 5);
+                        }
+                else {
+                        datah_ptetaWPtag[histname] = new TH1D(histname, histname, 20, -1, 1);
+                        datah_ptetaWPtag[histnamefail] = new TH1D(histnamefail, histnamefail, 20, -1, 1);
+                        datah_ptetaWPtag[histnamefixed] = new TH1D(histnamefixed, histnamefixed, 20, -1, 1);
+                        datah_ptetaWPtag[histnamefailfixed] = new TH1D(histnamefailfixed, histnamefailfixed, 20, -1, 1);
+                        }
+                datah_ptetaWPtag[histnamefail]->Sumw2();
                 datah_ptetaWPtag[histname]->Sumw2();
-                }}}}} // End histo booking loop 
+                datah_ptetaWPtag[histnamefailfixed]->Sumw2();
+                datah_ptetaWPtag[histnamefixed]->Sumw2();
+
+
+		}}}}} // End histo booking loop 
 	dataHL.close();
 
 
@@ -497,9 +511,7 @@ for (int i = 0; i < n_DT; i++){
                 int pt_bin = 0;
 		float prescale = 0;
 		bool GoodTriggerEvent = true;
-		if (jetpt > pt_lowedges[n_pt]){
-			continue;
-		} // Skip jets that are above top pt bin edge.
+		
                 for (int i = 1; i < n_pt+1; ++i){
                         if (jetpt <= pt_lowedges[i]){
 			GoodTriggerEvent = true;
@@ -515,9 +527,10 @@ for (int i = 0; i < n_DT; i++){
                             }
                 float dw = mc_weight + prescale;          
                 if (!GoodTriggerEvent)  {
-			//std::cout << "This event failed with Pt " << jetpt << " and bin " << pt_bin << " and trigger " << HLTj25 << "_" << HLTj60 << "_" << HLTj110 << "_" << HLTj175 << "_" << HLTj380 << "_" << failed_events << std::endl;
+			//std::cout << "This event failed with Pt " << jetpt << " and bin " << pt_bin << " and trigger " << HLTj25 << "_" << HLTj60 << "_" << HLTj110 << "_" << HLTj175 << "_" << HLTj380 << "_" << std::endl;
                         continue;
                         } // Skip event if trigger doesn't match pt bin or if low MC slice and pT is too high.
+		if ((pt_bin > n_pt + 1) || (pt_bin ==0)) {continue;}
 
                 float jeteta = trackjeteta[ltj];
                 int eta_bin = 0;
@@ -553,7 +566,6 @@ for (int i = 0; i < n_DT; i++){
                         }} // End Pass/Fail loop for fixed tagger.
 
 
-
                 // Set up definition of passing or failing tags. 
                 // THIS NEEDS TO BE ADJUSTED BY HAND WHEN ADDING NEW TAGGERS.
                 // I propse that we leave this to be adjusted by hand, as the definitions to
@@ -567,71 +579,71 @@ for (int i = 0; i < n_DT; i++){
                 double DL1w = trackjet_DL1_w[ltj];
                 int isDL1F = trackjetIsDL1Flip_Tagged[ltj];
                 double DL1Fw = trackjet_DL1Flip_w[ltj];
-
-                if (isMV2c10 % 2 == 0){
-                        (PassTag["85_MV2c10"]) = true;}
-                if (isMV2c10 % 3 == 0){
-                        (PassTag["77_MV2c10"]) = true;}
-                if (isMV2c10 % 5 == 0){
-                        (PassTag["70_MV2c10"]) = true;}
                 if (isMV2c10 % 7 == 0){
+                        (PassTag["85_MV2c10"]) = true;}
+                if (isMV2c10 % 5 == 0){
+                        (PassTag["77_MV2c10"]) = true;}
+                if (isMV2c10 % 3 == 0){
+                        (PassTag["70_MV2c10"]) = true;}
+                if (isMV2c10 % 2 == 0){
                         (PassTag["60_MV2c10"]) = true;}
-                if (isMV2c10F % 2 == 0){
-                        (PassNegTag["85_MV2c10"]) = true;}
-                if (isMV2c10F % 3 == 0){
-                        (PassNegTag["77_MV2c10"]) = true;}
-                if (isMV2c10F % 5 == 0){
-                        (PassNegTag["70_MV2c10"]) = true;}
                 if (isMV2c10F % 7 == 0){
+                        (PassNegTag["85_MV2c10"]) = true;}
+                if (isMV2c10F % 5 == 0){
+                        (PassNegTag["77_MV2c10"]) = true;}
+                if (isMV2c10F % 3 == 0){
+                        (PassNegTag["70_MV2c10"]) = true;}
+                if (isMV2c10F % 2 == 0){
                         (PassNegTag["60_MV2c10"]) = true;}
-                if (isDL1 % 2 == 0){
-                        (PassTag["85_DL1"]) = true;}
-                if (isDL1 % 3 == 0){
-                        (PassTag["77_DL1"]) = true;}
-                if (isDL1 % 5 == 0){
-                        (PassTag["70_DL1"]) = true;}
                 if (isDL1 % 7 == 0){
+                        (PassTag["85_DL1"]) = true;}
+                if (isDL1 % 5 == 0) {
+                        (PassTag["77_DL1"]) = true;}
+                if (isDL1 % 3 == 0) {
+                        (PassTag["70_DL1"]) = true;}
+                if (isDL1 % 2 == 0) {
                         (PassTag["60_DL1"]) = true;}
-                if (isDL1F % 2 == 0){
+                if (isDL1F % 7 == 0) {
                         (PassNegTag["85_DL1"]) = true;}
-                if (isDL1F % 3 == 0){
+                if (isDL1F % 5 == 0) {
                         (PassNegTag["77_DL1"]) = true;}
-                if (isDL1F % 5 == 0){
+                if (isDL1F % 3 == 0) {
                         (PassNegTag["70_DL1"]) = true;}
-                if (isDL1F % 7 == 0){
+                if (isDL1F % 2 == 0) {
                         (PassNegTag["60_DL1"]) = true;}
                 if (MV2c10w > -0.15) {
-                        (PassFixedTag["85_MV2c10Fixed"]) = true;}
+                        (PassFixedTag["85_MV2c10"]) = true;}
                 if (MV2c10w > 0.38) {
-                        (PassFixedTag["77_MV2c10Fixed"]) = true;}
+                        (PassFixedTag["77_MV2c10"]) = true;}
                 if (MV2c10w > 0.66) {
-                        (PassFixedTag["70_MV2c10Fixed"]) = true;}
+                        (PassFixedTag["70_MV2c10"]) = true;}
                 if (MV2c10w > 0.86) {
-                        (PassFixedNegTag["60_MV2c10Fixed"]) = true;}
+                        (PassFixedTag["60_MV2c10"]) = true;}
                 if (MV2c10Fw > -0.15) {
-                        (PassFixedNegTag["85_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["85_MV2c10"]) = true;}
                 if (MV2c10Fw > 0.38) {
-                        (PassFixedNegTag["77_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["77_MV2c10"]) = true;}
                 if (MV2c10Fw > 0.66) {
-                        (PassFixedNegTag["70_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["70_MV2c10"]) = true;}
                 if (MV2c10Fw > 0.86) {
-                        (PassFixedNegTag["60_MV2c10Fixed"]) = true;}
+                        (PassFixedNegTag["60_MV2c10"]) = true;}
                 if (DL1w > 0.13) {
-                        (PassFixedTag["85_DL1Fixed"]) = true;}
+                        (PassFixedTag["85_DL1"]) = true;}
                 if (DL1w > 0.89) {
-                        (PassFixedTag["77_DL1Fixed"]) = true;}
+                        (PassFixedTag["77_DL1"]) = true;}
                 if (DL1w > 1.47) {
-                        (PassFixedTag["70_DL1Fixed"]) = true;}
+                        (PassFixedTag["70_DL1"]) = true;}
                 if (DL1w > 2.13) {
-                        (PassFixedNegTag["60_DL1Fixed"]) = true;}
+                        (PassFixedTag["60_DL1"]) = true;}
                 if (DL1Fw > 0.13) {
-                        (PassFixedNegTag["85_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["85_DL1"]) = true;}
                 if (DL1Fw > 0.89) {
-                        (PassFixedNegTag["77_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["77_DL1"]) = true;}
                 if (DL1Fw > 1.47) {
-                        (PassFixedNegTag["70_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["70_DL1"]) = true;}
                 if (DL1Fw > 2.13) {
-                        (PassFixedNegTag["60_DL1Fixed"]) = true;}
+                        (PassFixedNegTag["60_DL1"]) = true;}
+
                 //std::cout << "PTbin  " << pt_bin << "and pt " << jetpt << std::endl;
                 //std::cout << "Etabin  " << eta_bin << std::endl;
                 for (int k = 0; k < n_WP; k++){
@@ -646,17 +658,29 @@ for (int i = 0; i < n_DT; i++){
                                 filler = trackjet_DL1_w[ltj];
                                 negfiller = trackjet_DL1Flip_w[ltj];}
 
-			if (PassTag[WP[k]] == true){
+			if (PassTag[PassFail] == true){
                                 TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_";
                                 datah_ptetaWPtag[fillname]->Fill(filler, dw);}
-                        if (PassNegTag[WP[k]] == true){
+                        if (PassNegTag[PassFail] == true){
                                 TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg";
                                 datah_ptetaWPtag[negfillname]->Fill(negfiller, dw);}
-                        if (PassTag[WP[k]] == false){
+                        if (PassTag[PassFail] == false){
                                 TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__Fail";
                                 datah_ptetaWPtag[fillname]->Fill(filler, dw);}
-                        if (PassNegTag[WP[k]] == false){
+                        if (PassNegTag[PassFail] == false){
                                 TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_Fail";
+                                datah_ptetaWPtag[negfillname]->Fill(negfiller, dw);}
+                        if (PassFixedTag[PassFail] == true){
+                                TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__Fixed";
+                                datah_ptetaWPtag[fillname]->Fill(filler, dw);}
+                        if (PassFixedNegTag[PassFail] == true){
+                                TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_Fixed";
+                                datah_ptetaWPtag[negfillname]->Fill(negfiller, dw);}
+                        if (PassFixedTag[PassFail] == false){
+                                TString fillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "__Fail_Fixed";
+                                datah_ptetaWPtag[fillname]->Fill(filler, dw);}
+                        if (PassFixedNegTag[PassFail] == false){
+                                TString negfillname = "datah_" + std::to_string(pt_bin) + "_" + std::to_string(eta_bin) + "_" + WP[k] + "_" + Tagger[i] + "_Neg_Fail_Fixed";
                                 datah_ptetaWPtag[negfillname]->Fill(negfiller, dw);}
 
                 }}

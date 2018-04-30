@@ -11,7 +11,7 @@ with open('mcSFHistoList.txt') as f2:
     	mcSFHL = f2.read().splitlines()
 with open('dataRFL.txt') as f3:
         dataRFL = f3.read().splitlines()
-with open('DataSFHistoList.txt') as f4:
+with open('DataSFHistList.txt') as f4:
         dataSFHL = f4.read().splitlines()
 with open('dataHL.txt') as f4:
         dataConHL = f4.read().splitlines()
@@ -20,9 +20,9 @@ mc = True #Choose data/MC
 suffix = ""
 prefix = ""
 # Only one of these should be set as true:
-Control = True 
+Control = False 
 Fraction = False # Only true when mc is true.
-ScaleFac = False
+ScaleFac = True
 if Control:
 	mcHL = mcConHL
 	dataHL = dataConHL
