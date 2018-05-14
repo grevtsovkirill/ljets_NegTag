@@ -333,8 +333,8 @@ for (int n = 0; n < 10000; n++){
     legend->SetBorderSize(0);  // no border
     legend->SetFillColor(0);   // Legend background should be white
     legend->SetTextSize(0.02); // Increase entry font size!
-    legend->AddEntry(sfh_85_central,"Central eta","LPE");
-    legend->AddEntry(sfh_85_forward,"Forward eta","LPE");
+    legend->AddEntry(sfh_85_central,"Central eta","LPE2");
+    legend->AddEntry(sfh_85_forward,"Forward eta","LPE2");
 
     TPaveText *pt = new TPaveText(0.158772,0.751259,0.279073,0.819908,"brNDC");
     pt->SetBorderSize(0);
@@ -353,7 +353,7 @@ for (int n = 0; n < 10000; n++){
     pt3->SetFillColor(0);
     pt3->SetTextSize(0.015);
     pt3->SetTextFont(42);
-    pt3->AddText("#sqrt{s} = 13 TeV, 2015 + 2016, mc16a, rel21");
+    pt3->AddText("#sqrt{s} = 13 TeV, 2015 + 2016 + 2017, mc16a + mc16d, rel21.2");
 
         gStyle->SetOptStat(0);
 
@@ -361,10 +361,17 @@ for (int n = 0; n < 10000; n++){
         c85->Draw();
         c85->cd();
         c85->SetLogx();
-        sfh_85_central->SetMaximum(1.6);
-        sfh_85_central->SetMinimum(0.6);
-        sfh_85_central->Draw("");
-        sfh_85_forward->Draw("same");
+        sfh_85_central->SetMaximum(1.4);
+        sfh_85_central->SetMinimum(0.9);
+        sfh_85_central->DrawCopy("hist");
+	sfh_85_central->SetFillColor(kRed);
+	sfh_85_central->SetFillStyle(3018);
+	sfh_85_central->Draw("e2same");
+        sfh_85_forward->DrawCopy("hist same");
+        sfh_85_forward->SetFillColor(kBlue);
+        sfh_85_forward->SetFillStyle(3013);
+        sfh_85_forward->Draw("e2same");
+
         legend->Draw();
         pt->Draw();
         pt2->Draw();
@@ -379,9 +386,16 @@ for (int n = 0; n < 10000; n++){
         c77->SetLogx();
         sfh_77_central->SetMaximum(1.6);
         sfh_77_central->SetMinimum(0.6);
-        sfh_77_central->Draw("");
-        sfh_77_forward->Draw("same");
-        legend->Draw();
+        sfh_77_central->DrawCopy("hist");
+        sfh_77_central->SetFillColor(kRed);
+        sfh_77_central->SetFillStyle(3018);
+        sfh_77_central->Draw("e2same");
+        sfh_77_forward->DrawCopy("hist same");
+        sfh_77_forward->SetFillColor(kBlue);
+        sfh_77_forward->SetFillStyle(3013);
+        sfh_77_forward->Draw("e2same");
+
+	legend->Draw();
         pt->Draw();
         pt2->Draw();
         pt3->Draw();
@@ -395,9 +409,15 @@ for (int n = 0; n < 10000; n++){
         c70->SetLogx();
         sfh_70_central->SetMaximum(2);
         sfh_70_central->SetMinimum(0.5);
-        sfh_70_central->Draw("");
-        sfh_70_forward->Draw("same");
-        legend->Draw();
+        sfh_70_central->DrawCopy("hist");
+        sfh_70_central->SetFillColor(kRed);
+        sfh_70_central->SetFillStyle(3018);
+        sfh_70_central->Draw("e2same");
+        sfh_70_forward->DrawCopy("hist same");
+        sfh_70_forward->SetFillColor(kBlue);
+        sfh_70_forward->SetFillStyle(3013);
+        sfh_70_forward->Draw("e2same");
+	legend->Draw();
         pt->Draw();
         pt2->Draw();
         pt3->Draw();
@@ -411,9 +431,16 @@ for (int n = 0; n < 10000; n++){
         c60->SetLogx();
         sfh_60_central->SetMaximum(2);
         sfh_60_central->SetMinimum(0.2);
-        sfh_60_central->Draw("");
-        sfh_60_forward->Draw("same");
-        legend->Draw();
+        sfh_60_central->DrawCopy("hist");
+        sfh_60_central->SetFillColor(kRed);
+        sfh_60_central->SetFillStyle(3018);
+        sfh_60_central->Draw("e2same");
+        sfh_60_forward->DrawCopy("hist same");
+        sfh_60_forward->SetFillColor(kBlue);
+        sfh_60_forward->SetFillStyle(3013);
+        sfh_60_forward->Draw("e2same");
+
+	legend->Draw();
         pt->Draw();
         pt2->Draw();
         pt3->Draw();
