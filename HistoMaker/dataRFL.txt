@@ -12,4 +12,3 @@ dataG16
 dataH15
 dataJ15
 dataK17
-dataL16

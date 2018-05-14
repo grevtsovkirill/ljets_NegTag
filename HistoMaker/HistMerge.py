@@ -20,9 +20,8 @@ mc = True #Choose data/MC
 suffix = ""
 prefix = ""
 # Only one of these should be set as true:
-Control = False 
-Fraction = False # Only true when mc is true.
-ScaleFac = True
+Control = True 
+ScaleFac = False 
 if Control:
 	mcHL = mcConHL
 	dataHL = dataConHL
@@ -35,7 +34,7 @@ if ScaleFac:
 
 def main():
 	if mc:
-		save_me =  TFile("HistoFiles/mc" + prefix + suffix + "M.root","RECREATE")
+		save_me =  TFile("HistoFiles/mc" + prefix + suffix + "M16d.root","RECREATE")
 		h_baserootfile = TFile("HistoFiles/" + prefix + "mcJZ0Wd" + suffix + ".root") # This should be the first file that would be in your root file list
 		for histname in mcHL:
 			baseHist = h_baserootfile.Get(histname)
@@ -54,7 +53,7 @@ def main():
 
 
 	if (mc == False):
-		save_me =  TFile("HistoFiles/data" + prefix + suffix + "M.root",'recreate')
+		save_me =  TFile("HistoFiles/data" + prefix + suffix + "M16.root",'recreate')
 		h_baserootfile = TFile("HistoFiles/" + prefix + "dataA16" + suffix + ".root") # This should be the first file that would be in your root file list
 		for histname in dataHL: # Set up base histograms to be added to
 			baseHist = h_baserootfile.Get(histname)

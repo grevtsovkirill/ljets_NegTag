@@ -5,7 +5,7 @@ void FlavorCompPlotter(){
 	SetAtlasStyle();
 
 
-  	TFile *f_mc = new TFile("../HistoMaker/HistoFiles/mcConHistoFileM.root", "read");
+  	TFile *f_mc = new TFile("../HistoMaker/HistoFiles/mcConHistoFileM16a.root", "read");
   	TFile *f_output = new TFile("Control_plots/cplotsflavcomp.root", "recreate");
 
 	std::string m_tagger = "MV2c10";

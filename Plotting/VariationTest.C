@@ -27,9 +27,9 @@ void VariationTest(){
 	// here is where you set which tagger you want to calculate scale factors for.
 	// Multiple can be booked in ../HistoMaker/sfHistoMaker.cpp, so select accordingly.
 
-	std::string WhatTagger = "MV2c10";
-	std::string FixedSuff = "_Fixed";
-	std::string mcFixedSuff = "__Fixed";
+	std::string WhatTagger = "DL1"; // MV2c10, DL1
+	std::string FixedSuff = ""; // "", "_Fixed"
+	std::string mcFixedSuff = ""; // "" , "__Fixed"
         // All MC input histograms will follow the form: "mch_"+ptbin+"_"+etabin"+"_"+WP+"_"+Tag+"_"+Flav
         // All Data input histograms will follow the form: "datah_"+ptbin+"_"+etabin"+"_"+WP+"_"+Tag
 
@@ -353,7 +353,7 @@ for (int n = 0; n < 10000; n++){
     pt3->SetFillColor(0);
     pt3->SetTextSize(0.015);
     pt3->SetTextFont(42);
-    pt3->AddText("#sqrt{s} = 13 TeV, 2015 + 2016 + 2017 data, rel21");
+    pt3->AddText("#sqrt{s} = 13 TeV, 2015 + 2016, mc16a, rel21");
 
         gStyle->SetOptStat(0);
 
@@ -361,8 +361,8 @@ for (int n = 0; n < 10000; n++){
         c85->Draw();
         c85->cd();
         c85->SetLogx();
-        sfh_85_central->SetMaximum(1.5);
-        sfh_85_central->SetMinimum(0.8);
+        sfh_85_central->SetMaximum(1.6);
+        sfh_85_central->SetMinimum(0.6);
         sfh_85_central->Draw("");
         sfh_85_forward->Draw("same");
         legend->Draw();
@@ -377,8 +377,8 @@ for (int n = 0; n < 10000; n++){
         c77->Draw();
         c77->cd();
         c77->SetLogx();
-        sfh_77_central->SetMaximum(1.5);
-        sfh_77_central->SetMinimum(0.5);
+        sfh_77_central->SetMaximum(1.6);
+        sfh_77_central->SetMinimum(0.6);
         sfh_77_central->Draw("");
         sfh_77_forward->Draw("same");
         legend->Draw();
