@@ -10,6 +10,8 @@
 #include <map>
 #include <cmath>
 #include <cassert>
+#include <tuple>
+
 
 #include "../config/conf.hpp"
 #include "../helpers/OutputHelper.hpp"
@@ -17,6 +19,7 @@
 using namespace std;
 
 extern bool runmc;
+const int debug =2;
 
 // Complete a binning bin given min and max values
 std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double min = -1.0, double max = 1.0){
@@ -37,8 +40,11 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   struct MyTagger
   {
     // constructors
+
+    //MyTagger(std::string aName, float* aWptr, float* aWnegptr)
+
     MyTagger() {} 
-    MyTagger(std::string aName, float* aWptr, float* aWnegptr)
+    MyTagger(std::string aName, double* aWptr, double* aWnegptr)
     {
       name = aName;       // tagger name
       wptr = aWptr;       // weight
@@ -46,8 +52,15 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
     }    
     // init function
     void init() {
-      // binning should start at -1 and end at +1.
-      std::vector<double> bins=extendBinRange(conf::wpoint_map.find(name)->second);
+      // binning 
+      //old = should start at -1 and end at +1.
+      //new = retrieve from conf.hpp boarders
+	auto tuple = conf::tag_hist.find(name)->second;
+	std::vector<double> bins=extendBinRange(conf::wpoint_map.find(name)->second,std::get<1>(tuple),std::get<2>(tuple));
+      if(debug == 2){ std::cout<< "Name = "<< name << ",  extendBinRange: "<<  (conf::wpoint_map.find(name)->second[1])  <<std::endl;  
+	std::cout<<"  , tag_hist " <<  std::get<0>(tuple) <<std::endl;  
+      }
+	
       // weight and negative weight tagger histogram 
       h = new TH1D(name.c_str(), name.c_str(), bins.size()-1, &(bins[0]));
       hneg = new TH1D((name+"neg").c_str(), (name + "neg").c_str(), bins.size()-1, &(bins[0]));
@@ -56,10 +69,13 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
     }
     ~MyTagger() {}  // destructor
 
+
     // attributes    
     std::string name;
-    float* wptr;
-    float* wnegptr;
+    double* wptr;
+    double* wnegptr;
+    //float* wptr;
+    //float* wnegptr;
     TH1D* h;
     TH1D* hneg;
   };
@@ -80,7 +96,15 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
 
   // tagger declaration
   map<string, MyTagger> tagger_map; // map of the tagger objects
-  tagger_map["MV2c10"] = MyTagger("MV2c10", float_subtagger["jet_MV2c10"], float_subtagger["jet_MV2c10Flip"]);
+  //  tagger_map["MV2c10"] = MyTagger("MV2c10", float_subtagger["jet_MV2c10"], float_subtagger["jet_MV2c10Flip"]);
+  
+
+  //tagger_map["DL1"] = MyTagger("DL1", float_subtagger["jet_DL1_w"], float_subtagger["jet_DL1Flip_w"]);
+
+  tagger_map["DL1"] = MyTagger("DL1", double_subtagger["jet_DL1_w"], double_subtagger["jet_DL1Flip_w"]);
+  
+  if(debug == 2) std::cout << "  map of the tagger objects: " << double_subtagger["jet_DL1_w"] << std::endl;
+
   for (auto &tagger: tagger_map) tagger.second.init();
 
 
@@ -205,7 +229,7 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   }
   
   //---- Get pT/eta weight histograms---- 
-  std::string rew_filename = "../GetPtEtaWeights/rew.root";
+  std::string rew_filename = "../GetPtEtaWeights/rew_d.root";
   if(m_systematic.Contains("generator")) rew_filename = "../GetPtEtaWeights/rew_HERWIG.root";
   TFile* frew = new TFile(rew_filename.c_str());
   TH2D* h_rew[2];
@@ -224,7 +248,7 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
     }
   }
   //---- Get Ntrack weight histogram (now applied by default) -----
-  std::string rew_ntrack_filename = "../GetNTrackWeights/reweight_ntrack2D.root";
+  std::string rew_ntrack_filename = "../GetNTrackWeights/reweight_ntrack2D_d.root";
   if(m_systematic.Contains("generator")) rew_ntrack_filename = "../GetNTrackWeights/reweight_ntrack2D_HERWIG.root";
   TFile* frew_ntrack = new TFile(rew_ntrack_filename.c_str());
   TH2D* h_rew_ntrk[2];
@@ -468,6 +492,8 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
           // weight and negative weight
           double w = (tagger.second.wptr)[j];
           double wneg = (tagger.second.wnegptr)[j];
+	  if(debug == 1) std::cout << " weight and negative weight for pt("<< ptBin<<"),eta("<< etaBin<<"), fl("<< flav<<"), tagger("<< tagger.first<<"): "<< w <<" , " << wneg<< std::endl;
+
           tagger.second.h->Fill(w, weight); 
           tagger.second.hneg->Fill(wneg, weight);
 
