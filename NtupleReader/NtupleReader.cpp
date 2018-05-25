@@ -32,53 +32,54 @@ std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double 
   return new_edges;
 }
 
-// Main function
+
+//template<class T>
+
+template< typename T > struct MyTagger
+{
+    // attributes   
+  std::string name;
+  T* wptr;
+  T* wnegptr;
+  TH1D* h;
+  TH1D* hneg;
+  // constructors
+  //MyTagger(std::string aName, float* aWptr, float* aWnegptr)
+  //MyTagger(std::string aName, TYPE aWptr, TYPE aWnegptr)
+  MyTagger() {} 
+  MyTagger(std::string aName, T* aWptr, T* aWnegptr)
+  {
+    name = aName;       // tagger name
+    wptr = aWptr;       // weight
+    wnegptr = aWnegptr; // wight of flipped version
+  }    
+  
+  // init function
+  void init() {
+    // binning 
+    //old = should start at -1 and end at +1.
+    //new = retrieve from conf.hpp boarders
+    auto tuple = conf::tag_hist.find(name)->second;
+    std::vector<double> bins=extendBinRange(conf::wpoint_map.find(name)->second,std::get<1>(tuple),std::get<2>(tuple));
+    
+    if(debug == 2){ std::cout<< "Name = "<< name << ",  extendBinRange: "<<  (conf::wpoint_map.find(name)->second[1])  <<std::endl;  	std::cout<<"  , tag_hist " <<  std::get<0>(tuple) <<std::endl;    }
+    // weight and negative weight tagger histogram 
+    h = new TH1D(name.c_str(), name.c_str(), bins.size()-1, &(bins[0]));
+    hneg = new TH1D((name+"neg").c_str(), (name + "neg").c_str(), bins.size()-1, &(bins[0]));
+    h->Sumw2();
+    hneg->Sumw2();
+  }
+  ~MyTagger() {}  // destructor
+  
+};
+
+
+
+    // Main function
 void NtupleReader::Loop(int bootstrap_bkeeper=0)
 {
 
-  // Definition of MyTagger object
-  struct MyTagger
-  {
-    // constructors
 
-    //MyTagger(std::string aName, float* aWptr, float* aWnegptr)
-
-    MyTagger() {} 
-    MyTagger(std::string aName, double* aWptr, double* aWnegptr)
-    {
-      name = aName;       // tagger name
-      wptr = aWptr;       // weight
-      wnegptr = aWnegptr; // wight of flipped version
-    }    
-    // init function
-    void init() {
-      // binning 
-      //old = should start at -1 and end at +1.
-      //new = retrieve from conf.hpp boarders
-	auto tuple = conf::tag_hist.find(name)->second;
-	std::vector<double> bins=extendBinRange(conf::wpoint_map.find(name)->second,std::get<1>(tuple),std::get<2>(tuple));
-      if(debug == 2){ std::cout<< "Name = "<< name << ",  extendBinRange: "<<  (conf::wpoint_map.find(name)->second[1])  <<std::endl;  
-	std::cout<<"  , tag_hist " <<  std::get<0>(tuple) <<std::endl;  
-      }
-	
-      // weight and negative weight tagger histogram 
-      h = new TH1D(name.c_str(), name.c_str(), bins.size()-1, &(bins[0]));
-      hneg = new TH1D((name+"neg").c_str(), (name + "neg").c_str(), bins.size()-1, &(bins[0]));
-      h->Sumw2();
-      hneg->Sumw2();
-    }
-    ~MyTagger() {}  // destructor
-
-
-    // attributes    
-    std::string name;
-    double* wptr;
-    double* wnegptr;
-    //float* wptr;
-    //float* wnegptr;
-    TH1D* h;
-    TH1D* hneg;
-  };
 
   //--------------------------Start of the NtupleReader::Loop()----------------------------
 
@@ -95,15 +96,13 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   auto kin_labels = getKinLabels(); // take [ipt][ieta] and returns a string "ptXetaY"
 
   // tagger declaration
-  map<string, MyTagger> tagger_map; // map of the tagger objects
-  //  tagger_map["MV2c10"] = MyTagger("MV2c10", float_subtagger["jet_MV2c10"], float_subtagger["jet_MV2c10Flip"]);
+  std::map<string, typename MyTagger> tagger_map; // map of the tagger objects
   
-
-  //tagger_map["DL1"] = MyTagger("DL1", float_subtagger["jet_DL1_w"], float_subtagger["jet_DL1Flip_w"]);
-
-  tagger_map["DL1"] = MyTagger("DL1", double_subtagger["jet_DL1_w"], double_subtagger["jet_DL1Flip_w"]);
+  //tagger_map["MV2c10"] = MyTagger("MV2c10", float_subtagger["jet_MV2c10"], float_subtagger["jet_MV2c10Flip"]);
+  tagger_map["DL1"] = MyTagger<double>("DL1", double_subtagger["jet_DL1_w"], double_subtagger["jet_DL1Flip_w"]);
   
-  if(debug == 2) std::cout << "  map of the tagger objects: " << double_subtagger["jet_DL1_w"] << std::endl;
+  if(debug == 2) std::cout << "  map of the tagger objects: " << float_subtagger["jet_MV2c10"] <<  "  "<< float_subtagger["jet_MV2c10"][0] <<  "  "<< float_subtagger["jet_MV2c10"][1] <<  "  "<< float_subtagger["jet_MV2c10"][2] << std::endl;
+  //std::map <std::string, float[2]> float_subtagger;
 
   for (auto &tagger: tagger_map) tagger.second.init();
 
