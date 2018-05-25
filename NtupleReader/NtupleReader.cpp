@@ -35,7 +35,13 @@ std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double 
 
 //template<class T>
 
-template< typename T > struct MyTagger
+class MyFieldInterface{
+public:  
+  ~MyFieldInterface() = default;
+};
+
+template<typename T> 
+class MyTagger:  public MyFieldInterface
 {
     // attributes   
   std::string name;
@@ -46,6 +52,8 @@ template< typename T > struct MyTagger
   // constructors
   //MyTagger(std::string aName, float* aWptr, float* aWnegptr)
   //MyTagger(std::string aName, TYPE aWptr, TYPE aWnegptr)
+
+public:
   MyTagger() {} 
   MyTagger(std::string aName, T* aWptr, T* aWnegptr)
   {
@@ -78,9 +86,6 @@ template< typename T > struct MyTagger
     // Main function
 void NtupleReader::Loop(int bootstrap_bkeeper=0)
 {
-
-
-
   //--------------------------Start of the NtupleReader::Loop()----------------------------
 
   if (fChain == 0) return;
@@ -96,13 +101,16 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   auto kin_labels = getKinLabels(); // take [ipt][ieta] and returns a string "ptXetaY"
 
   // tagger declaration
-  std::map<string, typename MyTagger> tagger_map; // map of the tagger objects
-  
-  //tagger_map["MV2c10"] = MyTagger("MV2c10", float_subtagger["jet_MV2c10"], float_subtagger["jet_MV2c10Flip"]);
-  tagger_map["DL1"] = MyTagger<double>("DL1", double_subtagger["jet_DL1_w"], double_subtagger["jet_DL1Flip_w"]);
-  
+  //  std::map<string, MyFieldInterface*> tagger_map; // map of the tagger objects
+  std::map<string, std::unique_ptr<MyFieldInterface> > tagger_map; // map of the tagger objects  
+  tagger_map["MV2c10"].reset( new MyTagger<float>("MV2c10", float_subtagger["jet_MV2c10"], float_subtagger["jet_MV2c10Flip"]));
+  tagger_map["DL1"].reset( new MyTagger<double>("DL1", double_subtagger["jet_DL1_w"], double_subtagger["jet_DL1Flip_w"]));
   if(debug == 2) std::cout << "  map of the tagger objects: " << float_subtagger["jet_MV2c10"] <<  "  "<< float_subtagger["jet_MV2c10"][0] <<  "  "<< float_subtagger["jet_MV2c10"][1] <<  "  "<< float_subtagger["jet_MV2c10"][2] << std::endl;
+
+  //tagger_map["DL1"] = MyTagger("DL1", double_subtagger["jet_DL1_w"], double_subtagger["jet_DL1Flip_w"]);
+  
   //std::map <std::string, float[2]> float_subtagger;
+  /*
 
   for (auto &tagger: tagger_map) tagger.second.init();
 
@@ -556,6 +564,7 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
 
 
     } // end jet loop
-  } // end event loop
+    } // end event loop
+  //*/
 
 }
