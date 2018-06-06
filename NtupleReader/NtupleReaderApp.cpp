@@ -28,6 +28,7 @@ int main(int argc, char* argv[]) {
 
   bool bootstrap_flag = false;
   TString bootstrap_index = "0";
+  std::vector<TString> reco_comp;
 
   for ( int i1 = 1; i1 < argc; ++i1){ // start at 1 (0 script name)
     if (strcmp(argv[i1], "-d")==0){
@@ -60,6 +61,10 @@ int main(int argc, char* argv[]) {
         bootstrap_flag = true;
         bootstrap_index = get_argument(argc, argv, i1);
     } 
+    else if (strcmp(argv[i1], "-c")==0){
+      reco_comp = get_arguments(argc, argv, i1);;
+      cout << "=== mc16a / mc16d  ===" << endl;
+    }
     else {
       cout << "argument not recognized: " << argv[i1] << endl;
     }

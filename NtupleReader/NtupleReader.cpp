@@ -110,11 +110,11 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   //tagger_map["DL1"] = MyTagger("DL1", double_subtagger["jet_DL1_w"], double_subtagger["jet_DL1Flip_w"]);
   
   //std::map <std::string, float[2]> float_subtagger;
-  /*
+  for (auto &tagger: tagger_map) tagger.second->init();
 
-  for (auto &tagger: tagger_map) tagger.second.init();
+ /*
 
-
+ 
   //---- WEIGHTS -----//
   // Cumulative Weight bookeeping: [ipt][ieta]["",gen or raw] returns the corresponding weight
   map<int, map<int, map<string, double>>> weightpTeta_map;
