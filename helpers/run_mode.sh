@@ -264,10 +264,14 @@ run() {
         s_index=0
         d_flag=0
         suffix="mc"
+	var_c=""
         for ((j=0; j<${#args[@]}; j++)); do
            if [[ "${args[j]}" == "-d" ]]; then
               d_flag=1
               suffix="data"
+           fi
+           if [[ "${args[j]}" == "-c" ]]; then
+               var_c=${args[j+1]}
            fi
            if [[ "${args[j]}" == "-s" ]]; then
               s_index=$j
@@ -277,7 +281,7 @@ run() {
 
         # create job file
         PBSDIR="pbs_files"
-        PBSFILE="$PBSDIR"/"$suffix"_"${args[$s_index+1]}".pbs
+        PBSFILE="$PBSDIR"/"$suffix"_"$var_c"_"${args[$s_index+1]}".pbs
         mkdir -p "$PBSDIR"
         cp ../setup.sh $PBSFILE 
         # adding some lines
@@ -300,12 +304,16 @@ run() {
         s_index=0
         d_flag=0
         suffix="mc"
+	var_c=""
         for ((j=0; j<${#args[@]}; j++)); do
            if [[ "${args[j]}" == "-d" ]]; then
               d_flag=1
               suffix="data"
            fi
-           if [[ "${args[j]}" == "-s" ]]; then
+           if [[ "${args[j]}" == "-c" ]]; then
+               var_c=${args[j+1]}
+           fi
+	   if [[ "${args[j]}" == "-s" ]]; then
               s_index=$j
               break
            fi
@@ -324,7 +332,7 @@ run() {
           OUTPUT_DIR="log/"
           mkdir -p "$OUTPUT_DIR" 
           # send job
-          qsub -P atlas -l cvmfs=1 -l h_rt=12:00:00 -l h_vmem=6000M -l h_fsize=2000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+          #qsub -P atlas -l cvmfs=1 -l h_rt=12:00:00 -l h_vmem=6000M -l h_fsize=2000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
 
         # bootstrap replica splitting
         else
