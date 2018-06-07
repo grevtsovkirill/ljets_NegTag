@@ -5,8 +5,9 @@
 // inputs from CxAOD
 namespace subtagger{
   const std::map <std::string, std::tuple<int, double, double>> floats = {
-    {"jet_MV2c10",std::make_tuple(100, -1.0, 1.0)},
-    {"jet_MV2c10Flip",std::make_tuple(100, -1.0, 1.0)},
+    //{"jet_MV2c10",std::make_tuple(100, -1.0, 1.0)},
+    //{"jet_MV2c10Flip",std::make_tuple(100, -1.0, 1.0)},
+    //
     // subtaggers 
     // IPXD, IPXDNeg
     {"jet_IP2D_logpbpu",std::make_tuple(70, -30.0, 40.0)},
@@ -70,6 +71,9 @@ namespace subtagger{
   const std::map <std::string, std::tuple<int, double, double>> doubles = {
     {"jet_DL1_w",std::make_tuple(100, -6.0, 14.0)},
     {"jet_DL1Flip_w",std::make_tuple(100, -6.0, 14.0)},
+    {"jet_MV2c10",std::make_tuple(100, -1.0, 1.0)},
+    {"jet_MV2c10Flip",std::make_tuple(100, -1.0, 1.0)},
+    //
   };
 
 }
