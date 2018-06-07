@@ -118,6 +118,7 @@ void NtupleDumper::Loop()
     if ( xsec ==  conf::xsec.end()) cout << "####\ncould not find cross-section!\n####" << endl;
     else cout << "cross-section*filtereff: " << xsec->second<< endl;
     xsec_correction = xsec->second / m_total_events * 1e3 * conf::int_lumi; // should scale the sample to int lumi
+    cout << "xsec->second="<<xsec->second<<", m_total_events="<<m_total_events<< ",  conf::int_lumi"<<  conf::int_lumi<< endl;
     cout << "default : " << xsec_correction << endl;     
     TString mctype = xsec->first.back();
     if (mctype=="H" || mctype=="S" ){
