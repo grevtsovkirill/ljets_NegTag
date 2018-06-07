@@ -12,14 +12,13 @@
 #include <cassert>
 #include <tuple>
 
-
 #include "../config/conf.hpp"
 #include "../helpers/OutputHelper.hpp"
 
 using namespace std;
 
 extern bool runmc;
-const int debug =2;
+const int debug =1;
 
 // Complete a binning bin given min and max values
 std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double min = -1.0, double max = 1.0){
@@ -32,17 +31,10 @@ std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double 
   return new_edges;
 }
 
-// Main function
-void NtupleReader::Loop(int bootstrap_bkeeper=0)
-{
 
-  // Definition of MyTagger object
   struct MyTagger
   {
     // constructors
-
-    //MyTagger(std::string aName, float* aWptr, float* aWnegptr)
-
     MyTagger() {} 
     MyTagger(std::string aName, double* aWptr, double* aWnegptr)
     {
@@ -55,12 +47,10 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
       // binning 
       //old = should start at -1 and end at +1.
       //new = retrieve from conf.hpp boarders
-	auto tuple = conf::tag_hist.find(name)->second;
-	std::vector<double> bins=extendBinRange(conf::wpoint_map.find(name)->second,std::get<1>(tuple),std::get<2>(tuple));
-      if(debug == 2){ std::cout<< "Name = "<< name << ",  extendBinRange: "<<  (conf::wpoint_map.find(name)->second[1])  <<std::endl;  
-	std::cout<<"  , tag_hist " <<  std::get<0>(tuple) <<std::endl;  
-      }
-	
+      auto tuple = conf::tag_hist.find(name)->second;
+      std::vector<double> bins=extendBinRange(conf::wpoint_map.find(name)->second,std::get<1>(tuple),std::get<2>(tuple));
+      if(debug == 1) std::cout << "  hist name " << name << ", hist bins: " << bins[0] << std::endl;
+
       // weight and negative weight tagger histogram 
       h = new TH1D(name.c_str(), name.c_str(), bins.size()-1, &(bins[0]));
       hneg = new TH1D((name+"neg").c_str(), (name + "neg").c_str(), bins.size()-1, &(bins[0]));
@@ -68,20 +58,21 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
       hneg->Sumw2();
     }
     ~MyTagger() {}  // destructor
-
-
-    // attributes    
     std::string name;
     double* wptr;
     double* wnegptr;
-    //float* wptr;
-    //float* wnegptr;
     TH1D* h;
     TH1D* hneg;
   };
+  
 
+// Main function
+void NtupleReader::Loop(int bootstrap_bkeeper=0)
+{
+
+  // Definition of MyTagger object
   //--------------------------Start of the NtupleReader::Loop()----------------------------
-
+  
   if (fChain == 0) return;
   int currentTree = -1;
   string period_slice;
@@ -96,14 +87,10 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
 
   // tagger declaration
   map<string, MyTagger> tagger_map; // map of the tagger objects
-  //  tagger_map["MV2c10"] = MyTagger("MV2c10", float_subtagger["jet_MV2c10"], float_subtagger["jet_MV2c10Flip"]);
-  
-
-  //tagger_map["DL1"] = MyTagger("DL1", float_subtagger["jet_DL1_w"], float_subtagger["jet_DL1Flip_w"]);
-
+  tagger_map["MV2c10"] = MyTagger("MV2c10", double_subtagger["jet_MV2c10"], double_subtagger["jet_MV2c10Flip"]);
   tagger_map["DL1"] = MyTagger("DL1", double_subtagger["jet_DL1_w"], double_subtagger["jet_DL1Flip_w"]);
   
-  if(debug == 2) std::cout << "  map of the tagger objects: " << double_subtagger["jet_DL1_w"] << std::endl;
+  if(debug == 0) std::cout << "  map of the tagger objects: " << double_subtagger["jet_DL1_w"] << std::endl;
 
   for (auto &tagger: tagger_map) tagger.second.init();
 
@@ -229,7 +216,7 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   }
   
   //---- Get pT/eta weight histograms---- 
-  std::string rew_filename = "../GetPtEtaWeights/rew_d.root";
+  std::string rew_filename = "../GetPtEtaWeights/rew_a.root";
   if(m_systematic.Contains("generator")) rew_filename = "../GetPtEtaWeights/rew_HERWIG.root";
   TFile* frew = new TFile(rew_filename.c_str());
   TH2D* h_rew[2];
@@ -248,8 +235,9 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
     }
   }
   //---- Get Ntrack weight histogram (now applied by default) -----
-  std::string rew_ntrack_filename = "../GetNTrackWeights/reweight_ntrack2D_d.root";
+  std::string rew_ntrack_filename = "../GetNTrackWeights/reweight_ntrack2D_a.root";
   if(m_systematic.Contains("generator")) rew_ntrack_filename = "../GetNTrackWeights/reweight_ntrack2D_HERWIG.root";
+
   TFile* frew_ntrack = new TFile(rew_ntrack_filename.c_str());
   TH2D* h_rew_ntrk[2];
   TH2D* h_rew_ntrk_bootstrap_data[2]; // datastat
@@ -265,7 +253,10 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
           h_rew_ntrk_bootstrap_mc[ij] = (TH2D*)frew_ntrack->Get( (string(m_reweighting_folder + "/datamc_ratio")+char('1'+ij)+string("_mc_")+to_string(bootstrap_bkeeper-1)).c_str());
         }
       }
+      if(debug == 1) std::cout <<"fill NTRK reweightin hists: rfold "<< m_reweighting_folder<< ", cont "<<  h_rew_ntrk[ij]->GetBinContent(0,3)<< std::endl;
   }
+  h_rew_ntrk[1]->Draw();
+
 
   // ------------- EVENT LOOP STARTS ---------- //
   Long64_t nentries = fChain->GetEntries();
@@ -273,8 +264,11 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
     Long64_t ientry = LoadTree(jentry);
     if(jentry ==0) cout<<" all: "<<nentries<<", ientry by loadTree: "<<ientry<<endl;
-    if (ientry < 0) break;
-    nb = fChain->GetEntry(jentry);   nbytes += nb;
+    //if (ientry < 0) break;
+    //nb = fChain->GetEntry(jentry);   
+
+    fChain->GetEntry(jentry);   
+    //nbytes += nb;
 
     // determine current tree
     if (currentTree != fCurrent) {
@@ -299,8 +293,12 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
 	}
       }
     }
-    // some printing
-    if (jentry%10000==0) { if(runmc)cout<<"running mc "; else cout<<"running data "; cout << jentry << " period/slice: " << period_slice << '\r'; cout.flush(); }
+
+    if (jentry%10000==0) { 
+      if(runmc)cout<<"running mc "; 
+      else cout<<"running data "; 
+      cout << jentry << " period/slice: " << period_slice << '\r'; cout.flush(); 
+    }
 
     // Cut for phi test
     int the_phi=12; bool good_phi=false;
@@ -344,6 +342,8 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
 
       // event weight
       double weight = mc_evtweight * data_evtweight[j];
+      if(debug == 1) std::cout <<"JET LOOP  weight computation for jet("<<j<<"): mc_evt = "<<mc_evtweight << ", data_evt = "<< data_evtweight[j] << ", tot = " << weight <<std::endl;
+
       // pu reweighting
       if(runmc && !m_systematic.Contains("PRW_DATASF")) weight *= evtpuw;
       else if (m_systematic.Contains("FlavourTagging_PRW_DATASF__1up")) weight *= evtpuw_sys[0];
@@ -394,6 +394,8 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
           weight *= data_evtweight[index_leading]/data_evtweight[j];
           weight_bootstrap_data *= data_evtweight[index_leading]/data_evtweight[j];
           weight_bootstrap_mc *= data_evtweight[index_leading]/data_evtweight[j];
+
+	  if(debug == 1) std::cout <<"subleading   weight computation: data_evtwe="<<data_evtweight[index_leading]/data_evtweight[j]<<", tot = " << weight<< endl;
         }
         // use subleading prescale
         else if(jetpass_subleading!=0 || jetpass_leading>1) continue;
@@ -407,6 +409,9 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
 	int ix = h_rew[ilead]->GetXaxis()->FindBin(jetpt[j]);
 	int iy = h_rew[ilead]->GetYaxis()->FindBin(abs_eta);
 	weight *= h_rew[ilead]->GetBinContent(ix,iy);
+
+	if(debug == 1) std::cout <<"MC reqeightin  weight computation: h_rew[ilead]->GetBinContent(ix,iy);"<< h_rew[ilead]->GetBinContent(ix,iy) << " x= "<< ix<<", y = "<< iy <<", tot = " << weight<< endl; 
+
         if (bootstrap_bkeeper>0) 
         {
           weight_bootstrap_mc *= h_rew_bootstrap_mc[ilead]->GetBinContent(ix,iy);
@@ -426,7 +431,9 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
          
           if( abs(1-h_rew_ntrk[ilead]->GetBinContent(itrx, itry)) > 2*h_rew_ntrk[ilead]->GetBinError(itrx, itry) )
           {
-	    weight *= h_rew_ntrk[ilead]->GetBinContent(itrx, itry);
+	    //weight *= h_rew_ntrk[ilead]->GetBinContent(itrx, itry);
+	    weight *= 1; //AAAAAAAAAAAAAAAAAAAAAAAAAAAAA checkcheckcheckcheck!!!!!!!!!!!
+	    if(debug == 1) std::cout <<"NTRK reqeightin  weight computation: h_rew[i;"<< h_rew_ntrk[ilead]->GetBinContent(itrx, itry) << " x= "<< itrx<<", y = "<< itry  <<", tot = " << weight<< endl; 
             if (bootstrap_bkeeper>0)
             {
               weight_bootstrap_mc *= h_rew_ntrk_bootstrap_mc[ilead]->GetBinContent(itrx,itry);
@@ -492,7 +499,7 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
           // weight and negative weight
           double w = (tagger.second.wptr)[j];
           double wneg = (tagger.second.wnegptr)[j];
-	  if(debug == 1) std::cout << " weight and negative weight for pt("<< ptBin<<"),eta("<< etaBin<<"), fl("<< flav<<"), tagger("<< tagger.first<<"): "<< w <<" , " << wneg<< std::endl;
+	  if(debug == 1) std::cout <<"Jet N="<<j<<  ", pt("<< ptBin<<"),eta("<< etaBin<<"), fl("<< flav<<"), tagger("<< tagger.first<<"): "<< w <<" , " << wneg<< " ;  weight applied" << weight <<std::endl;
 
           tagger.second.h->Fill(w, weight); 
           tagger.second.hneg->Fill(wneg, weight);

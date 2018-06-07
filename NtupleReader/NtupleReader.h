@@ -8,9 +8,11 @@
 #ifndef NtupleReader_h
 #define NtupleReader_h
 
+
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
+#include <TClass.h>
 
 #include "../config/subTagger.hpp"
 
@@ -112,6 +114,7 @@ public :
 };
 
 #endif
+
 
 #ifdef NtupleReader_cxx
 NtupleReader::NtupleReader(TTree *tree, TString syst, TString mode, TString reweighting_folder)
