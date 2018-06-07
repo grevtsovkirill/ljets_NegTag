@@ -28,6 +28,6 @@ rt 'calculate_jetptetareweighting.C("data1516_FlavourTagging_Nominal_0.root","mc
 Look into dumped ntuples, take reweighting results to build histograms for each tagger - nominal and flipped.
 
 ```
-./NtupleReaderApp -s FlavourTagging_Nominal -m xAOD -f ../NtupleDumper/res/smth.root
+./NtupleReaderApp -s FlavourTagging_Nominal -c a -m xAOD -f ../NtupleDumper/res/mc16a_smth.root
 ```
 Will check ranges of historgrams and types of taggers into ```../config/subTagger.hpp``` and check that input file is in ```.slices/.periods```
