@@ -25,6 +25,7 @@ int main(int argc, char* argv[]) {
   std::vector<TString> files;
   TString mode = "";
   TString period = "";
+  std::vector<TString> reco_comp;
 
   bool bootstrap_flag = false;
   TString bootstrap_index = "0";
@@ -60,6 +61,10 @@ int main(int argc, char* argv[]) {
         bootstrap_flag = true;
         bootstrap_index = get_argument(argc, argv, i1);
     } 
+    else if (strcmp(argv[i1], "-c")==0){
+      reco_comp = get_arguments(argc, argv, i1);;
+      cout << "=== mc16a / mc16d  ===" << endl;
+    }
     else {
       cout << "argument not recognized: " << argv[i1] << endl;
     }
@@ -71,8 +76,8 @@ int main(int argc, char* argv[]) {
 
   TString filename;
   if (runmc){
-    filename = "res/" + systematic + "/mc.root";
-    if(bootstrap_flag) filename = "res/" + systematic + "/mc_" + bootstrap_index + ".root";
+    filename = "res/" + systematic + "/mc_"+reco_comp[0]+".root";
+    if(bootstrap_flag) filename = "res/" + systematic + "/mc_"+reco_comp[0]+"_" + bootstrap_index + ".root";
   }
   else{
     filename = "res/" + systematic + "/data.root";
@@ -108,6 +113,7 @@ int main(int argc, char* argv[]) {
     reweighting_folder = "FlavourTagging_Nominal";
   }
 
+  cout << "Read tree: "<< treename << endl;
   TChain* tchain = new TChain(treename);
   for (auto file: files){
     tchain->Add(file);
