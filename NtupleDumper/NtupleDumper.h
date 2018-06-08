@@ -53,6 +53,8 @@ public :
   std::vector<int>   *jet_JetFitterFlip_ntrk; // jet_JetFitterFlip_nTracks (JetFitterFlip input)
   std::vector<int>   *jet_JetFitter_ntrk; // jet_JetFitter_nTracks (JetFitter input)
 
+
+
   // truth jets
   std::vector<float> *truthjet_pt;
   std::vector<float> *truthjet_phi;
@@ -239,6 +241,7 @@ void NtupleDumper::Init(TTree *tree)
   jet_SV1_ntrk = new std::vector<int>; // jet_SV1_nTracks (SV1 input)
   jet_JetFitterFlip_ntrk = new std::vector<int>; // jet_JetFitterFlip_nTracks (JetFitterFlip input)
   jet_JetFitter_ntrk = new std::vector<int>; // jet_JetFitter_nTracks (JetFitter input)
+
 
   // truth jets
 

@@ -80,7 +80,6 @@ void NtupleDumper::Loop()
   outtree->Branch("jettruthphi", jettruthphi, "jettruthphi[njets]/F");
   outtree->Branch("jettruthpdgId", jettruthpdgId, "jettruthpdgId[njets]/I");
 
-
   // for bootstrap
   // Random generator + branch declaration
   TRandom *r3 = new TRandom3();
@@ -162,6 +161,7 @@ void NtupleDumper::Loop()
 
     // excludes event with no reco jets with warning.
     njets_event = jet_pt->size();
+
     if (njets_event < 1){
       //std::cout << "Warning: event with no reco jet. Run/EventNumber: " << runnum << ", " << evtnum << std::endl; 
       continue;
@@ -221,6 +221,7 @@ void NtupleDumper::Loop()
     int tightBad1 = -1;
     double pt1 = 0, pt2 = 0; // pt of leading and subleading jet 
     int nj=0;
+
 
     for (int j = 0; j<njets_event; ++j) {
 
@@ -405,6 +406,7 @@ void NtupleDumper::Loop()
       ntrack_SV1[nj] = (*jet_SV1_ntrk)[j];
       ntrack_JetFitterFlip[nj] = (*jet_JetFitterFlip_ntrk)[j];
       ntrack_JetFitter[nj] = (*jet_JetFitter_ntrk)[j];
+
 
       // *_subtagger_out defined at the beginning
       for (auto &pair: float_subtagger_out){
