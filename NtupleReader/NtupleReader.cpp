@@ -18,7 +18,7 @@
 using namespace std;
 
 extern bool runmc;
-const int debug =1;
+const int debug =2;
 
 // Complete a binning bin given min and max values
 std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double min = -1.0, double max = 1.0){
@@ -255,7 +255,6 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
       }
       if(debug == 1) std::cout <<"fill NTRK reweightin hists: rfold "<< m_reweighting_folder<< ", cont "<<  h_rew_ntrk[ij]->GetBinContent(0,3)<< std::endl;
   }
-  h_rew_ntrk[1]->Draw();
 
 
   // ------------- EVENT LOOP STARTS ---------- //

@@ -80,8 +80,8 @@ int main(int argc, char* argv[]) {
     if(bootstrap_flag) filename = "res/" + systematic + "/mc_"+reco_comp[0]+"_" + bootstrap_index + ".root";
   }
   else{
-    filename = "res/" + systematic + "/data.root";
-    if(bootstrap_flag) filename = "res/" + systematic + "/data_" + bootstrap_index + ".root";
+    filename = "res/" + systematic + "/data_"+reco_comp[0]+".root";
+    if(bootstrap_flag) filename = "res/" + systematic + "/data_" + bootstrap_index +"_"+reco_comp[0]+".root";
   }
   TFile histofile(filename, "RECREATE");
   TDirectory* dir_subtagger = histofile.mkdir("subTagger");
