@@ -43,7 +43,7 @@ run() {
         for ((i=0; i<${#args[@]}; i++)); do
            if [[ "${args[i]}" == "-ps" ]]; then
                var=${args[i+1]}
-	 #      echo $var
+	       var_c='_data'
            fi
            if [[ "${args[i]}" == "-c" ]]; then
                var_c=${args[i+1]}
@@ -67,6 +67,8 @@ run() {
 
         # adding some lines
         echo " " >> "$PBSFILE"
+        echo "cd /nfs/dust/atlas/user/grevtsok/Work/FTag/LFnegTag/LFNegTag_r21/ljets_NegTag/NtupleDumper " >> "$PBSFILE"
+        echo " " >> "$PBSFILE"
         echo "$@" >> "$PBSFILE"
 
         # create log directory
@@ -75,7 +77,7 @@ run() {
 
 	#echo "here"
         # send job
-	qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+	#qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
 
     # -----------------------------------------------------------------------
     # for grid engine batch system: split in period + syst (NtupleDumper ONLY)

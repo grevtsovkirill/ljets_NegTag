@@ -12,6 +12,8 @@ make
 ```
 Specify option -c in run.sh to provide different files for mc16a and mc16d (since same name of slices and same xs).
 Output will be available at: ```/NtupleDumper/res```
+```./run.sh send2ge_NtupleDumper``` will create pbs jobs used for ```htc.sh``` to submit Condor jobs, like ```./htc.sh d```
+
 
 ##### GetPtEtaWeights
 Create histograms of data and MC to compute corresponding reweighting files:
