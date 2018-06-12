@@ -10,8 +10,9 @@ chan=$2
 fi
 
 
-if [[ -z  $chan ]];then
-    array=($(seq 13 14))
+#if [[ -z  $chan ]];then
+if [[ $chan=='H' || $chan=='S' || (-z  $chan ) ]];then
+    array=($(seq 0 11))
 else
     array=($(ls -d pbs_files/*data.pbs))
 fi
@@ -24,10 +25,18 @@ COUNTER=0
 condor=''
 for i in ${array[*]};
 do
-    if [[ -z  $chan ]];then
+    #if [[ -z  $chan ]];then
+    if [[ $chan=='H' || $chan=='S' || (-z  $chan) ]];then
 	condor=HTC/CMD/condor_MC_"$gen""$chan"-"$i".cmd
-	echo "MC"
-	echo "executable = pbs_files/JZ"$i"W"$gen".pbs "             > $condor
+	echo "MC",$chan
+	if [[ -z  $chan ]];then
+	    place=''
+	else 
+	    place='_'
+	    place+=$chan
+	    echo 'chan is',$chan,' add extra line in command: ',$place
+	fi
+	echo "executable = pbs_files/JZ"$i"W"$place$gen".pbs "             > $condor
 	COUNTER=$i
     else
 	let COUNTER=COUNTER+1
