@@ -144,7 +144,8 @@ run() {
              mkdir -p "$OUTPUT_DIR" 
 
              # send job
-             #qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+             #qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a
+	     condor_qsub -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
            fi
         done
 
