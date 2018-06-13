@@ -13,6 +13,7 @@ xAOD 	   	      FlavourTagging_JET_GroupedNP_3__1up			  updown  sf
 xAOD 	  	      FlavourTagging_JET_RelativeNonClosure_MC16__1down		  updown  sf
 xAOD 	  	      FlavourTagging_JET_RelativeNonClosure_MC16__1up		  updown  sf
 xAOD                  FlavourTagging_JET_JER_SINGLE_NP__1up			  rel     sf
+xAOD 	  	      FlavourTagging_JET_JvtEfficiency__1up			  rel	  sf
 doJets                FlavourTagging_PRW_DATASF__1up                           	  updown  sf
 doJets                FlavourTagging_PRW_DATASF__1down                         	  updown  sf
 doJets                FlavourTagging_JET_fJvtEfficiency__1up		       	  updown  sf
@@ -22,9 +23,6 @@ doJets  	      notrackrew				               rel     sf
 doJets  	      notrackrew_subleadingjet			               rel     sf
 doJets  	      subleadingjet_generator           		       rel     sf
 doSubLeadJet          subleadingjet				               rel     sf
-
-
-#JET_EtaIntercalibration_NonClosure JET_GroupedNP_1 JET_GroupedNP_2 JET_GroupedNP_3 JET_RelativeNonClosure_MC16 JET_JER_SINGLE_NP JET_JvtEfficiency JET_fJvtEfficiency PRW_DATASF 
 ##############################################################################
 # HF fraction (from MV2c10 fit, see TemplateFit) and b-tagging neg efficiency
 # negative b-tagging efficiency variations defined in conf.hpp [OK] 
