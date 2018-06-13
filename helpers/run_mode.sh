@@ -97,18 +97,25 @@ run() {
 
         # determine slice
         var="0"
+	var_c="_"
         ps_index=0
         d_flag=0
         for ((i=0; i<${#args[@]}; i++)); do
            if [[ "${args[i]}" == "-d" ]]; then
-              d_flag=1
+               d_flag=1
+	       var_c='_data'
            fi
            if [[ "${args[i]}" == "-ps" ]]; then
               ps_index=$i
               var=${args[i+1]}
+           fi
+           if [[ "${args[i]}" == "-c" ]]; then
+               var_c=${args[i+1]}
+	  #     echo $var_c
               break
            fi
         done
+	var+=$var_c
 
         # trick to identify if NtupleDumper is ran
         if [[ "$var" == "0" ]]; then 
