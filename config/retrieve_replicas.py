@@ -5,8 +5,11 @@ import os, math, sys, subprocess, argparse
 parser = argparse.ArgumentParser(description='Look up the path to each file of a sample and create a list to it.\nIMPORTANT NOTE: You need a valid grid token and rucio set up for this script, this is not checked by the script.')
 parser.add_argument('--inputfile','-i', type=str,
                     help='File with list of grid samples')
+parser.add_argument('--container','-c', type=str,
+                    help='File with list of grid samples')
 args = parser.parse_args()
 in_file=args.inputfile
+data_container=args.container
 
 if not in_file: 
     in_file = 'test.list'
@@ -64,6 +67,19 @@ ref = [
 ["JZ10W", 361030, 361030],
 ["JZ11W", 361031, 361031],
 ["JZ12W", 361032, 361032],
+#Herwig
+["JZ0W_H",  364443, 364443],
+["JZ1W_H",  364444, 364444],
+["JZ2W_H",  364445, 364445],
+["JZ3W_H",  364446, 364446],
+["JZ4W_H",  364447, 364447],
+["JZ5W_H",  364448, 364448],
+["JZ6W_H",  364449, 364449],
+["JZ7W_H",  364450, 364450],
+["JZ8W_H",  364451, 364451],
+["JZ9W_H",  364452, 364452],
+["JZ10W_H", 364453, 364453],
+["JZ11W_H", 364454, 364454],
 
 ]
 
@@ -84,7 +100,8 @@ def lineExtractor(y_input):
         return line3
 
 isMC = False
-p1516 = False
+p15 = False
+p16 = False
 p17 = False
 isData = False
                                                      
@@ -95,45 +112,67 @@ ruc = rucio.client.Client()
 
 slice_files = []
 list_dsid_file = []
-
+slice = 0
+slice_name = ''
 counter = 0
+dataY=''
+per=''
 with open(fname) as f:
     content = f.readlines()
     for x in content:
         y= x.replace('\n','')
         if 'mc16' in y : 
             isMC = True
-            if 'mc16a' in y : p1516 = True
-            if 'mc16d' in y : p17 = True
+            if 'r9315' in y : p1516 = True
+            if 'r10201' in y : p17 = True
         if 'data17' in y : 
             isData = True
             p17 = True
-        if ('data16' in y) or ('data15' in y) : 
+            dataY = '17'
+        if 'data16' in y: 
             isData = True  
-            p1516 = True 
+            p16 = True 
+            dataY = '16'
+        if 'data15' in y : 
+            isData = True  
+            p15 = True 
+            dataY = '15'
                 
         print y
+
+        
         dsid = y[y.find('13TeV.')+6:y.find('.DAOD')]
-        if isData : 
+        if isData and data_container=='': 
             dsid = y[y.find('13TeV.')+8:y.find('.DAOD')]
+            print 'normal dsid'
+
         print 'dsid=',dsid
 
         list_dsid_file.append((dsid,y))
         if isMC:
             for i_ref in ref : 
+                #print 'in loop ref, i = ',i_ref
                 if int(dsid) >= i_ref[1] and int(dsid) <= i_ref[2] :
                     slice_name=i_ref[0]
-                #print i_ref[0]
+                    print 'here = ',i_ref[0]
+                    slice=slice_name+'\t'+' '+lineExtractor(y) #.join(slice_files)
+                    array_of_slices.append(slice)
+                #print 'over line',y #,'\n slice: ',slice
                     break
-                slice=slice_name+'\t'+' '+lineExtractor(y) #.join(slice_files)
-                array_of_slices.append(slice)
-                print 'over line',y #,'\n slice: ',slice
+        if isData and (not data_container==''):
+            per=dsid.replace('period','')
+            per=per+dataY
+            print 'data period: ',per
+            slice=per+'\t'+' '+lineExtractor(y) #.join(slice_files)
+            array_of_slices.append(slice)
+
 
 #print slice_files
 
-print isMC,p17,p1516,isData
+print isMC,p17,p15,p16,isData
 
-if isData:
+if isData and data_container=='':
+    print 'per run extraction'
     for i_ref in ref : 
         if 'JZ' not in i_ref[0]: 
             line_per_period=''
@@ -154,9 +193,10 @@ if isData:
             #for i 
 
 # recreate file
-if isData and p1516      : filename0="data_files_15and16.txt"
+if isData and p15      : filename0="data_files_15.txt"
+if isData and p16      : filename0="data_files_16.txt"
 if isData and p17      : filename0="data_files_17.txt"
-if isMC and p1516      : filename0="mc16a_files.txt"
+if isMC and (p15 or p16) : filename0="mc16a_files.txt"
 if isMC and p17      : filename0="mc16d_files.txt"
 
 outfile = open(filename0, 'w')
