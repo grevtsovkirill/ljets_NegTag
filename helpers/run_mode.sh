@@ -137,7 +137,7 @@ run() {
              mkdir -p "$OUTPUT_DIR" 
 
              # send job
-             qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+             #qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
            fi
         done
 
@@ -161,6 +161,11 @@ run() {
               s_index=$j
               break
            fi
+           if [[ "${args[j]}" == "-c" ]]; then
+               var_c=${args[j+1]}
+	       echo $var_c
+              break
+           fi
         done
 
         # loop on systematics
@@ -182,7 +187,7 @@ run() {
                OUTPUT_DIR="log/"
                mkdir -p "$OUTPUT_DIR" 
                # send job
-               qsub -P atlas -l cvmfs=1 -l h_rt=6:00:00 -l h_vmem=4000M -l h_fsize=1000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+               #qsub -P atlas -l cvmfs=1 -l h_rt=6:00:00 -l h_vmem=4000M -l h_fsize=1000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
              # bootstrap replica splitting
              else
                for k in {1..500} 
@@ -199,7 +204,7 @@ run() {
                  OUTPUT_DIR="log/"
                  mkdir -p "$OUTPUT_DIR" 
                  # send job
-                 qsub -P atlas -l cvmfs=1 -l h_rt=6:00:00 -l h_vmem=4000M -l h_fsize=1000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+                 #qsub -P atlas -l cvmfs=1 -l h_rt=6:00:00 -l h_vmem=4000M -l h_fsize=1000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
                done 
              fi
 
