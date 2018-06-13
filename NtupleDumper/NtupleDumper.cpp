@@ -11,12 +11,14 @@
 #include <cassert>
 
 using namespace std;
-const int debug =1;
+const int debug =0;
 
-void NtupleDumper::Loop()
+//void NtupleDumper::Loop()
+TTree* NtupleDumper::Loop()
 {
 
-  if (fChain == 0) return;
+  //if (fChain == 0) return;
+  if (fChain == 0) return NULL;
 
   // book histograms
   TH1F *h_cutflow = new TH1F("cutflow_"+m_systematic, "cutflow", 6, 0, 6);
@@ -136,7 +138,8 @@ void NtupleDumper::Loop()
   cout<<"total entries: "<<nentries<<endl;
   if ( nentries == 0) {
     cout << "skip file" << endl;
-    return;
+    //return;
+    return NULL;
   }
 
   // initialization of some variables global to the whole sample
@@ -362,6 +365,7 @@ void NtupleDumper::Loop()
       double ptj = (*jet_pt)[j]/1000.;
 
       // check if trigger associated to pT bin has fired
+      if(debug == 1) cout<< "check if trigger associated to pT bin has fired check_trigger_pt_bin"<<endl;
       if (!check_trigger_pt_bin(ptj)) m_jetpass += 1;
 
       // check if ptj is out of the defined pT bins
@@ -378,7 +382,7 @@ void NtupleDumper::Loop()
       // m_jetpass == 3, NO GOOD TRIGGER FIRED, out of range, cleaning ok
 
       // m_jetpass > 3, jet do not pass xAOD cleaning 
-
+      if(debug == 1) cout<<"m_jetpass = "<< m_jetpass<< "; where 0, good trigger fired, 1, NO GOOD TRIGGER FIRED,  2, good trigger fired,,3, NO GOOD TRIGGER FIRED"<< endl;
       jetpt[nj] = ptj;
       jetphi[nj] = (*jet_phi)[j];
       jeteta[nj] = (*jet_eta)[j];
@@ -444,21 +448,25 @@ void NtupleDumper::Loop()
     }
 
     outtree->Fill();
-  }
+  }//end event loop
 
   for(int icut=0; icut<ncuts; icut++){
     cout<<icut<<": no w "<<nevents_now[icut]<<", pu w "<<nevents_puw[icut]<< " puw+mcw " <<nevents[icut]<<endl;
 
   }
 
-}
+  return outtree;
+}//end NtupleDumper::Loop
 
 bool NtupleDumper::check_trigger_pt_bin(double jetpt){
-
+  if(debug == 1)   cout << "in check_trigger_pt_bin"<< endl;
   // determine the pT bin
   int pt_bin = -1;
   for (int i = 0; i< conf::n_pt; ++i){
+
+    if(debug == 1) cout << "conf::pt_lowedges["<<i+1<<"]="<<   conf::pt_lowedges[i+1]<<" wrt jetpt "<< jetpt<< endl;
     if (jetpt < conf::pt_lowedges[i+1]){
+      if(debug == 1) std::cout << "jetpt < conf::pt_lowedges[i+1]; pt_bin= "<< i<< std::endl;
       pt_bin = i;
       break;
     }
@@ -468,7 +476,8 @@ bool NtupleDumper::check_trigger_pt_bin(double jetpt){
   if (pt_bin == -1) return true;
 
   // check if trigger has fired
-  // cout << "bin: " << pt_bin << " assoc. trigger: " << conf::bin_trigger[pt_bin] << " decision: " << *trigger_decision[conf::bin_trigger[pt_bin]] << endl;
+  if(debug == 1) cout << "bin: " << pt_bin << " assoc. trigger: " << conf::bin_trigger[pt_bin] << " decision: " << *trigger_decision[conf::bin_trigger[pt_bin]] << endl;
+
   return *trigger_decision[conf::bin_trigger[pt_bin]];
 }
 
