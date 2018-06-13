@@ -65,6 +65,8 @@ namespace subtagger{
     {"jet_isMV2Flip_Tagged",std::make_tuple(221,0 , 220)},
     {"jet_isDL1_Tagged",std::make_tuple(221,0 , 220)},
     {"jet_isDL1Flip_Tagged",std::make_tuple(221,0 , 220)},
+    {"jet_MV2TagBin",std::make_tuple(9,-2 , 6)},
+    {"jet_MV2FlipTagBin",std::make_tuple(9,-2 , 6)},
   };
 
   const std::map <std::string, std::tuple<int, double, double>> doubles = {
