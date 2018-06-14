@@ -13,12 +13,12 @@
 using namespace std;
 const int debug =0;
 
-//void NtupleDumper::Loop()
-TTree* NtupleDumper::Loop()
+void NtupleDumper::Loop()
+//TTree* NtupleDumper::Loop()
 {
 
-  //if (fChain == 0) return;
-  if (fChain == 0) return NULL;
+  if (fChain == 0) return;
+  //if (fChain == 0) return NULL;
 
   // book histograms
   TH1F *h_cutflow = new TH1F("cutflow_"+m_systematic, "cutflow", 6, 0, 6);
@@ -138,8 +138,8 @@ TTree* NtupleDumper::Loop()
   cout<<"total entries: "<<nentries<<endl;
   if ( nentries == 0) {
     cout << "skip file" << endl;
-    //return;
-    return NULL;
+    return;
+    //return NULL;
   }
 
   // initialization of some variables global to the whole sample
@@ -455,7 +455,7 @@ TTree* NtupleDumper::Loop()
 
   }
 
-  return outtree;
+  //return outtree;
 }//end NtupleDumper::Loop
 
 bool NtupleDumper::check_trigger_pt_bin(double jetpt){

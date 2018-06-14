@@ -129,7 +129,7 @@ int main(int argc, char* argv[]) {
     delete f;
   }
 
-  //TFile *histofile = new TFile(filename, "RECREATE");
+  TFile *histofile = new TFile(filename, "RECREATE");
   for (auto syst: systematics){
     TFile *histofile = new TFile(filename, "RECREATE");
     TTree* mytree = (TTree*)gROOT->FindObject(syst);
@@ -142,21 +142,21 @@ int main(int argc, char* argv[]) {
       dumper->m_events_sample = h_event_count->GetBinContent(3);
     }
     //TTree *T = new TTree("T","title");
-    //dumper->Loop();
-    TTree *T;
-    T = dumper->Loop();
+    dumper->Loop();
+    //TTree *T;
+    //T = dumper->Loop();
     //histofile = mytree->GetCurrentFile(); 
-    histofile->Write();
+    //histofile->Write();
     //histofile->Map(); 
-    histofile->Close();
+    //histofile->Close();
     //T->Delete();
-    histofile->Delete();
+    //histofile->Delete();
   }
   //cout << "which tree to save: "<< endl;
   // save stuff
   ////histofile = dumper->GetCurrentFile();
-  //histofile->Write(0,TObject::kOverwrite);
-  //histofile->Close();
+  histofile->Write(0,TObject::kOverwrite);
+  histofile->Close();
 
   return 0;
 }
