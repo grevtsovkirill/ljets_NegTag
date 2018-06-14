@@ -40,10 +40,14 @@ run() {
         args=("$@")
         var="0"
 	var_c="_"
+	sys_val=""
         for ((i=0; i<${#args[@]}; i++)); do
            if [[ "${args[i]}" == "-ps" ]]; then
                var=${args[i+1]}
 	       var_c='_data'
+           fi
+           if [[ "${args[i]}" == "-s" ]]; then
+               sys_val=${args[i+1]}
            fi
            if [[ "${args[i]}" == "-c" ]]; then
                var_c=${args[i+1]}
@@ -52,6 +56,7 @@ run() {
            fi
         done
 	var+=$var_c
+	var+=$sys_val
 	#echo 'file = '$var
         # trick to identify if NtupleDumper is ran 
         if [[ "$var" == "0" ]]; then 
@@ -78,7 +83,7 @@ run() {
 	#echo "here"
         # send job
 	#qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
-
+	condor_qsub -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
     # -----------------------------------------------------------------------
     # for grid engine batch system: split in period + syst (NtupleDumper ONLY)
     # ------------------------------------------------------------------------
@@ -145,7 +150,7 @@ run() {
 
              # send job
              #qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a
-	     condor_qsub -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+	     #condor_qsub -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
            fi
         done
 
@@ -159,7 +164,7 @@ run() {
         args=("$@")
         s_index=0
         d_flag=0
-        suffix="mc"
+        suffix="mc16"
         for ((j=0; j<${#args[@]}; j++)); do
            if [[ "${args[j]}" == "-d" ]]; then
               d_flag=1
@@ -175,6 +180,7 @@ run() {
               break
            fi
         done
+	suffix+=$var_c
 
         # loop on systematics
         for syst in $(getxAODsystsAndOthers); do
@@ -259,12 +265,13 @@ run() {
              cp ../setup.sh $PBSFILE 
              # adding some lines
              echo " " >> "$PBSFILE"
-             echo "${@:1:$s_index+1} $syst -split 0" >> "$PBSFILE"
+             echo "${@:1:$s_index+1} $syst -f $(get_mc_ntupledumper $var_c $syst) -split 0" >> "$PBSFILE"
              # create log directory
              OUTPUT_DIR="log/"
              mkdir -p "$OUTPUT_DIR" 
              # send job
-             qsub -P atlas -l cvmfs=1 -l h_rt=6:00:00 -l h_vmem=4000M -l h_fsize=8000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+             #qsub -P atlas -l cvmfs=1 -l h_rt=6:00:00 -l h_vmem=4000M -l h_fsize=8000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+	     #condor_qsub -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
            fi
         done
 
@@ -396,12 +403,15 @@ SLICEFILE="../NtupleDumper/.slices.auto"
 get_mc_ntupledumper(){
     SAMPLES=""
     mcTYPE=$1
+    isSplit='_'
+    isSplit+=$2
 
     while read slice; do
-	SAMPLES+=" ../NtupleDumper/res/mc16$mcTYPE"_"$slice.root"
+	SAMPLES+=" ../NtupleDumper/res/mc16$mcTYPE"_"$slice$isSplit.root"
     done < $SLICEFILE
     echo $SAMPLES
 #mc16a_JZ0W.root
+#mc16d_JZ4W_FlavourTagging_JET_JER_SINGLE_NP__1up.root
 }
 
 SLICEFILE_H="../NtupleDumper/.slicesHERWIG.auto"
