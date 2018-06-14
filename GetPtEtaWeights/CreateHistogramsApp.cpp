@@ -44,8 +44,8 @@ int main(int argc, char* argv[])
 	{
 	  cout << "=== selected files ===" << endl;
 	  files = get_arguments(argc, argv, i1);
-          if(files.at(0).Contains("_H")) HERWIG = true;
-          if(files.at(0).Contains("_S")) SHERPA = true;
+          if(files.at(0).Contains("W_H")) HERWIG = true;
+          if(files.at(0).Contains("W_S")) SHERPA = true;
 	  cout << "=== end of files ===" << endl;
 	}
       else if (strcmp(argv[i1], "-s")==0)
