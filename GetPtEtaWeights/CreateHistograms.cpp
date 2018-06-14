@@ -18,7 +18,7 @@
 #include "../helpers/OutputHelper.hpp"
 
 using namespace std;
-
+const int debug=0;
 extern bool runmc;
 
 void CreateHistograms::Loop(int bootstrap_bkeeper=0)
@@ -296,7 +296,10 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
 	{
 	  cout << jentry << '\r'; cout.flush();
 	}
-
+      if(debug == 1 && jentry>1000){
+	cout << "first 1k events for debugging. stop here!"<< endl;
+	break;
+      }
       // identify the leading/subleading jet for cut on jetpass
       int jetpass_leading = -999;
       int jetpass_subleading = -999;
@@ -311,6 +314,7 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
         jetpass_subleading = jetpass[0];
       }
 
+      if(debug==1) cout << "njets = "<< njets << ", jetpt0="<<jetpt[0]<< " " << ", jetpt1="<<jetpt[1]<< ". "<< endl;
       for (int j = 0; j<njets; ++j) 
 	{
 	  double ptj = jetpt[j];
@@ -345,6 +349,7 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
           // longlived
           if(runmc && m_systematic.EqualTo("longlivedparticles") && (jetHasKShort[j] || jetHasLambda[j])) weight *=1.3;
 
+	  if(debug == 1) cout <<" in jet loop, entering LEADING: isleading["<<j<<"]="<<isleading[j]<< endl ;
           // ---------- leading jet ---------- //
           // jetpass - use leading prescale
 	  if(isleading[j] && jetpass_leading==0 && jetpass_subleading<2 )
@@ -354,6 +359,8 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
               {
                 h_njets_event_mc_w->Fill(njets_event, weight);
                 h_averageInteractionsPerCrossing_mc_w->Fill(evt_averageInteractionsPerCrossing, weight);
+
+		if(debug == 1) cout <<"          LEADING: !m_systematic.EqualTo(FlavourTagging_Nominal) || bootstrap_bkeeper<=1: fill h_pt1_mc_w = "<<ptj<<", weight= "<< weight << endl ;
  
   	        h_pt1_mc_w->Fill(ptj, weight);
   	        h_eta1_mc_w->Fill(eta_abs, weight);
@@ -413,28 +420,39 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
           // ---------- subleading jet ---------- //
 	  else if(!isleading[j])
 	    {
+	      if(debug == 1) cout <<"       entering  S U B -  LEADING: (!isleading["<<j<<"] "<< isleading[j]  << endl;
+		
+	      if(debug == 1) cout <<"          SUBLEADING: getPtBin(ptj) = "<<getPtBin(ptj)<<", ptj= "<< ptj << endl;
               // if subleading in the first bin, consider only events triggered by the leading in the second bin for 100% trigger efficiency
               if(getPtBin(ptj)==1)
               {
+		if(debug == 1) cout <<"      if subleading in the first bin, consider only events triggered by the leading in the second bin for 100% trigger efficiency "  << endl;
+	  
                 // Get the pT of the leading
                 int index_leading = 0;
                 if(j==0) index_leading = 1; 
                 else     index_leading = 0;
                 double pt_leading = jetpt[index_leading];
                 //consider only subleading with leading in a higher bin
+		if(debug == 1) cout <<"          SUBLEADING: getPtBin(pt_leading) = "<< getPtBin(pt_leading) <<", pt_leading= "<<pt_leading<< " should not be=2(continue); jetpass_leading ="<< jetpass_leading<<", jetpass_subleading = "<< jetpass_subleading << "-> tricky cut: jetpass_leading!=0 || jetpass_subleading>1) continue"<<endl;
+	      if(debug == 1) cout <<"          weight before prescale = "<<weight<< endl;
+
                 if(getPtBin(pt_leading)!=2) continue; // prescales should not be mixed
                 if(jetpass_leading!=0 || jetpass_subleading>1) continue;
                 // use leading jet prescale
                 weight *= data_evtweight[index_leading]/data_evtweight[j];
+		
+		if(debug == 1) cout <<"          sbld - end of getPtBin(ptj)==1; use leading jet prescale= data_evtweight[index_leading]/data_evtweight[j] "<< data_evtweight[index_leading]/data_evtweight[j] <<", w= "<< weight << endl;
 
               }
               // otherwise use subleading prescale, again not to mix different precales
-              else if(jetpass_subleading!=0 || jetpass_leading>1) continue;
-
+	      else if(jetpass_subleading!=0 || jetpass_leading>1) continue;
+	      if(debug == 1) cout <<"        pass else if(jetpass_subleading!=0 || jetpass_leading>1)  ; entering !m_systematic.Equa stuff" << endl;
               // nominal histo filled except if bootstrap_bkeeper<=1 or isSyst
               if (!m_systematic.EqualTo("FlavourTagging_Nominal") || bootstrap_bkeeper<=1 )
               {
- 
+		if(debug == 1) cout <<"        @S @U @B-  LEADING: !m_systematic.EqualTo(FlavourTagging_Nominal) || bootstrap_bkeeper<=1: fill h_pt2_mc_w = "<<ptj<<", weight= "<< weight << endl ;
+
   	        h_pt2_mc_w->Fill(ptj, weight);
   	        h_eta2_mc_w->Fill(eta_abs, weight);
 	        h_pt_thin2_mc_w->Fill(ptj, weight);
