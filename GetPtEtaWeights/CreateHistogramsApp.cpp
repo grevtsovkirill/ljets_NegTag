@@ -78,13 +78,14 @@ int main(int argc, char* argv[])
   //   systematics = {"FlavourTagging_Nominal"};
 
   TString filename;
+  TString extraGen="";
   if (runmc)
     {
       cout << "## running mc ##" << endl;
-      filename = "mc_"+compagnie.at(0)+".root";
-      if(HERWIG) filename = "mc_HERWIG.root";
-      if(SHERPA) filename = "mc_SHERPA.root";
-      if(file_per_syst) filename = "mc_"+compagnie.at(0)+"_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
+      if(HERWIG) extraGen="_HERWIG";//filename = "mc_HERWIG.root";
+      if(SHERPA) extraGen="_SHERPA";//filename = "mc_SHERPA.root";
+      filename = "mc"+extraGen+"_"+compagnie.at(0)+".root";
+      if(file_per_syst) filename = "mc"+extraGen+"_"+compagnie.at(0)+"_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
     }
   else
     {
