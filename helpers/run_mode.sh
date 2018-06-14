@@ -421,8 +421,11 @@ get_mc_ntupledumper(){
 SLICEFILE_H="../NtupleDumper/.slicesHERWIG.auto"
 get_mcHERWIG_ntupledumper(){
     SAMPLES=""
+    mcTYPE=$1
+    isSplit='_'
+    isSplit+=$2
     while read slice; do
-	SAMPLES+=" ../NtupleDumper/res/mc$slice.root"
+	SAMPLES+=" ../NtupleDumper/res/mc16$mcTYPE"_"$slice$isSplit.root"
     done < $SLICEFILE_H
     echo $SAMPLES
 }
