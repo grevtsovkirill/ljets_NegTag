@@ -265,7 +265,11 @@ run() {
              cp ../setup.sh $PBSFILE 
              # adding some lines
              echo " " >> "$PBSFILE"
-             echo "${@:1:$s_index+1} $syst -f $(get_mc_ntupledumper $var_c $syst) -split 0" >> "$PBSFILE"
+	     if [[ "$d_flag" == "1" ]] ; then
+		 echo "${@:1:$s_index+1} $syst -split 0" >> "$PBSFILE"
+	     else
+		 echo "${@:1:$s_index+1} $syst -f $(get_mc_ntupledumper $var_c $syst) -split 0" >> "$PBSFILE"
+	     fi
              # create log directory
              OUTPUT_DIR="log/"
              mkdir -p "$OUTPUT_DIR" 
