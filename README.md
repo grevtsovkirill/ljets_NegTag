@@ -18,7 +18,7 @@ Output will be available at: ```/NtupleDumper/res```
 ##### GetPtEtaWeights
 Create histograms of data and MC to compute corresponding reweighting files:
 ```./run.sh``` - specify data/mc + compaignie (a/d, 1516/17)
-
+to submit to condor use ```./run.sh send2ge_Reweighting_noBootstrap```
 Once reweighting files ready, check distributions, for that:
 ```
 rt 'calculate_jetptetareweighting.C("data1516_FlavourTagging_Nominal_0.root","mc_a_FlavourTagging_Nominal_0.root")'
