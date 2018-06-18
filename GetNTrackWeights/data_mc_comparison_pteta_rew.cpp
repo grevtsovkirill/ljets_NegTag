@@ -1,13 +1,13 @@
 #include "../config/subTagger.hpp"
 #include "../AtlasStyle/AtlasStyle.C"
 
-void data_mc_comparison_pteta_rew()
+void data_mc_comparison_pteta_rew(string dname="data_FlavourTagging_Nominal_0.root",string mname="mc_FlavourTagging_Nominal_Pythia.root",string mHname="mc_FlavourTagging_Nominal_Herwig.root")
 {
   SetAtlasStyle();
 
-  TFile *f_data = new TFile("data_FlavourTagging_Nominal_0.root", "read");
-  TFile *f_mc = new TFile("mc_FlavourTagging_Nominal_Pythia.root", "read");
-  TFile *f_mc_HERWIG = new TFile("mc_HERWIG.root", "read");
+  TFile *f_data = new TFile(dname.c_str(), "read");
+  TFile *f_mc = new TFile(mname.c_str(), "read");
+  TFile *f_mc_HERWIG = new TFile(mHname.c_str(), "read");
   TFile *f_output = new TFile("Control_plots/control_plots.root", "recreate");
 
   std::string suffix = "_pteta_rew";
