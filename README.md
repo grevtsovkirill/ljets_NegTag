@@ -27,7 +27,8 @@ Output - ```rew.root`` - (tempopary) - rename by hand to ```rew_+XXX+.root``` wh
 Also, run ```data_3mc_comparison_mc_w.cpp``` to perform comparison data to mc before any reweihting.
 
 ##### GetNTrackWeights
-Create reweighting files for NTracks, taking into account pTeta reweighting from file of previous step().
+Create reweighting files for NTracks, taking into account pTeta reweighting from file of previous step.
+Run also with ```send2ge_Reweighting_noBootstrap``` option.
 
 ##### NtupleReader
 Look into dumped ntuples, take reweighting results to build histograms for each tagger - nominal and flipped.
