@@ -83,7 +83,7 @@ run() {
 	#echo "here"
         # send job
 	#qsub -P atlas -l cvmfs=1 -l h_rt=24:00:00 -l h_vmem=8000M -l h_fsize=80000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
-	condor_qsub -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+	#condor_qsub -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
     # -----------------------------------------------------------------------
     # for grid engine batch system: split in period + syst (NtupleDumper ONLY)
     # ------------------------------------------------------------------------
@@ -312,12 +312,17 @@ run() {
         cp ../setup.sh $PBSFILE 
         # adding some lines
         echo " " >> "$PBSFILE"
-        echo "$@" >> "$PBSFILE"
-        # create log directory
+        #echo "$@" >> "$PBSFILE"
+	#echo " " >> "$PBSFILE"
+	if [[ "$d_flag" == "1" ]] ; then
+	    echo "${@:1:$s_index+1} $syst -split 0" >> "$PBSFILE"
+	else
+	    echo "${@:1:$s_index+1} $syst -f $(get_mc_ntupledumper $var_c $syst) -split 0" >> "$PBSFILE"
+	fi
         OUTPUT_DIR="log/"
         mkdir -p "$OUTPUT_DIR" 
         # send job
-        qsub -P atlas -l cvmfs=1 -l h_rt=12:00:00 -l h_vmem=6000M -l h_fsize=2000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+        #qsub -P atlas -l cvmfs=1 -l h_rt=12:00:00 -l h_vmem=6000M -l h_fsize=2000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
 
     # -----------------------------------------------------------------------
     # for grid engine batch system: bootstrap splitting (NtupleReader)
