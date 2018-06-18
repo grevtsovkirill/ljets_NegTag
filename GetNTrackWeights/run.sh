@@ -27,10 +27,17 @@ ALL_SYSTS=""
 # # Add LL uncertainty
 # ALL_SYSTS+=" longlivedparticles"
 
+sys=FlavourTagging_Nominal
+#rew_d/rew_a
+run ./CreateNTrackHistogramsApp -d -f $(get_data_ntupledumper) -c "1516" -s "FlavourTagging_Nominal" 
+#run ./CreateNTrackHistogramsApp -c "d" -s $sys
+#run ./CreateNTrackHistogramsApp -f $(get_mcHERWIG_ntupledumper d $sys) -c "d" -s $sys
+
+
 #echo "run data"
 #run ./CreateNTrackHistogramsApp -d -f $(get_data_ntupledumper) -c "17" -s "FlavourTagging_Nominal"
-echo "run mc Pythia, Nominal only"
-run ./CreateNTrackHistogramsApp -f $(get_mc_ntupledumper d) -c "d" -s "FlavourTagging_Nominal"  #$ALL_SYSTS
+#echo "run mc Pythia, Nominal only"
+#run ./CreateNTrackHistogramsApp -f $(get_mc_ntupledumper d) -c "d" -s "FlavourTagging_Nominal"  #$ALL_SYSTS
 #echo "run mc"
 #run ./CreateNTrackHistogramsApp -f $(get_mc_ntupledumper) -s $ALL_SYSTS
 #echo 'run HERWIG mc'
