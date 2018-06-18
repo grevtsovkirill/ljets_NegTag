@@ -130,8 +130,9 @@ int main(int argc, char* argv[])
          syst.Contains("conversions") || syst.Contains("hadronic") ||
          syst.Contains("longlivedparticles")) mytree = (TTree*)gROOT->FindObject("FlavourTagging_Nominal");
       else                           mytree = (TTree*)gROOT->FindObject(syst);
-      CreateNTrackHistograms* plotter = new CreateNTrackHistograms(mytree, syst, HERWIG);
-      if(SHERPA)      CreateNTrackHistograms* plotter = new CreateNTrackHistograms(mytree, syst, SHERPA);
+      CreateNTrackHistograms* plotter = new CreateNTrackHistograms(mytree, syst,compagnie.at(0));
+      //if(HERWIG) CreateNTrackHistograms* plotter = new CreateNTrackHistograms(mytree, syst, HERWIG);
+      //if(SHERPA) CreateNTrackHistograms* plotter = new CreateNTrackHistograms(mytree, syst, SHERPA);
       plotter->Loop(bootstrap_bkeeper);
     }
   
