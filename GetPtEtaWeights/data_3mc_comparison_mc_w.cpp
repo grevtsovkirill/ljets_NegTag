@@ -1,16 +1,16 @@
 #include "../config/subTagger.hpp"
 #include "../AtlasStyle/AtlasStyle.C"
 
-void data_3mc_comparison_mc_w()
+void data_3mc_comparison_mc_w(string dname="data_FlavourTagging_Nominal_0.root",string mname="mc_FlavourTagging_Nominal_Pythia.root",string mHname="mc_FlavourTagging_Nominal_Herwig.root",string mSname="mc_FlavourTagging_Nominal_Sherpa.root")
 {
   SetAtlasStyle();
 
-  TFile *f_data = new TFile("data_FlavourTagging_Nominal_0.root", "read");
-  TFile *f_mc = new TFile("mc_FlavourTagging_Nominal_Pythia.root", "read");
+  TFile *f_data = new TFile(dname.c_str(), "read");
+  TFile *f_mc = new TFile(mname.c_str(), "read");
   //TFile *f_mc = new TFile("mc.root", "read");
-  TFile *f_mc_HERWIG = new TFile("mc_FlavourTagging_HERWIG.root", "read");
-  TFile *f_mc_SHERPA = new TFile("mc_FlavourTagging_SHERPA.root", "read");
-  TFile *f_output = new TFile("Control_plots3/control_plots.root", "recreate");
+  TFile *f_mc_HERWIG = new TFile(mHname.c_str(), "read");
+  TFile *f_mc_SHERPA = new TFile(mSname.c_str(), "read");
+  TFile *f_output = new TFile("Control_plots/control_plots.root", "recreate");
 
   std::string suffix = "_mc_w";
   std::vector<std::string> histo_var = {"pt", "eta", "pt_thin", "eta_thin", 
@@ -396,11 +396,11 @@ void data_3mc_comparison_mc_w()
 
       f_output->cd();
       c->Write();
-      c->SaveAs(("Control_plots3/pdf/"+canvas_name+".pdf").c_str());
+      c->SaveAs(("Control_plots/pdf/"+canvas_name+".pdf").c_str());
       c_HERWIG->Write();
-      c->SaveAs(("Control_plots3/pdf/"+canvas_HERWIG_name+".pdf").c_str());
+      c->SaveAs(("Control_plots/pdf/"+canvas_HERWIG_name+".pdf").c_str());
       c_SHERPA->Write();
-      c->SaveAs(("Control_plots3/pdf/"+canvas_SHERPA_name+".pdf").c_str());
+      c->SaveAs(("Control_plots/pdf/"+canvas_SHERPA_name+".pdf").c_str());
     }
 
     std::cout << "OK" << std::endl ;
