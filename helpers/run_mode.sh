@@ -272,6 +272,8 @@ run() {
              cp ../setup.sh $PBSFILE 
              # adding some lines
              echo " " >> "$PBSFILE"
+             echo "cd "$here >> "$PBSFILE"
+             echo " " >> "$PBSFILE"
 	     if [[ "$d_flag" == "1" ]] || [[ $@ = *"-f"* ]] ; then
 		 echo "${@:1:$s_index+1} $syst -split 0" >> "$PBSFILE"
 	     else
