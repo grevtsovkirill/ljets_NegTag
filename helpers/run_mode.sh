@@ -73,7 +73,7 @@ run() {
 
         # adding some lines
         echo " " >> "$PBSFILE"
-        echo "cd /nfs/dust/atlas/user/grevtsok/Work/FTag/LFnegTag/LFNegTag_r21/ljets_NegTag/NtupleDumper " >> "$PBSFILE"
+        echo "cd "$here >> "$PBSFILE"
         echo " " >> "$PBSFILE"
         echo "$@" >> "$PBSFILE"
 
@@ -143,7 +143,9 @@ run() {
 
              # adding some lines
              echo " " >> "$PBSFILE"
-             echo "${@:1:$s_index+1} $syst ${@:$ps_index+1} -split " >> "$PBSFILE"
+             echo "cd "$here >> "$PBSFILE"
+             echo " " >> "$PBSFILE"
+	     echo "${@:1:$s_index+1} $syst ${@:$ps_index+1} -split " >> "$PBSFILE"
 
              # create log directory
              OUTPUT_DIR="log/"
@@ -197,6 +199,8 @@ run() {
                cp ../setup.sh $PBSFILE 
                # adding some lines
                echo " " >> "$PBSFILE"
+               echo "cd "$here >> "$PBSFILE"
+               echo " " >> "$PBSFILE"
                echo "${@:1:$s_index+1} $syst -split 0" >> "$PBSFILE"
                # create log directory
                OUTPUT_DIR="log/"
@@ -214,6 +218,8 @@ run() {
                  cp ../setup.sh $PBSFILE 
                  # adding some lines
                  echo " " >> "$PBSFILE"
+		 echo "cd "$here >> "$PBSFILE"
+		 echo " " >> "$PBSFILE"
                  echo "${@:1:$s_index+1} $syst -split $k" >> "$PBSFILE"
                  # create log directory
                  OUTPUT_DIR="log/"
@@ -321,6 +327,8 @@ run() {
         cp ../setup.sh $PBSFILE 
         # adding some lines
         echo " " >> "$PBSFILE"
+        echo "cd "$here >> "$PBSFILE"
+        echo " " >> "$PBSFILE"
         #echo "$@" >> "$PBSFILE"
 	#echo " " >> "$PBSFILE"
 	if [[ "$d_flag" == "1" ]] ; then
@@ -367,6 +375,8 @@ run() {
           cp ../setup.sh $PBSFILE 
           # adding some lines
           echo " " >> "$PBSFILE"
+          echo "cd "$here >> "$PBSFILE"
+          echo " " >> "$PBSFILE"
           echo "$@" >> "$PBSFILE"
           # create log directory
           OUTPUT_DIR="log/"
@@ -385,7 +395,9 @@ run() {
             cp ../setup.sh $PBSFILE 
             # adding some lines
             echo " " >> "$PBSFILE"
-            echo "$@ -split $k" >> "$PBSFILE"
+            echo "cd "$here >> "$PBSFILE"
+            echo " " >> "$PBSFILE"
+	    echo "$@ -split $k" >> "$PBSFILE"
             # create log directory
             OUTPUT_DIR="log/"
             mkdir -p "$OUTPUT_DIR" 
@@ -477,13 +489,4 @@ getxAODsystsAndOthers(){
 	fi
 
     done < <(getCleanSysts)
-    # echo "FlavourTagging_PRW_DATASF__1down"
-    # echo "FlavourTagging_PRW_DATASF__1up"
-    # echo "FlavourTagging_JVT_effSF__1down"
-    # echo "FlavourTagging_JVT_effSF__1up"
-    # echo "conversions__1up"
-    # echo "conversions__1down"
-    # echo "hadronic__1up"
-    # echo "hadronic__1down"
-    # echo "longlivedparticles"
 }
