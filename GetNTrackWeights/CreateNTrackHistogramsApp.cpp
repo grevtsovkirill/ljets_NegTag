@@ -19,8 +19,7 @@ using namespace std;
 
 bool runmc = true;
 bool file_per_syst = false;
-bool HERWIG = false;
-bool SHERPA = false;
+std::string alt_gen = "";
 
 int main(int argc, char* argv[]) 
 {
@@ -41,8 +40,8 @@ int main(int argc, char* argv[])
       {
 	  cout << "=== selected files ===" << endl;
 	  files = get_arguments(argc, argv, i1);
-          if(files.at(0).Contains("W_H")) HERWIG = true;
-          if(files.at(0).Contains("W_S")) SHERPA = true;
+          if(files.at(0).Contains("W_H")) alt_gen = "HERWIG";
+          if(files.at(0).Contains("W_S")) alt_gen = "SHERPA";
 	  cout << "=== end of files ===" << endl;
       }
       else if(strcmp(argv[i1], "-s")==0) 
@@ -54,8 +53,7 @@ int main(int argc, char* argv[])
       else if (strcmp(argv[i1], "-split")==0)
       {
           file_per_syst = true;
-          if(HERWIG) file_per_syst = false;
-          if(SHERPA) file_per_syst = false;
+          if(!alt_gen.empty()) file_per_syst = false;
           cout << "=== 1 file per systematic created ===" << endl;
 	  bootstrap_index = get_arguments(argc, argv, i1);
       }
@@ -75,8 +73,8 @@ int main(int argc, char* argv[])
   if (runmc)
     {
       cout << "## running mc ##" << endl;
-      if(HERWIG) extraGen="_HERWIG";
-      if(SHERPA) extraGen="_SHERPA";
+      if(!alt_gen.empty()) extraGen=("_"+alt_gen).c_str();
+      //if(SHERPA) extraGen="_SHERPA";
       filename = "mc"+extraGen+"_"+compagnie.at(0)+".root";
       //if(file_per_syst) filename = "mc_"+compagnie.at(0)+"_"  + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
       if(file_per_syst) filename = "mc"+extraGen+"_"+compagnie.at(0)+"_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
@@ -130,8 +128,12 @@ int main(int argc, char* argv[])
          syst.Contains("conversions") || syst.Contains("hadronic") ||
          syst.Contains("longlivedparticles")) mytree = (TTree*)gROOT->FindObject("FlavourTagging_Nominal");
       else                           mytree = (TTree*)gROOT->FindObject(syst);
+      std::cout<< "Starting plotter with options: syst= "<< syst<<"; compagnie.at(0)= "<<compagnie.at(0)<<"; alt_gen = "<<alt_gen << std::endl;
       CreateNTrackHistograms* plotter = new CreateNTrackHistograms(mytree, syst,compagnie.at(0));
-      //if(HERWIG) CreateNTrackHistograms* plotter = new CreateNTrackHistograms(mytree, syst, HERWIG);
+      if(!alt_gen.empty()){
+	std::cout<<"; alt_gen = "<<alt_gen << std::endl;
+	plotter = new CreateNTrackHistograms(mytree, syst, compagnie.at(0), alt_gen);
+      }
       //if(SHERPA) CreateNTrackHistograms* plotter = new CreateNTrackHistograms(mytree, syst, SHERPA);
       plotter->Loop(bootstrap_bkeeper);
     }

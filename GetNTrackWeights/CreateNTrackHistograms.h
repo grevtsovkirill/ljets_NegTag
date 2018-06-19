@@ -19,8 +19,7 @@ public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
    TString m_systematic;
-   bool m_HERWIG;
-   bool m_SHERPA;
+   std::string m_alt;
    std::string m_compagine;
    // Declaration of leaf types      
 
@@ -96,7 +95,7 @@ public :
    TBranch        *b_jetHasConversion; //!
    TBranch        *b_jetHasHadMatInt; //!
 
-   CreateNTrackHistograms(TTree *tree=0, TString="FlavourTagging_Nominal",TString="a", bool=false);
+   CreateNTrackHistograms(TTree *tree=0, TString="FlavourTagging_Nominal",TString="a", std::string="");
    virtual ~CreateNTrackHistograms();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
@@ -112,7 +111,7 @@ public :
 
 #ifdef CreateNTrackHistograms_cxx
 //CreateNTrackHistograms::CreateNTrackHistograms(TTree *tree, TString syst, bool herwig)
-CreateNTrackHistograms::CreateNTrackHistograms(TTree *tree, TString syst, TString comp, bool extra_gen)
+CreateNTrackHistograms::CreateNTrackHistograms(TTree *tree, TString syst, TString comp, std::string extra_gen)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -127,8 +126,7 @@ CreateNTrackHistograms::CreateNTrackHistograms(TTree *tree, TString syst, TStrin
   m_systematic = syst;
   m_compagine = comp;
   //m_HERWIG = herwig;
-  m_HERWIG = extra_gen;
-  m_SHERPA = extra_gen;
+  m_alt = extra_gen;
    Init(tree);
 }
 

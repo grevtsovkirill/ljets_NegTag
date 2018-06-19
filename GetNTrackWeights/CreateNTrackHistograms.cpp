@@ -296,8 +296,8 @@ void CreateNTrackHistograms::Loop(int bootstrap_bkeeper=0)
   TFile* frew;
   std::cout<< "Compaigne = "<< m_compagine << std::endl;
   std::string frew_name = "../GetPtEtaWeights/rew_"+m_compagine+".root";
-  if(m_HERWIG) frew_name = "../GetPtEtaWeights/rew_"+m_compagine+"_HERWIG.root";
-  if(m_SHERPA) frew_name = "../GetPtEtaWeights/rew_"+m_compagine+"_SHERPA.root";
+  if(!m_alt.empty()) frew_name = "../GetPtEtaWeights/rew_"+m_compagine+"_"+m_alt+".root";
+  std::cout<< " input pT/eta reweighting:  "<< frew_name<< ", alt_gen = "<<m_alt << std::endl;
 
   frew = new TFile(frew_name.c_str(),"read");
   TH2D* h_rew[2];
