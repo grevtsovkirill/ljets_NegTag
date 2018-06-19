@@ -45,6 +45,12 @@ bootstrap	      datastat					        bootstrap sf
 bootstrap	      mcstat_subleadingjet			        bootstrap sf
 bootstrap	      datastat_subleadingjet			        bootstrap sf
 
+doJets                conversions__1up				        updown  sf 
+doJets                conversions__1down				updown  sf 
+doJets                hadronic__1up				        updown  sf 
+doJets                hadronic__1down				        updown  sf 
+doJets                longlivedparticles				rel     sf
+
 
 # #########################################################
 # # Jet calibration - Moriond 2017 NP scheme [OK]
