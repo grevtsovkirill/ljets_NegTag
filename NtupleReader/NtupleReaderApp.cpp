@@ -81,6 +81,7 @@ int main(int argc, char* argv[]) {
   }
   else{
     filename = "res/" + systematic + "/data_"+reco_comp[0]+".root";
+    if(period!="")    filename = "res/" + systematic + "/data_"+reco_comp[0]+"_"+period+".root";
     if(bootstrap_flag) filename = "res/" + systematic + "/data_" + bootstrap_index +"_"+reco_comp[0]+".root";
   }
   TFile histofile(filename, "RECREATE");
