@@ -34,6 +34,7 @@ command.append("error          = HTC/LOGS/"+infile+"_"+ts+".err ")
 command.append("log          = HTC/LOGS/"+infile+"_"+ts+".log ")
 command.append("notification    = never ")
 command.append("queue  ")
+command.append("+RequestRuntime =  86400")
 #command.append
 outfile.write('\n'.join(command))
 outfile.close()
