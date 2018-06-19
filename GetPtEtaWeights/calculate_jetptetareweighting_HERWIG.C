@@ -102,7 +102,7 @@ void DrawPlots(TString systematic, int ijet, TH2D* h2_mc, TH2D* h2_data, TString
 } // End of the DrawPlots function.
 
 
-void calculate_jetptetareweighting_HERWIG(int dosyst=0)
+void calculate_jetptetareweighting_HERWIG( string dname="data_FlavourTagging_Nominal_0.root",string mname="mc_HERWIG.root",int dosyst=0)
 {
   // separate reweighting for leading and next-to-leading pt jet in pt:eta
 
@@ -111,8 +111,8 @@ void calculate_jetptetareweighting_HERWIG(int dosyst=0)
   gStyle->SetOptTitle(0);
   
   // load jet pT:eta distributions
-  TFile* ff_data = new TFile("data_FlavourTagging_Nominal_0.root");
-  TFile* ff_mc = new TFile("mc_FlavourTagging_HERWIG.root");
+  TFile* ff_data = new TFile(dname.c_str());
+  TFile* ff_mc = new TFile(mname.c_str());
   const int njet = 2;
   TH2D* h_ratio[njet];
 
