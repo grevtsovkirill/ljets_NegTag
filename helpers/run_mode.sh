@@ -9,6 +9,7 @@ RUNSCHROOT="../helpers/run_schroot.sh"
 RUNSCRIPT="../helpers/run.sh"
 JOB_MAIL="kirill.grevtsov@desy.de"
 OUTPUT_DIR="log/"
+export here=$PWD
 
 run() {
     if [[ "$RUNMODE" == "parallel" ]]; then
@@ -252,20 +253,26 @@ run() {
         done
 
 	echo $var_c
+	alt_gen=""
+	if [[ "$@" = *"W_H"* ]]; then
+	    alt_gen="Herwig"
+	fi
         # loop on systematics
         for syst in $(getxAODsystsAndOthers); do
            # for data, skip if it is different than nominal
            if [[ "$d_flag" == "1" ]] && [[ "$syst" != "FlavourTagging_Nominal" ]] ; then
 	     echo "skipping running on systematics for data"
+           elif [[ "$@" = *"W_H"* ]] && [[ "$syst" != "FlavourTagging_Nominal" ]] ; then
+	     echo "skipping running on systematics for Herwig"
            else 
              # create 1 job file per systematic
              PBSDIR="pbs_files"
-             PBSFILE="$PBSDIR"/"$suffix"_"$var_c"_"$syst".pbs
+             PBSFILE="$PBSDIR"/"$suffix""$alt_gen"_"$var_c"_"$syst".pbs
              mkdir -p "$PBSDIR"
              cp ../setup.sh $PBSFILE 
              # adding some lines
              echo " " >> "$PBSFILE"
-	     if [[ "$d_flag" == "1" ]] ; then
+	     if [[ "$d_flag" == "1" ]] || [[ $@ = *"-f"* ]] ; then
 		 echo "${@:1:$s_index+1} $syst -split 0" >> "$PBSFILE"
 	     else
 		 echo "${@:1:$s_index+1} $syst -f $(get_mc_ntupledumper $var_c $syst) -split 0" >> "$PBSFILE"
