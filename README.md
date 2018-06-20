@@ -21,8 +21,9 @@ Create histograms of data and MC to compute corresponding reweighting files:
 to submit to condor use ```./run.sh send2ge_Reweighting_noBootstrap```
 Once reweighting files ready, check distributions, for that:
 ```
-rt -b 'calculate_jetptetareweighting.C("data1516.root","mc_a.root")'
+rt -b 'calculate_jetptetareweighting.C("data1516.root","mc_a.root",1)'
 ```
+- don't forget last option to include non-tree systematics
 Output - ```rew.root``` - (tempopary) - rename by hand to ```rew_+XXX+.root``` where XXX is ```a``` or ```d``` (necessary to follow this convention, as thif files will be red in next step)
 Also, run ```data_3mc_comparison_mc_w.cpp``` to perform comparison data to mc before any reweihting:
 ```
