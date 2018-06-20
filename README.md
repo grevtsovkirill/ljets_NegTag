@@ -70,3 +70,14 @@ And then:
 ```
 ./CalculateVariables -s FlavourTagging_Nominal -c a
 ```
+after all necessary variations are in ```raw_systematics```:
+ - change Make file to ```rel_syst```
+ - recompile 
+
+Run for each variation corresponding uncertainty computation:
+```
+./rel_syst -s generator -v sf -t rel -c a
+```
+options can be found in ```config/systematics.txt```:
+ - ```-v``` variation (sf/sfonly)
+ - ```-t``` type ()
