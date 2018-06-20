@@ -173,63 +173,40 @@ run() {
               d_flag=1
               suffix="data"
            fi
-           if [[ "${args[j]}" == "-s" ]]; then
-              s_index=$j
-              break
-           fi
            if [[ "${args[j]}" == "-c" ]]; then
                var_c=${args[j+1]}
 	       echo $var_c
+           fi
+           if [[ "${args[j]}" == "-s" ]]; then
+              s_index=$j
               break
            fi
         done
 	suffix+=$var_c
 
+	systlist=( "FlavourTagging_Nominal" )
         # loop on systematics
-        for syst in $(getxAODsystsAndOthers); do
-           # for data, skip if it is different than nominal
-           if [[ "$d_flag" == "1" ]] && [[ "$syst" != "FlavourTagging_Nominal" ]] ; then
-	     echo "skipping running on systematics for data"
-           else 
-            if [[ "$syst" != "FlavourTagging_Nominal" ]] ; then
-               # create 1 job file per systematic
-               PBSDIR="pbs_files"
-               PBSFILE="$PBSDIR"/"$suffix"_"$syst".pbs
-               mkdir -p "$PBSDIR"
-               cp ../setup.sh $PBSFILE 
-               # adding some lines
-               echo " " >> "$PBSFILE"
-               echo "cd "$here >> "$PBSFILE"
-               echo " " >> "$PBSFILE"
-               echo "${@:1:$s_index+1} $syst -split 0" >> "$PBSFILE"
-               # create log directory
-               OUTPUT_DIR="log/"
-               mkdir -p "$OUTPUT_DIR" 
-               # send job
-               #qsub -P atlas -l cvmfs=1 -l h_rt=6:00:00 -l h_vmem=4000M -l h_fsize=1000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
+        #for syst in $(getxAODsystsAndOthers); do
+	for syst in $systlist; do
              # bootstrap replica splitting
-             else
-               for k in {1..500} 
-               do
+            for k in {1..500} 
+            do
                  # create 1 job file per systematic and per 2 bootstrap
-                 PBSDIR="pbs_files"
-                 PBSFILE="$PBSDIR"/"$suffix"_"$syst"_"$k".pbs
-                 mkdir -p "$PBSDIR"
-                 cp ../setup.sh $PBSFILE 
+                PBSDIR="pbs_files"
+                PBSFILE="$PBSDIR"/"$suffix"_"$syst"_"$k".pbs
+                mkdir -p "$PBSDIR"
+                cp ../setup.sh $PBSFILE 
                  # adding some lines
-                 echo " " >> "$PBSFILE"
-		 echo "cd "$here >> "$PBSFILE"
-		 echo " " >> "$PBSFILE"
-                 echo "${@:1:$s_index+1} $syst -split $k" >> "$PBSFILE"
+                echo " " >> "$PBSFILE"
+		echo "cd "$here >> "$PBSFILE"
+		echo " " >> "$PBSFILE"
+                echo "${@:1:$s_index+1} $syst  -f $(get_mc_ntupledumper $var_c $syst) -split $k" >> "$PBSFILE"
                  # create log directory
-                 OUTPUT_DIR="log/"
-                 mkdir -p "$OUTPUT_DIR" 
+                OUTPUT_DIR="log/"
+                mkdir -p "$OUTPUT_DIR" 
                  # send job
                  #qsub -P atlas -l cvmfs=1 -l h_rt=6:00:00 -l h_vmem=4000M -l h_fsize=1000M -M $JOB_MAIL -m a -e $OUTPUT_DIR -o $OUTPUT_DIR -cwd $PBSFILE
-               done 
-             fi
-
-           fi
+            done 
         done
 
     # -----------------------------------------------------------------------
