@@ -26,12 +26,12 @@ void get_std_syst(string compaigne, string syst){
   map<string, TH1D*> h_out;
   auto kin_labels = getKinLabels();
 
-  std::string nom_name = "raw_systematics/FlavourTagging_Nominal_db.root";
+  std::string nom_name = "raw_systematics/FlavourTagging_Nominal_db_"+compaigne+".root";
   std::string syst2 = syst;
 
   if(syst.substr(0,14)=="subleadingjet_")
   {
-    nom_name = "raw_systematics/subleadingjet_db.root";
+    nom_name = "raw_systematics/subleadingjet_db_"+compaigne+".root";
     syst2 = syst.substr(14);
   }
 
@@ -56,7 +56,7 @@ void get_std_syst(string compaigne, string syst){
     }
   }
 
-  TFile* f_out = new TFile((string("rel_systematics/rel_sf_")+syst+".root").c_str(), "recreate");
+  TFile* f_out = new TFile((string("rel_systematics/rel_sf_")+syst+"_"+compaigne+".root").c_str(), "recreate");
   for (auto histogram: h_out){
     histogram.second->Write();
   }
@@ -69,12 +69,12 @@ void get_up_down(string compaigne, string syst, string key){
   map<string, TH1D*> h_out;
   auto kin_labels = getKinLabels();
 
-  std::string nom_name = "raw_systematics/FlavourTagging_Nominal_db.root";
-  if(syst.substr(0,14)=="subleadingjet_") nom_name = "raw_systematics/subleadingjet_db.root";
+  std::string nom_name = "raw_systematics/FlavourTagging_Nominal_db_"+compaigne+".root";
+  if(syst.substr(0,14)=="subleadingjet_") nom_name = "raw_systematics/subleadingjet_db_"+compaigne+".root";
   TFile* f_nom = new TFile(nom_name.c_str(), "read");
 
-  TFile* f_sup = new TFile(("raw_systematics/" + syst + "up_db.root").c_str(), "read");
-  TFile* f_sdn = new TFile(("raw_systematics/" + syst + "down_db.root").c_str(), "read");
+  TFile* f_sup = new TFile(("raw_systematics/" + syst + "up_db_"+compaigne+".root").c_str(), "read");
+  TFile* f_sdn = new TFile(("raw_systematics/" + syst + "down_db_"+compaigne+".root").c_str(), "read");
 
   for (auto tagger: conf::tagger_list){
     int iwp = 0;
@@ -121,7 +121,7 @@ void get_up_down(string compaigne, string syst, string key){
     }
   }
   
-  TFile* f_out = new TFile((string("rel_systematics/rel_")+key+string("_")+syst+".root").c_str(), "recreate");
+  TFile* f_out = new TFile((string("rel_systematics/rel_")+key+string("_")+syst+"_"+compaigne+".root").c_str(), "recreate");
   for (auto histogram: h_out){
     histogram.second->Write();
   }
@@ -138,12 +138,12 @@ void get_rel_syst(string compaigne, string syst, string key){
   map<string, TH1D*> h_out;
   auto kin_labels = getKinLabels();
 
-  std::string nom_name = "raw_systematics/FlavourTagging_Nominal_db.root";
+  std::string nom_name = "raw_systematics/FlavourTagging_Nominal_db_"+compaigne+".root";
   if(syst.substr(0,14)=="subleadingjet_" ||
-     syst=="notrackrew_subleadingjet") nom_name = "raw_systematics/subleadingjet_db.root";
+     syst=="notrackrew_subleadingjet") nom_name = "raw_systematics/subleadingjet_db_"+compaigne+".root";
   TFile* f_nom = new TFile(nom_name.c_str(), "read");
 
-  TFile* f_sys = new TFile(("raw_systematics/" + syst + "_db.root").c_str(), "read");
+  TFile* f_sys = new TFile(("raw_systematics/" + syst + "_db_"+compaigne+".root").c_str(), "read");
 
   for (auto tagger: conf::tagger_list){
     int iwp = 0;
@@ -163,7 +163,7 @@ void get_rel_syst(string compaigne, string syst, string key){
     }
   }
 
-  TFile* f_out = new TFile((string("rel_systematics/rel_")+key+string("_")+syst+".root").c_str(), "recreate");
+  TFile* f_out = new TFile((string("rel_systematics/rel_")+key+string("_")+syst+"_"+compaigne+".root").c_str(), "recreate");
   for (auto histogram: h_out){
     histogram.second->Write();
   }
@@ -180,13 +180,13 @@ void get_subleadingjet_syst(string compaigne, string syst, string key){
   auto kin_labels = getKinLabels();
 
   // file with central values
-  TFile* f_central = new TFile((string("rel_systematics/rel_")+key+string("_")+syst+".root").c_str(), "update");
+  TFile* f_central = new TFile((string("rel_systematics/rel_")+key+string("_")+syst+"_"+compaigne+".root").c_str(), "update");
 
-  std::string f_nom_data_name = "raw_systematics/datastat_db.root";
-  std::string f_sys_data_name = "raw_systematics/datastat_subleadingjet_db.root";
+  std::string f_nom_data_name = "raw_systematics/datastat_db_"+compaigne+".root";
+  std::string f_sys_data_name = "raw_systematics/datastat_subleadingjet_db_"+compaigne+".root";
 
-  std::string f_nom_mc_name = "raw_systematics/mcstat_db.root";
-  std::string f_sys_mc_name = "raw_systematics/mcstat_subleadingjet_db.root";
+  std::string f_nom_mc_name = "raw_systematics/mcstat_db_"+compaigne+".root";
+  std::string f_sys_mc_name = "raw_systematics/mcstat_subleadingjet_db_"+compaigne+".root";
 
   TFile* f_nom_data = new TFile(f_nom_data_name.c_str(), "read");
   TFile* f_sys_data = new TFile(f_sys_data_name.c_str(), "read");
@@ -311,13 +311,13 @@ void get_bootstrap_syst(string compaigne, string syst, string key){
   map<string, TH1D*> h_out;
   auto kin_labels = getKinLabels();
 
-  TFile* f_out = new TFile((string("rel_systematics/rel_")+key+string("_")+syst+".root").c_str(), "recreate");
+  TFile* f_out = new TFile((string("rel_systematics/rel_")+key+string("_")+syst+"_"+compaigne+".root").c_str(), "recreate");
 
-  std::string f_name = "raw_systematics/FlavourTagging_Nominal_db.root";
-  if(syst.find("subleading")!=std::string::npos) f_name = "raw_systematics/subleadingjet_db.root";
+  std::string f_name = "raw_systematics/FlavourTagging_Nominal_db_"+compaigne+".root";
+  if(syst.find("subleading")!=std::string::npos) f_name = "raw_systematics/subleadingjet_db_"+compaigne+".root";
   TFile* f_nom = new TFile(f_name.c_str(), "read");
 
-  TFile* f_sys = new TFile(("raw_systematics/" + syst + "_db.root").c_str(), "read");
+  TFile* f_sys = new TFile(("raw_systematics/" + syst + "_db_"+compaigne+".root").c_str(), "read");
 
   for (auto tagger: conf::tagger_list){
     int iwp = 0;
@@ -419,7 +419,7 @@ void get_syst_dataperiod(string s_sys, vector<TString> periods, string key){
   vector<TFile*> f_sn;
 
   for (auto period: periods){
-    f_sn.push_back(new TFile("raw_systematics/dataperiod"+period+"_db.root", "read"));
+    f_sn.push_back(new TFile("raw_systematics/dataperiod"+period+"_db_"+compaigne+".root", "read"));
   }
 
   for (auto tagger: conf::tagger_list){
@@ -445,7 +445,7 @@ void get_syst_dataperiod(string s_sys, vector<TString> periods, string key){
     }
   }
 
-  TFile* f_out = new TFile((string("rel_systematics/rel_")+s_sys+".root").c_str(), "recreate");
+  TFile* f_out = new TFile((string("rel_systematics/rel_")+s_sys+"_"+compaigne+".root").c_str(), "recreate");
   for (auto histogram: h_out){
     histogram.second->Write();
   }
