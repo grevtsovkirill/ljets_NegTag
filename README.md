@@ -35,6 +35,8 @@ Create reweighting files for NTracks, taking into account pTeta reweighting from
 Run also with ```send2ge_Reweighting_noBootstrap``` option.
 Check reweighted (pt/eta) plots with:
 ``` rt -b 'data_mc_comparison_pteta_rew.cpp("a","data1516_FlavourTagging_Nominal_0.root","mc_a_full.root","mc_HERWIG_a.root")' ```
+
+
 ##### NtupleReader
 Look into dumped ntuples, take reweighting results to build histograms for each tagger - nominal and flipped.
 
@@ -52,6 +54,13 @@ Code will check ranges of historgrams and types of taggers into ```../config/sub
 
 ##### TemplateFit
 Exctract HF fractions
+
+```
+rt -b 'template_fit.cxx("a",0,X)'
+```
+where X 1/0 - leading/subleading jet.
+Requires FlavourTagging_Nominal,subleadingjet and generator outputs from NtupleReader.
+Second option in command - correction - require inputs from Adjusted MC group (not yet available in rel21)
 
 ##### CalculateVariables
 Last step towards SF is to run for each nominal and systematic variation ```CalculateVariables```.
