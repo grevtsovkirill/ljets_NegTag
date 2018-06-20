@@ -57,7 +57,7 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
   TFile *f_fracHF; 
   TH2D *h_fracc_Pythia;
   TH2D *h_fracb_Pythia;
-  
+
   if(sfold.find("generator")!= std::string::npos){
     std::string fracHF_path = "../TemplateFit/template_fit.root.pTetaCorrections";
     if(sfold.find("subleadingjet_") != std::string::npos) fracHF_path = "../TemplateFit/template_fit.root.subldg.pTetaCorrections";
@@ -75,6 +75,8 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
   //  depend on flavour and mode and pT/eta
   map<int, map<int, map<string, map<string, TH1D*>>>> h_rew_rewmode_pt_eta_f_m;
   TFile *f_MCbased;
+
+  /*
   if(sfold.find("d0smearing") != std::string::npos || 
      sfold.find("z0smearing") != std::string::npos || 
      sfold.find("faketracks") != std::string::npos || 
@@ -145,6 +147,7 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
       }
   }// not trackrecoeff
 
+  //*/
 
   //------MAP OF THE TAGGER HISTOGRAMS IN MC------// 
   // [ipt] [ieta] [flav] [tagger] [mode("" or neg)] - only weighted "w"
