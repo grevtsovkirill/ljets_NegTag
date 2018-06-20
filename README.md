@@ -24,7 +24,10 @@ Once reweighting files ready, check distributions, for that:
 rt -b 'calculate_jetptetareweighting.C("data1516.root","mc_a.root")'
 ```
 Output - ```rew.root`` - (tempopary) - rename by hand to ```rew_+XXX+.root``` where XXX is ```a``` or ```d``` (necessary to follow this convention, as thif files will be red in next step)
-Also, run ```data_3mc_comparison_mc_w.cpp``` to perform comparison data to mc before any reweihting.
+Also, run ```data_3mc_comparison_mc_w.cpp``` to perform comparison data to mc before any reweihting:
+```
+rt -b 'data_3mc_comparison_mc_w.cpp("a1516","data1516.root","mc_a_full.root","mc_HERWIG_a.root")' 
+```
 
 ##### GetNTrackWeights
 Create reweighting files for NTracks, taking into account pTeta reweighting from file of previous step.
