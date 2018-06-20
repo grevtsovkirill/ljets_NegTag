@@ -18,7 +18,7 @@
 using namespace std;
 
 extern bool runmc;
-const int debug =2;
+const int debug =33;
 
 // Complete a binning bin given min and max values
 std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double min = -1.0, double max = 1.0){
@@ -255,7 +255,7 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
           h_rew_ntrk_bootstrap_mc[ij] = (TH2D*)frew_ntrack->Get( (string(m_reweighting_folder + "/datamc_ratio")+char('1'+ij)+string("_mc_")+to_string(bootstrap_bkeeper-1)).c_str());
         }
       }
-      if(debug == 1) std::cout <<"fill NTRK reweightin hists: rfold "<< m_reweighting_folder<< ", cont "<<  h_rew_ntrk[ij]->GetBinContent(0,3)<< std::endl;
+      if(debug == 33) std::cout <<"fill NTRK reweightin hists: rfold "<< m_reweighting_folder<< ", cont "<<  h_rew_ntrk[ij]->GetBinContent(0,3)<< std::endl;
   }
 
 
@@ -432,8 +432,7 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
          
           if( abs(1-h_rew_ntrk[ilead]->GetBinContent(itrx, itry)) > 2*h_rew_ntrk[ilead]->GetBinError(itrx, itry) )
           {
-	    //weight *= h_rew_ntrk[ilead]->GetBinContent(itrx, itry);
-	    weight *= 1; //AAAAAAAAAAAAAAAAAAAAAAAAAAAAA checkcheckcheckcheck!!!!!!!!!!!
+	    weight *= h_rew_ntrk[ilead]->GetBinContent(itrx, itry);
 	    if(debug == 1) std::cout <<"NTRK reqeightin  weight computation: h_rew[i;"<< h_rew_ntrk[ilead]->GetBinContent(itrx, itry) << " x= "<< itrx<<", y = "<< itry  <<", tot = " << weight<< endl; 
             if (bootstrap_bkeeper>0)
             {
