@@ -78,6 +78,7 @@ int main(int argc, char* argv[]) {
   TString filename;
   if (runmc){
     filename = "res/" + systematic + "/mc_"+reco_comp+".root";
+    if(period!="")    filename = "res/" + systematic + "/mc_"+reco_comp+"_"+period+".root";
     if(bootstrap_flag) filename = "res/" + systematic + "/mc_"+reco_comp+"_" + bootstrap_index + ".root";
   }
   else{
