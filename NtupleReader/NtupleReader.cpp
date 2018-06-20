@@ -218,8 +218,9 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   //---- Get pT/eta weight histograms---- 
 
   std::string rew_filename = "../GetPtEtaWeights/rew_"+string(m_compaigne)+".root";
-  cout<<" Reweighting: "<< rew_filename <<endl;  
   if(m_systematic.Contains("generator")) rew_filename = "../GetPtEtaWeights/rew_"+string(m_compaigne)+"_HERWIG.root";
+
+  cout<<" Reweighting: "<< rew_filename <<endl;  
   TFile* frew = new TFile(rew_filename.c_str());
   TH2D* h_rew[2];
   TH2D* h_rew_bootstrap_data[2]; // datastat
