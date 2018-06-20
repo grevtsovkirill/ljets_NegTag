@@ -1,8 +1,19 @@
+#include <TH1.h>
+#include <TH2.h>
+#include <TFile.h>
+#include <TSystem.h>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include "string.h"
+using namespace std;
+
 #include "../config/conf.hpp"
 #include "../helpers/OutputHelper.hpp"
+#include "../helpers/parser.hpp"
 #include "../AtlasStyle/AtlasStyle.C"
 
-int template_fit(bool flag_corrections=1, bool leading_jet=1, int bootstrap_index=0)
+int template_fit(string compaigne="a",bool flag_corrections=1, bool leading_jet=1, int bootstrap_index=0)
 {
    // Load ATLAS style
    SetAtlasStyle();
@@ -22,15 +33,15 @@ int template_fit(bool flag_corrections=1, bool leading_jet=1, int bootstrap_inde
   //TFile *f_MCbased = TFile::Open("../external/effPlot_fineEta_wC_FixedCutBEff_ALL.root");
   TFile *f_MCbased = TFile::Open("../external/effPlot_FixedCutBEff_ALL_dijetPy8_25M.root");
 
-  std::string      f_data_name = "../NtupleReader/res/FlavourTagging_Nominal/data.root";
-  if(!leading_jet) f_data_name = "../NtupleReader/res/subleadingjet/data.root";
+  std::string      f_data_name = "../NtupleReader/res/FlavourTagging_Nominal/data_"+compaigne+".root";
+  if(!leading_jet) f_data_name = "../NtupleReader/res/subleadingjet/data_"+compaigne+".root";
 
-  std::string      f_mc_name = "../NtupleReader/res/FlavourTagging_Nominal/mc.root";
-  if(!leading_jet) f_mc_name = "../NtupleReader/res/subleadingjet/mc.root";
+  std::string      f_mc_name = "../NtupleReader/res/FlavourTagging_Nominal/mc_"+compaigne+".root";
+  if(!leading_jet) f_mc_name = "../NtupleReader/res/subleadingjet/mc_"+compaigne+".root";
 
   TFile *f_data = new TFile(f_data_name.c_str(),"READ");
   TFile *f_mc = new TFile(f_mc_name.c_str(),"READ");
-  TFile *f_mc_HERWIG = new TFile("../NtupleReader/res/generator/mc.root","READ");
+  TFile *f_mc_HERWIG = new TFile(("../NtupleReader/res/generator/mc_"+compaigne+".root").c_str(),"READ");
 
   //**********VARIABLES***********//
   // observable
@@ -67,6 +78,17 @@ int template_fit(bool flag_corrections=1, bool leading_jet=1, int bootstrap_inde
 
   //**********LOOP ON THE pT/eta BINS***********//
   std::map<int, std::map<int, std::string>> kin_labels = getKinLabels(); // take [ipt][ieta] and returns a string "ptXetaY"
+
+  std::cout << "HHHHHHHHHHHHHHHHHHHHHHHHHH================="<< std::endl;
+
+  for (auto tagger: conf::tagger_list){
+    for (auto p_pt: kin_labels){
+      for (auto p_eta: p_pt.second){
+	std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAA================="<< p_eta.second<< std::endl;
+      }
+    }
+  }
+  
 
   for (auto p_pt: kin_labels){
 
@@ -373,8 +395,9 @@ int template_fit(bool flag_corrections=1, bool leading_jet=1, int bootstrap_inde
 
       c_datafit->Write();
       h_data->Write();
-    }
-  }
+    }//end for (auto p_eta: p_pt.second)
+  }//end  (auto p_pt: kin_labels)
+
 
  f_out->Write();
  return 0;
