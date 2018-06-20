@@ -200,7 +200,12 @@ run() {
                 echo " " >> "$PBSFILE"
 		echo "cd "$here >> "$PBSFILE"
 		echo " " >> "$PBSFILE"
-                echo "${@:1:$s_index+1} $syst  -f $(get_mc_ntupledumper $var_c $syst) -split $k" >> "$PBSFILE"
+
+		if [[ "$d_flag" == "1" ]] || [[ $@ = *"-f"* ]] ; then
+		    echo "${@:1:$s_index+1} $syst -split $k" >> "$PBSFILE"
+		else
+                    echo "${@:1:$s_index+1} $syst  -f $(get_mc_ntupledumper $var_c $syst) -split $k" >> "$PBSFILE"
+		fi
                  # create log directory
                 OUTPUT_DIR="log/"
                 mkdir -p "$OUTPUT_DIR" 
