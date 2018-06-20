@@ -32,7 +32,8 @@ rt -b 'data_3mc_comparison_mc_w.cpp("a1516","data1516.root","mc_a_full.root","mc
 ##### GetNTrackWeights
 Create reweighting files for NTracks, taking into account pTeta reweighting from file of previous step.
 Run also with ```send2ge_Reweighting_noBootstrap``` option.
-
+Check reweighted (pt/eta) plots with:
+``` rt -b 'data_mc_comparison_pteta_rew.cpp("a","data1516_FlavourTagging_Nominal_0.root","mc_a_full.root","mc_HERWIG_a.root")' ```
 ##### NtupleReader
 Look into dumped ntuples, take reweighting results to build histograms for each tagger - nominal and flipped.
 
@@ -47,6 +48,9 @@ Provided options:
  - ```-f``` path to input file
 Code will check ranges of historgrams and types of taggers into ```../config/subTagger.hpp``` and check that input file exists is in ```.slices/.periods```.
 
+
+##### TemplateFit
+Exctract HF fractions
 
 ##### CalculateVariables
 Last step towards SF is to run for each nominal and systematic variation ```CalculateVariables```.
