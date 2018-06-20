@@ -1,14 +1,38 @@
 #include "../config/subTagger.hpp"
 #include "../AtlasStyle/AtlasStyle.C"
+#include <sys/stat.h>
+#include <sys/types.h>
 
-void data_mc_comparison_pteta_rew(string dname="data_FlavourTagging_Nominal_0.root",string mname="mc_FlavourTagging_Nominal_Pythia.root",string mHname="mc_FlavourTagging_Nominal_Herwig.root")
+void data_mc_comparison_pteta_rew(string compaigne="a", string dname="data_FlavourTagging_Nominal_0.root",string mname="mc_FlavourTagging_Nominal_Pythia.root",string mHname="mc_FlavourTagging_Nominal_Herwig.root")
 {
   SetAtlasStyle();
 
   TFile *f_data = new TFile(dname.c_str(), "read");
   TFile *f_mc = new TFile(mname.c_str(), "read");
   TFile *f_mc_HERWIG = new TFile(mHname.c_str(), "read");
-  TFile *f_output = new TFile("Control_plots/control_plots.root", "recreate");
+  string outfolder="Control_plots_"+compaigne;
+  //Directory::CreateDirectory(outfolder.c_str(), NULL);
+  //Directory::CreateDirectory((outfolder+"/pdf").c_str(), NULL);
+  //_mkdir(outfolder.c_str());
+
+  cout << "compaigne "<< compaigne<< "; compaigne.find(a) = "<< compaigne.find("a")<<endl;
+  string text2="";
+  string text1="#sqrt{s} = 13 TeV, ";
+  if(compaigne.find("a") || compaigne.find("15") || compaigne.find("16")){
+    text2="36 fb^{-1} (2015+2016)";
+    cout << "found a, 15 or 16"<< endl; 
+  }
+  else if(compaigne.find("d") || compaigne.find("17") ){
+    cout << "             found d"<< endl; 
+    text2="46 fb^{-1} (2017)";
+  }
+  else text2="";
+  
+  text1+=text2;
+  
+  system(("mkdir "+outfolder).c_str());
+  system(("mkdir "+outfolder+"/pdf").c_str());
+  TFile *f_output = new TFile((outfolder+"/control_plots.root").c_str(), "recreate");
 
   std::string suffix = "_pteta_rew";
   std::vector<std::string> histo_var = {"pt", "eta", "pt_thin", "eta_thin", 
@@ -255,7 +279,7 @@ void data_mc_comparison_pteta_rew(string dname="data_FlavourTagging_Nominal_0.ro
       pt3->SetFillColor(0);
       pt3->SetTextSize(0.04);
       pt3->SetTextFont(42);
-      pt3->AddText("#sqrt{s} = 13 TeV, 3.2 + 32.9 fb^{-1}");
+      pt3->AddText(text1.c_str());
       if(ijet==2) pt3->AddText("Subleading jet");
       pt3->AddText("p_{T}^{jet}/|#eta|^{jet} reweighting applied");
 
@@ -318,9 +342,9 @@ void data_mc_comparison_pteta_rew(string dname="data_FlavourTagging_Nominal_0.ro
 
       f_output->cd();
       c->Write();
-      c->SaveAs(("Control_plots/pdf/"+canvas_name+".pdf").c_str());
+      c->SaveAs((outfolder+"/pdf/"+canvas_name+".pdf").c_str());
       c_HERWIG->Write();
-      c->SaveAs(("Control_plots/pdf/"+canvas_HERWIG_name+".pdf").c_str());
+      c->SaveAs((outfolder+"/pdf/"+canvas_HERWIG_name+".pdf").c_str());
     }
 
     std::cout << "OK" << std::endl ;
