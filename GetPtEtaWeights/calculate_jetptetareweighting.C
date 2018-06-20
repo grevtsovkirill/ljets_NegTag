@@ -124,10 +124,10 @@ void calculate_jetptetareweighting( string dname="data_FlavourTagging_Nominal_0.
   // The read_list function is implemented in config_reader.cpp => systematics is a string vector. 
   auto systematics = read_list("../NtupleDumper/.systematics.auto");
   if(dosyst!=0){
-  systematics.push_back("FlavourTagging_PRW_DATASF__1down");
-  systematics.push_back("FlavourTagging_PRW_DATASF__1up");
-  systematics.push_back("FlavourTagging_JVT_effSF__1down");
-  systematics.push_back("FlavourTagging_JVT_effSF__1up");
+    //systematics.push_back("FlavourTagging_PRW_DATASF__1down");
+    //systematics.push_back("FlavourTagging_PRW_DATASF__1up");
+    //systematics.push_back("FlavourTagging_JVT_effSF__1down");
+    //systematics.push_back("FlavourTagging_JVT_effSF__1up");
   systematics.push_back("conversions__1down");
   systematics.push_back("conversions__1up");
   systematics.push_back("hadronic__1down");
