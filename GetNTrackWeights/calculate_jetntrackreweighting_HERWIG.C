@@ -82,7 +82,7 @@ void DrawPlots(TFile* f_da, TFile* f_mc){ // Plotting results only for Nominal B
   //  f_output->Close();
 }
 
-void calculate_jetntrackreweighting_HERWIG()
+void calculate_jetntrackreweighting_HERWIG( string dname="data_FlavourTagging_Nominal_0.root",string mname="mc_FlavourTagging_Nominal_Pythia.root")
 {
  // separate reweighting for leading and next-to-leading pt jet in pt:eta
   const int nj = 2;
@@ -91,8 +91,8 @@ void calculate_jetntrackreweighting_HERWIG()
   //systematics.push_back("FlavourTagging_PRW_DATASF__1up");
 
   // input
-  TFile* f_da = new TFile("data_FlavourTagging_Nominal_0.root");
-  TFile* f_mc = new TFile("mc_HERWIG.root");
+  TFile* f_da = new TFile(dname.c_str());
+  TFile* f_mc = new TFile(mname.c_str());
 
   // output
   TFile *f_output = new TFile("reweight_ntrack2D_HERWIG.root", "RECREATE");
