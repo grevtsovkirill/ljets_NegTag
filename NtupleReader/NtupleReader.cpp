@@ -238,7 +238,7 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   }
   //---- Get Ntrack weight histogram (now applied by default) -----
   std::string rew_ntrack_filename = "../GetNTrackWeights/reweight_ntrack2D_"+string(m_compaigne)+".root";
-  if(m_systematic.Contains("generator")) rew_ntrack_filename = "../GetNTrackWeights/reweight_ntrack2D_HERWIG_"+string(m_compaigne)+".root";
+  if(m_systematic.Contains("generator")) rew_ntrack_filename = "../GetNTrackWeights/reweight_ntrack2D_"+string(m_compaigne)+"_HERWIG.root";
 
   TFile* frew_ntrack = new TFile(rew_ntrack_filename.c_str());
   TH2D* h_rew_ntrk[2];
