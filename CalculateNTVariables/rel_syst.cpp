@@ -22,7 +22,7 @@ map<string, TH1F*> getHistograms(string filename){
 }
 
 
-void get_std_syst(string syst){
+void get_std_syst(string compaigne, string syst){
   map<string, TH1D*> h_out;
   auto kin_labels = getKinLabels();
 
@@ -64,7 +64,7 @@ void get_std_syst(string syst){
   f_nom->Close();
 }
 
-void get_up_down(string syst, string key){
+void get_up_down(string compaigne, string syst, string key){
 
   map<string, TH1D*> h_out;
   auto kin_labels = getKinLabels();
@@ -134,7 +134,7 @@ void get_up_down(string syst, string key){
 
 
 // get relative systematic w.r.t std, varying "key" (eg. sf, data_epsl, etc)
-void get_rel_syst(string syst, string key){
+void get_rel_syst(string compaigne, string syst, string key){
   map<string, TH1D*> h_out;
   auto kin_labels = getKinLabels();
 
@@ -176,7 +176,7 @@ void get_rel_syst(string syst, string key){
 
 
 // includes statistical uncertainty on the uncertainty for subleadingjet uncertainty.
-void get_subleadingjet_syst(string syst, string key){
+void get_subleadingjet_syst(string compaigne, string syst, string key){
   auto kin_labels = getKinLabels();
 
   // file with central values
@@ -307,7 +307,7 @@ void get_subleadingjet_syst(string syst, string key){
 
 
 // get statistical uncertainty from bootstrap replicas
-void get_bootstrap_syst(string syst, string key){
+void get_bootstrap_syst(string compaigne, string syst, string key){
   map<string, TH1D*> h_out;
   auto kin_labels = getKinLabels();
 
@@ -465,6 +465,9 @@ int main(int argc, char* argv[]) {
   TString type="stdT";
   TString var="stdV";
   vector<TString> periods;
+  TString compaigne="def";
+
+
   for ( int i1 = 1; i1 < argc; ++i1){ // start at 1 (0 script name)
     if (strcmp(argv[i1], "-s")==0){
         systematic = get_argument(argc, argv, i1);
@@ -478,28 +481,34 @@ int main(int argc, char* argv[]) {
     else if (strcmp(argv[i1], "-p")==0){
         periods = get_arguments(argc, argv, i1);
       }
+    else if (strcmp(argv[i1], "-c")==0){
+        compaigne = get_argument(argc, argv, i1);
+    }
     else {
       cout << "argument not recognized: " << argv[i1] << endl;
     }
   }
 
+  cout<<"working on " << systematic << ", for compaigne "<< compaigne <<endl;
+
+
   // std uncertainty computed only once for all
   if(type=="std") var="sfonly";
 
   if (type == "std"){
-    get_std_syst(systematic.Data());
+    get_std_syst(compaigne.Data(),systematic.Data());
   }
   else if (type == "updown"){
-    get_up_down(systematic.Data(), var.Data());
+    get_up_down(compaigne.Data(),systematic.Data(), var.Data());
   }
   else if (type == "rel"){
-    get_rel_syst(systematic.Data(), var.Data());
+    get_rel_syst(compaigne.Data(),systematic.Data(), var.Data());
     // special case for subleading: add the uncertainty on the uncertainty from bootstrap
     // makes sense only for final SF (different denominator)
-    if(systematic=="subleadingjet" && var=="sf") get_subleadingjet_syst(systematic.Data(), var.Data());
+    if(systematic=="subleadingjet" && var=="sf") get_subleadingjet_syst(compaigne.Data(),systematic.Data(), var.Data());
   }
   else if (type == "bootstrap"){
-    get_bootstrap_syst(systematic.Data(), var.Data());
+    get_bootstrap_syst(compaigne.Data(),systematic.Data(), var.Data());
   }
   else if (type == "dataperiod"){
 //    get_syst_dataperiod(systematic.Data(), periods, var.Data());
