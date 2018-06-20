@@ -356,13 +356,13 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
           TH1D* h_negc = h_mc[p_pt.first][p_eta.first]["c"][tagger]["neg"];
           TH1D* h_negb = h_mc[p_pt.first][p_eta.first]["b"][tagger]["neg"];
 	  if(debug ==3 )cout << "@@@ read partial_identifier " << h_negl << " " << h_negc << " "<< h_negb<< endl;
-          if( h_negl==0 || h_negc==0 || h_negb==0) continue;
+          //if( h_negl==0 || h_negc==0 || h_negb==0) continue;
           // get number of entries
           double sl = h_negl->Integral();  // switched to Integral() 
           double sc = h_negc->Integral();
           double sb = h_negb->Integral();
 	  if(debug == 4) cout << "inegrals sl = "<< sl << ", sc " << sc  << ", sb "<< sb<< endl; 
-	  if(sl==0 && sc==0 && sb==0) continue;
+	  //if(sl==0 && sc==0 && sb==0) continue;
 	  if(debug == 2) cout << " did it skip if zeros? = "<< sl << ", sc " << sc  << ", sb "<< sb<< endl; 
 
           // variation significance
@@ -618,17 +618,16 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
 	      eps_l_NOMINAL = h_eps_l_ntrack->GetBinContent(p_pt.first);
 	      if(debug == 4) std::cout << " h_eps_l_ntrack->GetBinContent(p_pt.first)="<< eps_l_NOMINAL << std::endl;
 	      f_ntrack->Close();
-	    }//end of else for notrackrew*: all others
-	  
-          if(eps_l_NOMINAL==0){
+	    }//end of else for notrackrew*: all others	  
+
+	  if(eps_l_NOMINAL==0){
 	    sf = 0; // can happen for very tight WP (no stat) 
-	    if(debug == 4) std::cout << " --- sf = 0 , no stat? "<< std::endl;
-	    
+	    if(debug == 4) std::cout << " --- sf = 0 , no stat? "<< std::endl;	    
 	  }
 	  else sf = eps_d/eps_l_NOMINAL;
 	  cur_histo["sf"]->SetBinContent(p_pt.first, sf);
 	  cur_histo["sf"]->SetBinError(p_pt.first, 0.);
-	  if(debug == 4) std::cout << " --- sf("<<  cur_histo["sf"]->GetName() <<") = "<< sf<< std::endl;
+	  if(debug == 4) std::cout << " --- sf("<<  cur_histo["sf"]->GetName() <<") = eps_d/eps_l_NOMINAL = "<< eps_d << "/" << eps_l_NOMINAL<< " = "<< sf << ", pT = "<< p_pt.first << std::endl;
 	  
           //-----------------NEGATIVE SF----------------//
 	  
