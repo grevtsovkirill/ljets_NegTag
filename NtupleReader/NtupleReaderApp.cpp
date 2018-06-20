@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
   std::vector<TString> files;
   TString mode = "";
   TString period = "";
-  std::vector<TString> reco_comp;
+  TString reco_comp="";
 
   bool bootstrap_flag = false;
   TString bootstrap_index = "0";
@@ -62,7 +62,8 @@ int main(int argc, char* argv[]) {
         bootstrap_index = get_argument(argc, argv, i1);
     } 
     else if (strcmp(argv[i1], "-c")==0){
-      reco_comp = get_arguments(argc, argv, i1);;
+      //reco_comp = get_arguments(argc, argv, i1);;
+      reco_comp = get_argument(argc, argv, i1);
       cout << "=== mc16a / mc16d  ===" << endl;
     }
     else {
@@ -76,13 +77,13 @@ int main(int argc, char* argv[]) {
 
   TString filename;
   if (runmc){
-    filename = "res/" + systematic + "/mc_"+reco_comp[0]+".root";
-    if(bootstrap_flag) filename = "res/" + systematic + "/mc_"+reco_comp[0]+"_" + bootstrap_index + ".root";
+    filename = "res/" + systematic + "/mc_"+reco_comp+".root";
+    if(bootstrap_flag) filename = "res/" + systematic + "/mc_"+reco_comp+"_" + bootstrap_index + ".root";
   }
   else{
-    filename = "res/" + systematic + "/data_"+reco_comp[0]+".root";
-    if(period!="")    filename = "res/" + systematic + "/data_"+reco_comp[0]+"_"+period+".root";
-    if(bootstrap_flag) filename = "res/" + systematic + "/data_" + bootstrap_index +"_"+reco_comp[0]+".root";
+    filename = "res/" + systematic + "/data_"+reco_comp+".root";
+    if(period!="")    filename = "res/" + systematic + "/data_"+reco_comp+"_"+period+".root";
+    if(bootstrap_flag) filename = "res/" + systematic + "/data_" + bootstrap_index +"_"+reco_comp+".root";
   }
   TFile histofile(filename, "RECREATE");
   TDirectory* dir_subtagger = histofile.mkdir("subTagger");
@@ -129,7 +130,7 @@ int main(int argc, char* argv[]) {
 
   histofile.cd();
   TTree* mytree = (TTree*)gROOT->FindObject(treename);
-  NtupleReader* t = new NtupleReader(mytree, systematic, mode, reweighting_folder);
+  NtupleReader* t = new NtupleReader(mytree, systematic, mode, reweighting_folder,reco_comp);
   t->dir_subtagger = dir_subtagger;
   t->dir_subsample = dir_subsample;
   t->dir_subflavour = dir_subflavour;

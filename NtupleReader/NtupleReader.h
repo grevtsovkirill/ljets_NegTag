@@ -23,6 +23,7 @@ public :
    TString         m_systematic;
    TString         m_mode;
    TString         m_reweighting_folder;
+   TString         m_compaigne;
    TDirectory     *dir_subtagger;
    TDirectory     *dir_subsample;
    TDirectory     *dir_subflavour;
@@ -101,7 +102,7 @@ public :
    TBranch        *b_jetHasConversion; //!
    TBranch        *b_jetHasHadMatInt; //!
 
-   NtupleReader(TTree *tree=0, TString="", TString="", TString="");
+   NtupleReader(TTree *tree=0, TString="", TString="", TString="", TString="");
    virtual ~NtupleReader();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
@@ -117,7 +118,7 @@ public :
 
 
 #ifdef NtupleReader_cxx
-NtupleReader::NtupleReader(TTree *tree, TString syst, TString mode, TString reweighting_folder)
+NtupleReader::NtupleReader(TTree *tree, TString syst, TString mode, TString reweighting_folder, TString compaigne)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -132,6 +133,7 @@ NtupleReader::NtupleReader(TTree *tree, TString syst, TString mode, TString rewe
    m_systematic = syst;
    m_mode = mode;
    m_reweighting_folder = reweighting_folder;
+   m_compaigne = compaigne;
    Init(tree);
 }
 
