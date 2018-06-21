@@ -60,7 +60,7 @@ Code will check ranges of historgrams and types of taggers into ```../config/sub
 Exctract HF fractions
 
 ```
-rt -b 'template_fit.cxx("a",0,X)'
+rt -b -q 'template_fit.cxx("a",0,X)'
 ```
 where X 1/0 - leading/subleading jet.
 Requires FlavourTagging_Nominal,subleadingjet and generator outputs from NtupleReader.
