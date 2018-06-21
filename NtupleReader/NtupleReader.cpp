@@ -220,7 +220,6 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   std::string rew_filename = "../GetPtEtaWeights/rew_"+string(m_compaigne)+".root";
   if(m_systematic.Contains("generator")) rew_filename = "../GetPtEtaWeights/rew_"+string(m_compaigne)+"_HERWIG.root";
 
-  cout<<" Reweighting: "<< rew_filename <<endl;  
   TFile* frew = new TFile(rew_filename.c_str());
   TH2D* h_rew[2];
   TH2D* h_rew_bootstrap_data[2]; // datastat
@@ -256,9 +255,10 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
           h_rew_ntrk_bootstrap_mc[ij] = (TH2D*)frew_ntrack->Get( (string(m_reweighting_folder + "/datamc_ratio")+char('1'+ij)+string("_mc_")+to_string(bootstrap_bkeeper-1)).c_str());
         }
       }
-      if(debug == 33) std::cout <<"fill NTRK reweightin hists: rfold "<< m_reweighting_folder<< ", cont "<<  h_rew_ntrk[ij]->GetBinContent(0,3)<< std::endl;
+      if(debug == 3) std::cout <<"fill NTRK reweightin hists: rfold "<< m_reweighting_folder<< ", cont "<<  h_rew_ntrk[ij]->GetBinContent(0,3)<< std::endl;
   }
 
+  cout<<" Reweighting: pT/eta = "<< rew_filename <<"; ntrk = "<< rew_ntrack_filename <<endl;  
 
   // ------------- EVENT LOOP STARTS ---------- //
   Long64_t nentries = fChain->GetEntries();
@@ -425,7 +425,9 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
         // the *nominal* weight must be > 2 sigma away from 1 to be applied.
 
         // reweighting based on IP3DNeg for now
-        int ntracks_IP3DNeg = ntrack_IP3DNeg[j];
+        //int ntracks_IP3DNeg = ntrack_IP3DNeg[j]; NOT EXISTING in new version of derivations
+	// since algorithm changed: now we take both positive and negative after flip, it should make no difference for light to use IP3D instead of IP3DNeg
+	int ntracks_IP3DNeg = ntrack_IP3D[j];
 	if (!m_systematic.Contains("notrackrew")) 
         {
 	  int itrx = h_rew_ntrk[ilead]->GetXaxis()->FindBin(ntracks_IP3DNeg);
@@ -434,7 +436,7 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
           if( abs(1-h_rew_ntrk[ilead]->GetBinContent(itrx, itry)) > 2*h_rew_ntrk[ilead]->GetBinError(itrx, itry) )
           {
 	    weight *= h_rew_ntrk[ilead]->GetBinContent(itrx, itry);
-	    if(debug == 1) std::cout <<"NTRK reqeightin  weight computation: h_rew[i;"<< h_rew_ntrk[ilead]->GetBinContent(itrx, itry) << " x= "<< itrx<<", y = "<< itry  <<", tot = " << weight<< endl; 
+	    if(debug == 21) std::cout <<"NTRK reqeightinh  weight computation: h_rew_ntrk["<< ilead<<"] (at  x= "<< itrx<<", y = "<< itry  <<") = "<< h_rew_ntrk[ilead]->GetBinContent(itrx, itry) << " tot = " << weight<< endl; 
             if (bootstrap_bkeeper>0)
             {
               weight_bootstrap_mc *= h_rew_ntrk_bootstrap_mc[ilead]->GetBinContent(itrx,itry);
