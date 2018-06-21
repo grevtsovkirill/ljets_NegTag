@@ -2,7 +2,7 @@
 #include "../config/conf.hpp"
 #include "../AtlasStyle/AtlasStyle.C"
 #include "../AtlasStyle/AtlasUtils.C"
-
+const int debug =1;
 void DrawPlots(TString systematic, int ijet, TH2D* h2_mc, TH2D* h2_data, TString var)
 {
   SetAtlasStyle();
@@ -179,17 +179,24 @@ void calculate_jetptetareweighting( string dname="data_FlavourTagging_Nominal_0.
 	  DrawPlots(syst, i, h_mc, h_data,"pt");
 	  delete h_mc;
 	  delete h_data;
-          /*
+          //*
           // bootstrap replicas
           if (syst.EqualTo("FlavourTagging_Nominal"))
           {
              for(int ibootstrap=0; ibootstrap<conf::n_bootstrap; ibootstrap++)
               {
+		if(debug == 21){
+		  std::cout << "BS("<< ibootstrap<<"/"<< conf::n_bootstrap<< "):"<< std::endl;
+		  std::cout << "       h_mc_bootstrap_mc->Get "<< (string(syst +"/pteta")+char('1'+i)+"_mc_w_"+to_string(ibootstrap) )<< std::endl;
+		  std::cout << "       h_data->Get "<< (string(syst +"/pteta")+char('1'+i)+"_mc_w" )<< std::endl;
+		  std::cout << "       h_mc->Get "<< (string(syst +"/pteta")+char('1'+i)+"_mc_w" )<< std::endl;
+		  std::cout << "       h_data_bootstrap->Get "<< (string(syst +"/pteta")+char('1'+i)+"_mc_w_"+to_string(ibootstrap) )<< std::endl;
+		}
                 // mcstat
                 TH2D* h_mc_bootstrap_mc = (TH2D*)ff_mc->Get( (string(syst +"/pteta")+char('1'+i)+"_mc_w_"+to_string(ibootstrap) ).c_str() );
 	        TH2D* h_data = (TH2D*)ff_data->Get((string(syst +"/pteta")+char('1'+i)+"_mc_w" ).c_str());
                 // datastat
-	        TH2D* h_mc = (TH2D*)ff_mc->Get( (string(syst +"/pteta")+char('1'+i)+"_mc_w" ).c_str() );
+	        TH2D* h_mc = (TH2D*)ff_mc->Get( (string(syst +"/pteta")+char('1'+i)+"_mc_w" ).c_str() ); 
 	        TH2D* h_data_bootstrap = (TH2D*)ff_data->Get((string(syst +"/pteta")+char('1'+i)+"_mc_w_"+to_string(ibootstrap) ).c_str());
 
                 // ratio
