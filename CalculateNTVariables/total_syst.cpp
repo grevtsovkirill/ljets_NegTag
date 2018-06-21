@@ -25,6 +25,7 @@ using namespace std;
 #include "../helpers/parser.hpp"
 
 using namespace std;
+const int debug =21;
 
 // --------------------ATLAS LABEL
 void ATLASLabel(Double_t x,Double_t y,const char* text,Color_t color)
@@ -84,9 +85,12 @@ int main(int argc, char* argv[]) {
 
   // Get Sys files
   map<TString, TFile*> sys_files;
+  if(debug == 21) std::cout << "--- Read files with systematics:"<<std::endl;	  
   for(int isys=0; isys<systematics.size(); isys++)
   {
     TString sys = systematics[isys];
+    if(debug == 21) std::cout << "                        "<< isys<<".) "<< sys << " : variation: "<< vars[isys] <<std::endl;	  
+
     if(vars[isys]=="sfonly") sys_files[sys] = new TFile("rel_systematics/rel_sf_"+sys+"_"+compaigne+".root", "read");
     else                     sys_files[sys] = new TFile("rel_systematics/rel_" + vars[isys] + "_" +sys+"_"+compaigne+".root", "read");
   }
