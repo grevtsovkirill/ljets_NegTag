@@ -54,6 +54,8 @@ int main(int argc, char* argv[]) {
   cout << "calculate total systematics" << endl;
   vector<TString> systematics;
   vector<TString> vars;
+  TString compaigne="def";
+
   for ( int i1 = 1; i1 < argc; ++i1){ // start at 1 (0 script name)
     if (strcmp(argv[i1], "-s")==0){
         systematics = get_arguments(argc, argv, i1);
@@ -61,11 +63,15 @@ int main(int argc, char* argv[]) {
     else if (strcmp(argv[i1], "-v")==0){
         vars = get_arguments(argc, argv, i1);
       }
+    else if (strcmp(argv[i1], "-c")==0){
+        compaigne = get_argument(argc, argv, i1);
+    }
     else {
       cout << "argument not recognized: " << argv[i1] << endl;
     }
   }
 
+  cout<<" compaigne "<< compaigne <<endl;
   cout << " " << std::endl; 
   cout << " " << std::endl; 
 
@@ -81,18 +87,18 @@ int main(int argc, char* argv[]) {
   for(int isys=0; isys<systematics.size(); isys++)
   {
     TString sys = systematics[isys];
-    if(vars[isys]=="sfonly") sys_files[sys] = new TFile("rel_systematics/rel_sf_"+sys+".root", "read");
-    else                     sys_files[sys] = new TFile("rel_systematics/rel_" + vars[isys] + "_" +sys+".root", "read");
+    if(vars[isys]=="sfonly") sys_files[sys] = new TFile("rel_systematics/rel_sf_"+sys+"_"+compaigne+".root", "read");
+    else                     sys_files[sys] = new TFile("rel_systematics/rel_" + vars[isys] + "_" +sys+"_"+compaigne+".root", "read");
   }
 
   auto kin_labels = getKinLabels();
 
   // nominal values
-  TFile* fval = new TFile("raw_systematics/FlavourTagging_Nominal_db.root", "read");
-  TFile* fval2 = new TFile("raw_systematics/subleadingjet_db.root", "read");
+  TFile* fval = new TFile("raw_systematics/FlavourTagging_Nominal_db_"+compaigne+".root", "read");
+  TFile* fval2 = new TFile("raw_systematics/subleadingjet_db_"+compaigne+".root", "read");
 
   // output file
-  TFile* f_out = new TFile("tot_systematics/total_" + vars[0] + ".root", "recreate");
+  TFile* f_out = new TFile("tot_systematics/total_" + vars[0] + "_"+compaigne+".root", "recreate");
 
   // histograms
   map<string, TCanvas*> c_out_final;
@@ -446,7 +452,7 @@ int main(int argc, char* argv[]) {
           TH1D *h_pythia = (TH1D*)h_out_nom[partial_identifier]->Clone((string("pytia_") + partial_identifier).c_str());
           // Pythia nominal is eps_d / SF
           // total_sf.root MUST EXIST
-          TFile *f_sf = new TFile("tot_systematics/total_sf.root", "READ");       
+          TFile *f_sf = new TFile("tot_systematics/total_sf_"+compaigne+".root", "READ");       
           TH1D *h_sf = (TH1D*)f_sf->Get(("sf_nom" + partial_identifier).c_str());          
 
           h_pythia->Divide(h_sf);          
