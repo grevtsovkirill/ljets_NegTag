@@ -12,7 +12,7 @@ using namespace std;
 #include "../helpers/OutputHelper.hpp"
 #include "../helpers/parser.hpp"
 
-const int debug =0;
+const int debug =21;
 
 // compute efficiencies
 void calculate_epsilon(TH1D* Hists, double& val, double wp){
@@ -364,10 +364,9 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
           double sl = h_negl->Integral();  // switched to Integral() 
           double sc = h_negc->Integral();
           double sb = h_negb->Integral();
-	  if(debug == 4) cout << "inegrals sl = "<< sl << ", sc " << sc  << ", sb "<< sb<< endl; 
 	  //if(sl==0 && sc==0 && sb==0) continue;
-	  if(debug == 2) cout << " did it skip if zeros? = "<< sl << ", sc " << sc  << ", sb "<< sb<< endl; 
-
+	  if(debug == 1) cout << " ---sfold==FlavourTagging_Nominal: tagger loop; h_negl->Integral = "<< sl << ", h_negc->Integral " << sc  << ", h_negb->Integral "<< sb<< endl; 
+	  if(debug == 1) cout << " ---sfold==FlavourTagging_Nominal:variation significance : h_fracb_var->GetBinError(p_pt.first, p_eta.first) = "<<h_fracb_var->GetBinError(p_pt.first, p_eta.first)<<"; compare to abs(h_fracb_var->GetBinContent(p_pt.first, p_eta.first)) = "<< abs(h_fracb_var->GetBinContent(p_pt.first, p_eta.first))<<" to fill h_fracb with "<< sb/(sl+sc+sb) <<endl;
           // variation significance
           if(2*h_fracb_var->GetBinError(p_pt.first, p_eta.first) > abs(h_fracb_var->GetBinContent(p_pt.first, p_eta.first))) h_fracb->SetBinContent(p_pt.first, p_eta.first, sb/(sl+sc+sb) );
           if(2*h_fracc_var->GetBinError(p_pt.first, p_eta.first) > abs(h_fracc_var->GetBinContent(p_pt.first, p_eta.first))) h_fracc->SetBinContent(p_pt.first, p_eta.first, sc/(sl+sc+sb) );
@@ -395,12 +394,12 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
           // TEMPORARY
           if(h_fracc_var_chosen->GetBinContent(p_pt.first, p_eta.first) > 2) 
           {
-	    if(debug ==4  ) std::cout << "TEMPORARY wtf?! pT: " << p_pt.first << ", eta: " << p_eta.first << std::endl; 
+	    if(debug ==1  ) std::cout << "TEMPORARY : " << p_pt.first << ", eta: " << p_eta.first << std::endl; 
              h_fracc_var_chosen->SetBinContent(p_pt.first, p_eta.first, 2);
              h_fracc_chosen->SetBinContent(p_pt.first, p_eta.first, 3*sc/(sl+sc+sb));
           }
 
-	  if(debug == 1){ 
+	  if(debug ==1  ){
 	    std::cout << "pT: " << p_pt.first << ", eta: " << p_eta.first << std::endl;
 	    std::cout << "fracb variation: " <<  h_fracb_var_chosen->GetBinContent(p_pt.first, p_eta.first) << std::endl;
 	    std::cout << "fracc variation: " <<  h_fracc_var_chosen->GetBinContent(p_pt.first, p_eta.first) << std::endl;
@@ -416,7 +415,6 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
           h_negHFv->Add(h_negb, h_fracb_chosen->GetBinContent(p_pt.first, p_eta.first)*(sl+sb+sc)/sb ); 
 	  
 
-          //std::cout << sl+sb+sc << " " << h_negHFv->Integral() << std::endl;
  
           // add data with HF substracted histograms
           TH1D* h_data_neg_HFsub = (TH1D*)h_data_neg[p_pt.first][p_eta.first][tagger]->Clone((string("HFsub_")+partial_identifier).c_str());
@@ -425,8 +423,9 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
           double N_data = h_data_neg_HFsub->Integral();
           h_data_neg_HFsub->Add(h_negc, -h_fracc_mc->GetBinContent(p_pt.first, p_eta.first)*N_data/sc);
           h_data_neg_HFsub->Add(h_negb, -h_fracb_mc->GetBinContent(p_pt.first, p_eta.first)*N_data/sb);
-	  //}
+
 	  if(debug ==4 )cout << "@@@ hf, N_data = " << N_data << "; sb = "<< sb <<endl;
+          if(debug ==1) std::cout << "total integral = "<< sl+sb+sc << ", after subtraction: " << h_negHFv->Integral() << std::endl;
 
           //std::cout << N_data*(1-h_fracc_mc->GetBinContent(p_pt.first, p_eta.first)-h_fracb_mc->GetBinContent(p_pt.first, p_eta.first)) << " " << h_data_neg_HFsub->Integral() << std::endl;
         }//eta_loop
@@ -517,7 +516,7 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
 
 
 	  if(debug == 3) cout<< "check nonull "<< h_mc[p_pt.first][p_eta.first]["l"][tagger][""]<< endl;
-	  if(h_mc[p_pt.first][p_eta.first]["l"][tagger][""]==0|| h_mc[p_pt.first][p_eta.first]["l"][tagger]["neg"]==0 || h_mc[p_pt.first][p_eta.first][""][tagger]["neg"]==0) continue;
+	  //if(h_mc[p_pt.first][p_eta.first]["l"][tagger][""]==0|| h_mc[p_pt.first][p_eta.first]["l"][tagger]["neg"]==0 || h_mc[p_pt.first][p_eta.first][""][tagger]["neg"]==0) continue;
 	  
           if(sfold.find("mcstat")!=std::string::npos)
 	    {
@@ -540,7 +539,7 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
 	      
           }
 	  
-	  if(debug == 1) std::cout << tagger << "_"<< wp << " " << p_pt.first << " "<< p_eta.first<< ": eps_l= "<< eps_l << "; eps_l_neg= "<< eps_l_neg << "; eps_a_neg= "<< eps_a_neg<<std::endl;	  
+	  if(debug == 21) std::cout << tagger << "_"<< wp << " " << p_pt.first << " "<< p_eta.first<< ": eps_l= "<< eps_l << "; eps_l_neg= "<< eps_l_neg << "; eps_a_neg= "<< eps_a_neg<<std::endl;	  
 	  
 	  cur_histo["eps_l"]->SetBinContent(p_pt.first, eps_l);
 	  cur_histo["eps_l"]->SetBinError(p_pt.first, 0.);
@@ -594,7 +593,7 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
 	  //eps_l_NOMINAL = eps_l;
 	  //*
           if(sfold=="notrackrew" || sfold=="notrackrew_subleadingjet"){
-	    if(debug == 4) std::cout << " --- notrackrew*, eps_l = "<< eps_l<< std::endl;
+	    if(debug == 21) std::cout << " ---compute SF_Nominal:  notrackrew*, eps_l_nominal = "<< eps_l<< std::endl;
 	    eps_l_NOMINAL = eps_l;
 	  }
           else
@@ -619,18 +618,19 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
 	      TFile *f_ntrack = new TFile(f_ntrack_name.c_str(),"read");
 	      TH1D *h_eps_l_ntrack = (TH1D*)f_ntrack->Get(histo_name.c_str());
 	      eps_l_NOMINAL = h_eps_l_ntrack->GetBinContent(p_pt.first);
-	      if(debug == 4) std::cout << " h_eps_l_ntrack->GetBinContent(p_pt.first)="<< eps_l_NOMINAL << std::endl;
+	      if(debug == 21) std::cout <<" ---compute SF_Nominal:  REWEIGHTED,  f_ntrack_file = "<< f_ntrack_name<< "; grab hist: "<< histo_name << ";  h_eps_l_ntrack->GetBinContent(p_pt.first)="<< eps_l_NOMINAL << std::endl;
 	      f_ntrack->Close();
 	    }//end of else for notrackrew*: all others	  
 
 	  if(eps_l_NOMINAL==0){
 	    sf = 0; // can happen for very tight WP (no stat) 
 	    if(debug == 4) std::cout << " --- sf = 0 , no stat? "<< std::endl;	    
-	  }
+	  }//
 	  else sf = eps_d/eps_l_NOMINAL;
+
 	  cur_histo["sf"]->SetBinContent(p_pt.first, sf);
 	  cur_histo["sf"]->SetBinError(p_pt.first, 0.);
-	  if(debug == 4) std::cout << " --- sf("<<  cur_histo["sf"]->GetName() <<") = eps_d/eps_l_NOMINAL = "<< eps_d << "/" << eps_l_NOMINAL<< " = "<< sf << ", pT = "<< p_pt.first << std::endl;
+	  if(debug == 21) std::cout << " --- compute SF_Nominal: general: sf("<<  cur_histo["sf"]->GetName() <<") = eps_d/eps_l_NOMINAL = "<< eps_d << "/" << eps_l_NOMINAL<< " = "<< sf << ", pT = "<< p_pt.first << std::endl;
 	  
           //-----------------NEGATIVE SF----------------//
 	  
@@ -640,24 +640,28 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
           double eps_l_neg_NOMINAL = 0;
 	  //eps_l_NOMINAL = eps_l_neg;
 	  //*
-          if(sfold=="notrackrew" || sfold=="notrackrew_subleadingjet") eps_l_NOMINAL = eps_l_neg;
+          if(sfold=="notrackrew" || sfold=="notrackrew_subleadingjet"){
+	    eps_l_NOMINAL = eps_l_neg;
+	    eps_l_neg_NOMINAL =  eps_l_neg;
+	    if(debug == 21) std::cout <<"--- compute SF Neg: in notrackrew*, set eps_l_neg_NOMINAL = eps_l_neg:  "<<  eps_l_neg_NOMINAL << std::endl;
+	  }
           else
-          {
-            //std::cout << "SF computation required eps_l_neg for nominal MC, looking in raw_systematics/notrackrew_db_"+compaigne+".root" << std::endl;
-            std::string histo_name =  cur_histo["eps_l_neg"]->GetName();
-
-            if(sfold.find("mcstat")!=std::string::npos)
-            {
-              size_t pos = histo_name.find("mc");
-              histo_name.erase(pos-1, histo_name.size()-1);
-            }
-            else if(sfold.find("datastat")!=std::string::npos)
-            {
-              size_t pos = histo_name.find("data");
-              histo_name.erase(pos-1, histo_name.size()-1);
-            }
-	    if(debug ==3 )std::cout << "@@@ not notrackrew "<<histo_name << std::endl;
-
+	    {
+	      //std::cout << "SF computation required eps_l_neg for nominal MC, looking in raw_systematics/notrackrew_db_"+compaigne+".root" << std::endl;
+	      std::string histo_name =  cur_histo["eps_l_neg"]->GetName();
+	      
+	      if(sfold.find("mcstat")!=std::string::npos)
+		{
+		  size_t pos = histo_name.find("mc");
+		  histo_name.erase(pos-1, histo_name.size()-1);
+		}
+	      else if(sfold.find("datastat")!=std::string::npos)
+		{
+		  size_t pos = histo_name.find("data");
+		  histo_name.erase(pos-1, histo_name.size()-1);
+		}
+	      if(debug ==3 )std::cout << "@@@ not notrackrew "<<histo_name << std::endl;
+	      
             std::string f_ntrack_neg_name = "raw_systematics/notrackrew_db_"+compaigne+".root";
             if(sfold.find("subleadingjet")!=std::string::npos) f_ntrack_neg_name = "raw_systematics/notrackrew_subleadingjet_db_"+compaigne+".root";
             TFile *f_ntrack_neg = new TFile(f_ntrack_neg_name.c_str(),"read");
@@ -665,23 +669,30 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
             eps_l_neg_NOMINAL = h_eps_l_neg_ntrack->GetBinContent(p_pt.first);
             //std::cout << eps_l_NOMINAL << std::endl;
             f_ntrack_neg->Close();
+	    if(debug == 21) std::cout <<" ---compute SF Neg:  REWEIGHTED  f_ntrack_neg = "<< f_ntrack_neg_name<< "; grab hist: "<< histo_name << ";  eps_l_neg_NOMINAL = h_eps_l_neg_ntrack->GetBinContent(pt)="<< eps_l_neg_NOMINAL << std::endl;
           }
 	  //*/
+	  
+	  
           if(eps_l_neg_NOMINAL==0) sf_neg = 0; // can happen for very tight WP (no stat) 
 	  else sf_neg = eps_neg_d*khf/eps_l_neg_NOMINAL;
+	  
+	  
 	  cur_histo["sf_neg"]->SetBinContent(p_pt.first, sf_neg);
 	  cur_histo["sf_neg"]->SetBinError(p_pt.first, 0.);
+	  
+	  if(debug == 21) std::cout <<"--- compute SF Neg: general, eps_l_neg = "<<eps_l_neg <<"(eps_l_NOMINAL = "<<eps_l_neg_NOMINAL<< "),  eps_neg_d = "<< eps_neg_d<< "; khf = "<< khf << ";  eps_l_neg_NOMINAL ="<< eps_l_neg_NOMINAL<< "; sf_neg = eps_neg_d*khf/eps_l_neg_NOMINAL = "<< sf_neg  << std::endl;
 
           //---------------HF variations---------------//
           // only for FlavourTagging_Nominal and subleadingjet
           if(sfold=="FlavourTagging_Nominal" || sfold=="subleadingjet")
-          {
+	    {
             //std::cout << p_pt.first << " " << p_eta.first << " " << tagger << " " << wp << std::endl; 
 	    //----------------------------------------------------------------------
 	    // effect of variation of b/c jet fractions in eps_a_neg: determined from data.
 	    if(debug == 3) cout<< "check nonull "<< h_mc[p_pt.first][p_eta.first]["l"][tagger][""]<< endl;
 	    if(h_mc[p_pt.first][p_eta.first]["HFv"][tagger]["neg"]==0|| h_mc[p_pt.first][p_eta.first]["c"][tagger]["neg"]==0 || h_mc[p_pt.first][p_eta.first]["b"][tagger]["neg"]==0) continue;
-
+	    
 	    double eps_a_neg_HF=0;
 	    calculate_epsilon(h_mc[p_pt.first][p_eta.first]["HFv"][tagger]["neg"], eps_a_neg_HF, wp);
 
@@ -748,12 +759,13 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
             double test = (eps_neg_d - fc*eps_c_neg - fb*eps_b_neg)/(1-fc-fb);
             std::cout << test << " " << eps_neg_d_HFsub << std::endl;
             */
-          }
-	}
-      }
+	    }// lead/sublead
+	}// loop over eta
+      }// loop over pt
       iwp++;
-    }
-  }
+    }// loop over WPs
+  }// loop over taggers
+
   std::string f1_name = "raw_systematics/" + sfold + "_db";
   if(sfold.find("mcstat")!=std::string::npos || sfold.find("datastat")!=std::string::npos) f1_name += "_" + to_string(bootstrap_bkeeper) + "_"+compaigne+".root";
   else f1_name += "_"+compaigne+".root";
