@@ -344,7 +344,7 @@ void data_mc_comparison_pteta_rew(string compaigne="a", string dname="data_Flavo
       c->Write();
       c->SaveAs((outfolder+"/pdf/"+canvas_name+".pdf").c_str());
       c_HERWIG->Write();
-      c->SaveAs((outfolder+"/pdf/"+canvas_HERWIG_name+".pdf").c_str());
+      c_HERWIG->SaveAs((outfolder+"/pdf/"+canvas_HERWIG_name+".pdf").c_str());
     }
 
     std::cout << "OK" << std::endl ;
