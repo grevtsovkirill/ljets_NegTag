@@ -76,7 +76,7 @@ after all necessary variations are in ```raw_systematics```:
 
 Run for each variation corresponding uncertainty computation:
 ```
-./rel_syst -s generator -v sf -t rel -c a
+./rel_syst -c a -s generator -v sf -t rel
 ```
 options can be found in ```config/systematics.txt```:
  - ```-v``` variation (sf/sfonly)
