@@ -33,6 +33,10 @@ rt -b 'data_3mc_comparison_mc_w.cpp("a1516","data1516.root","mc_a_full.root","mc
 ##### GetNTrackWeights
 Create reweighting files for NTracks, taking into account pTeta reweighting from file of previous step.
 Run also with ```send2ge_Reweighting_noBootstrap``` option.
+Create reweighting file:
+```
+rt -b 'calculate_jetntrackreweighting.C("data1516_FlavourTagging_Nominal_0.root","mc_a_full.root")' 
+```
 Check reweighted (pt/eta) plots with:
 ``` rt -b 'data_mc_comparison_pteta_rew.cpp("a","data1516_FlavourTagging_Nominal_0.root","mc_a_full.root","mc_HERWIG_a.root")' ```
 
