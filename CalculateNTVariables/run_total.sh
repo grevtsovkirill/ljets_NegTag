@@ -10,14 +10,13 @@ while read mode name type var; do
 	if [[ ${name:${#name}-4:${#name}} == "down" ]]; then
 	    XSYST=${name:0:${#name}-4}
 	    ALL_SYSTEMATICS+=" $XSYST"
-	    #ALL_VARS+=" $var"
-	    ALL_VARS+=" $1"
+	    ALL_VARS+=" $var"
+	    #ALL_VARS+=" $1"
 	elif [[ ${name:${#name}-2:${#name}} == "up" ]]; then
 	    continue
 	else
 	    echo "skipping $name"
 	fi
-
 #    elif [[ "$type" == "dataperiod" ]]; then
 #	ALL_SYSTEMATICS+=" $name"
 #	ALL_VARS+=" $var"
@@ -28,10 +27,11 @@ while read mode name type var; do
 	ALL_VARS+=" $var"
     else
 	ALL_SYSTEMATICS+=" $name"
-	#ALL_VARS+=" $var"
-	ALL_VARS+=" $1"
+	ALL_VARS+=" $var"
+	#ALL_VARS+=" $1"
     fi
 
 done < <(getCleanSysts)
 
-./total_syst -s $ALL_SYSTEMATICS -v $ALL_VARS
+echo './total_syst -s '$ALL_SYSTEMATICS' -v '$ALL_VARS' -c a'
+./total_syst -s $ALL_SYSTEMATICS -v $ALL_VARS -c a
