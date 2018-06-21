@@ -11,6 +11,7 @@
 #include <vector>
 
 using namespace std;
+const int debug = 1;
 
 #include "hist_rel.h"
 #include "../helpers/OutputHelper.hpp"
@@ -142,8 +143,10 @@ void get_rel_syst(string compaigne, string syst, string key){
   if(syst.substr(0,14)=="subleadingjet_" ||
      syst=="notrackrew_subleadingjet") nom_name = "raw_systematics/subleadingjet_db_"+compaigne+".root";
   TFile* f_nom = new TFile(nom_name.c_str(), "read");
+  std::string syst_name = "raw_systematics/" + syst + "_db_"+compaigne+".root";
+  TFile* f_sys = new TFile(syst_name.c_str(), "read");
 
-  TFile* f_sys = new TFile(("raw_systematics/" + syst + "_db_"+compaigne+".root").c_str(), "read");
+  if(debug == 1) std::cout << " --- get_rel_syst: inputs: nom_name=  "<<nom_name << "; syst_name = "<< syst_name<< std::endl;
 
   for (auto tagger: conf::tagger_list){
     int iwp = 0;
@@ -158,6 +161,7 @@ void get_rel_syst(string compaigne, string syst, string key){
 	TH1D* h_nom = (TH1D*)f_nom->Get((key+partial_identifier).c_str());
         TH1D* h_sys = (TH1D*)f_sys->Get((key+partial_identifier).c_str());
  	h_out[partial_identifier] = hist_rel(h_nom, h_sys);
+	if(debug == 1) std::cout << " --- get_rel_syst: tagger loop: hist key+partial_identifier=  "<<key+partial_identifier << " for eta = "<< ieta<< std::endl;
       }
       ++iwp;
     }
