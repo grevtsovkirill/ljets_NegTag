@@ -438,7 +438,7 @@ void data_3mc_comparison_mc_w(string compaigne="a", string dname="data_FlavourTa
       c->Write();
       c->SaveAs((outfolder+"/pdf/"+canvas_name+".pdf").c_str());
       c_HERWIG->Write();
-      c->SaveAs((outfolder+"/pdf/"+canvas_HERWIG_name+".pdf").c_str());
+      c_HERWIG->SaveAs((outfolder+"/pdf/"+canvas_HERWIG_name+".pdf").c_str());
       // if(!mSname.empty()){
       // c_SHERPA->Write();
       // c->SaveAs((outfolder+"/pdf/"+canvas_SHERPA_name+".pdf").c_str());
