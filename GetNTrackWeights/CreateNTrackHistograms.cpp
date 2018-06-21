@@ -504,16 +504,16 @@ void CreateNTrackHistograms::Loop(int bootstrap_bkeeper=0)
               if(runmc)
               {
                 //datatstat
-                array_data_h_ntrk_pt1[ibootstrap]->Fill(ntracks_IP3DNeg, ptj, weight_data[ibootstrap]);
+                array_data_h_ntrk_pt1[ibootstrap]->Fill(ntracks_IP3D, ptj, weight_data[ibootstrap]);
                 //mcstat 
-                array_mc_h_ntrk_pt1[ibootstrap]->Fill(ntracks_IP3DNeg, ptj, weight_mc[ibootstrap]*weight_bootstrap[(bootstrap_bkeeper-1)*2+ibootstrap]);            
+                array_mc_h_ntrk_pt1[ibootstrap]->Fill(ntracks_IP3D, ptj, weight_mc[ibootstrap]*weight_bootstrap[(bootstrap_bkeeper-1)*2+ibootstrap]);            
               }
               // for data
               else
               {
                 // mcstat required nominal data
                 // datatstat
-                array_data_h_ntrk_pt1[ibootstrap]->Fill(ntracks_IP3DNeg, ptj, weight_data[ibootstrap]*weight_bootstrap[(bootstrap_bkeeper-1)*2+ibootstrap]);
+                array_data_h_ntrk_pt1[ibootstrap]->Fill(ntracks_IP3D, ptj, weight_data[ibootstrap]*weight_bootstrap[(bootstrap_bkeeper-1)*2+ibootstrap]);
               }
            }
 	 }	  
@@ -599,16 +599,16 @@ void CreateNTrackHistograms::Loop(int bootstrap_bkeeper=0)
             if(runmc)
             {
               //datatstat
-              array_data_h_ntrk_pt2[ibootstrap]->Fill(ntracks_IP3DNeg, ptj, weight_data[ibootstrap]);
+              array_data_h_ntrk_pt2[ibootstrap]->Fill(ntracks_IP3D, ptj, weight_data[ibootstrap]);
               //mcstat 
-              array_mc_h_ntrk_pt2[ibootstrap]->Fill(ntracks_IP3DNeg, ptj, weight_mc[ibootstrap]*weight_bootstrap[(bootstrap_bkeeper-1)*2+ibootstrap]);            
+              array_mc_h_ntrk_pt2[ibootstrap]->Fill(ntracks_IP3D, ptj, weight_mc[ibootstrap]*weight_bootstrap[(bootstrap_bkeeper-1)*2+ibootstrap]);            
             }
             // for data
             else
             {
               // mcstat uses nominal data
               // datatstat
-              array_data_h_ntrk_pt2[ibootstrap]->Fill(ntracks_IP3DNeg, ptj, weight_data[ibootstrap]*weight_bootstrap[(bootstrap_bkeeper-1)*2+ibootstrap]);
+              array_data_h_ntrk_pt2[ibootstrap]->Fill(ntracks_IP3D, ptj, weight_data[ibootstrap]*weight_bootstrap[(bootstrap_bkeeper-1)*2+ibootstrap]);
             }
           }
         }	  
