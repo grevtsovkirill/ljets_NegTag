@@ -13,11 +13,11 @@ while read mode name type var; do
 
     if [[ "$name" == "dataperiod" ]]; then
 	while read period; do
-	    run ./CalculateVariables -s $name$period
+	    run ./CalculateVariables -s $name$period -c a
 	    PERIODS+=" $period"
 	done < $PERIODFILE
     else
-    run ./CalculateVariables -s $name
+    run ./CalculateVariables -s $name -c a
     fi
 
 done < <(getCleanSysts)
