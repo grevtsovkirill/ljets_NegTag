@@ -18,7 +18,7 @@ void DrawPlots(TFile* f_da, TFile* f_mc){ // Plotting results only for Nominal B
   const int nj = 2;
   // Lopp on leading and sub-leading jet.
   for(int ij=0; ij < nj; ij++){
-    string hname = string("FlavourTagging_Nominal/ntrk_IP3DNeg") + char('1'+ij) + string("_pteta_rew");
+    string hname = string("FlavourTagging_Nominal/ntrk_IP3D") + char('1'+ij) + string("_pteta_rew");
     TCanvas* c1 = new TCanvas( (string("c_")+hname).c_str(), (string("c_")+hname).c_str(), 0, 0, 600, 700);
 
     c1->Divide(1,2);
@@ -106,7 +106,7 @@ void calculate_jetntrackreweighting( string dname="data_FlavourTagging_Nominal_0
   // output
   TFile *f_output = new TFile("reweight_ntrack2D.root", "RECREATE");
 
-  // ntrk_IP3DNeg/pT 2D histo
+  // ntrk_IP3D/pT 2D histo
   TH2D* hmc[nj];
   TH2D* hda[nj];
   TH2D* hratio[nj];
@@ -125,12 +125,12 @@ void calculate_jetntrackreweighting( string dname="data_FlavourTagging_Nominal_0
       // loop on jet
       for(int ij=0; ij < nj; ij++)
 	{
-	  string hname = string(syst) + string("/ntrk_IP3DNeg_pt") + char('1'+ij)+ string("_pteta_rew");
+	  string hname = string(syst) + string("/ntrk_IP3D_pt") + char('1'+ij)+ string("_pteta_rew");
 	  cout << "1\n";
 	  cout << "string is: " << hname << endl;
 	  hmc[ij] = (TH2D*)f_mc->Get(hname.c_str()); 
 	  cout << "2\n";
-	  hda[ij] = (TH2D*)f_da->Get( (string("FlavourTagging_Nominal/ntrk_IP3DNeg_pt")+char('1'+ij)+string("_pteta_rew")).c_str() ); // Data has only the nominal Branch.
+	  hda[ij] = (TH2D*)f_da->Get( (string("FlavourTagging_Nominal/ntrk_IP3D_pt")+char('1'+ij)+string("_pteta_rew")).c_str() ); // Data has only the nominal Branch.
 	  cout << "3\n";
 
 	  hratio[ij] = (TH2D*)hda[ij]->Clone( (string("datamc_ratio")+char('1'+ij)).c_str() );
