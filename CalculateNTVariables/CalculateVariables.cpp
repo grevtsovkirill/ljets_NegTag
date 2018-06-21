@@ -338,7 +338,7 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
 
     // File for original MC fraction and distributions
     std::string mc_fraction_path = "../TemplateFit/template_fit.root.noCorrections";
-    if(sfold=="subleadingjet") mc_fraction_path = "../TemplateFit/template_fit.root.subldg.pTetaCorrections";
+    if(sfold=="subleadingjet") mc_fraction_path = "../TemplateFit/template_fit.root.subldg.noCorrections";
 
     f_mc_fraction = new TFile(mc_fraction_path.c_str(),"read");
     TH2D *h_fracb_mc = (TH2D*)f_mc_fraction->Get("h_fracb_mc");
