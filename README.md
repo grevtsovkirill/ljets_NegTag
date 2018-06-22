@@ -59,8 +59,9 @@ Provided options:
  - ```-c``` compaigne, choose ```a``` for mc16a and data15-16, ```d``` for mc16d and data17
  - ```-m``` stands for mode, and can be xAOD/doJets/doSubLeadJet/nomode/bootstrap - consult ```config/systematics.txt``` for more details (requre modification according available systematic variations)
  - ```-f``` path to input file
+ - ```-p``` submission can be split by period/slice
+ - ```-split i``` run bootstrap replicas
 Code will check ranges of historgrams and types of taggers into ```../config/subTagger.hpp``` and check that input file exists is in ```.slices/.periods```.
-
 
 ##### TemplateFit
 Exctract HF fractions
