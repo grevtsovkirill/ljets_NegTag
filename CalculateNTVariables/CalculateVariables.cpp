@@ -12,7 +12,7 @@ using namespace std;
 #include "../helpers/OutputHelper.hpp"
 #include "../helpers/parser.hpp"
 
-const int debug =21;
+const int debug =0;
 
 // compute efficiencies
 void calculate_epsilon(TH1D* Hists, double& val, double wp){

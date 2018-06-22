@@ -11,9 +11,12 @@ make
 ./run.sh
 ```
 Specify option -c in run.sh to provide different files for mc16a and mc16d (since same name of slices and same xs).
+
 Output will be available at: ```/NtupleDumper/res```
+
 ```./run.sh send2ge_NtupleDumper``` will create pbs jobs used for ```htc.sh``` to submit Condor jobs, like ```./htc.sh d```
-./run.sh send2ge++_NtupleDumper (if files are too big, split per systematics)
+
+Use ```./run.sh send2ge++_NtupleDumper``` if files are too big, this will split per systematics
 
 ##### GetPtEtaWeights
 Create histograms of data and MC to compute corresponding reweighting files:
@@ -23,9 +26,12 @@ Once reweighting files ready, check distributions, for that:
 ```
 rt -b 'calculate_jetptetareweighting.C("data1516.root","mc_a.root",1)'
 ```
-- don't forget last option to include non-tree systematics
-Output - ```rew.root``` - (tempopary) - rename by hand to ```rew_+XXX+.root``` where XXX is ```a``` or ```d``` (necessary to follow this convention, as thif files will be red in next step)
+- don't forget last option to include non-tree systematics!
+
+Output - ```rew.root``` - (tempopary) - rename by hand to ```rew_+XXX+.root``` where XXX is ```a``` or ```d``` (necessary to follow this convention, as thif files will be red in next step).
+
 Also, run ```data_3mc_comparison_mc_w.cpp``` to perform comparison data to mc before any reweihting:
+
 ```
 rt -b 'data_3mc_comparison_mc_w.cpp("a1516","data1516.root","mc_a_full.root","mc_HERWIG_a.root")' 
 ```
@@ -74,6 +80,10 @@ And then:
 ```
 ./CalculateVariables -s FlavourTagging_Nominal -c a
 ```
+
+Also, this can be done in loop by calling ```./run.sh```  - will loop over all variations listed in ```config/systematics.txt```.
+
+
 after all necessary variations are in ```raw_systematics```:
  - change Make file to ```rel_syst```
  - recompile 
