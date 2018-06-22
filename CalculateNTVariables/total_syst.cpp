@@ -492,10 +492,10 @@ int main(int argc, char* argv[]) {
 //        pt2->Draw();
         ATLASLabel(0.15,0.83, "Internal",kBlack);
         h_tmp_tot_up->Draw("AXISSAME"); 
-      }
+      }// eta loop
       ++iwp;
-    }
-  }
+    }// wp loop
+  }// tagger loop
 
   f_out->cd();
   for (auto histogram: h_out_syst_up){
