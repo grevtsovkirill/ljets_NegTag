@@ -84,7 +84,7 @@ And then:
 Also, this can be done in loop by calling ```./run.sh```  - will loop over all variations listed in ```config/systematics.txt```.
 
 
-after all necessary variations are in ```raw_systematics```:
+After all necessary variations are in ```raw_systematics```:
  - change Make file to ```rel_syst```
  - recompile 
 
@@ -92,11 +92,15 @@ Run over all variation corresponding uncertainty computation - IMPORTANT - be su
 ```
 ./run_syst.sh 
 ```
-options can be found in ```config/systematics.txt```:
- - ```-v``` variation (sf/sfonly)
- - ```-t``` type: rel(onesided)/updown
+to loop over all "v", or use ```./run_syst.sh XXX``` to run on single option, where ```XXX``` can be:
+ - ```sf``` = SF -> mistag rate (data / MC ratio) 
+ - ```khf``` = MC HF corrections
+ - ```kll``` = MC LF corrections 
+ - ```eps_d/eps_neg_d```
 
-Outputs will be available at ```rel_systematics```
+Type (```-t```: rel(onesided)/updown) is readed directly from config.
+
+Outputs will be available at ```rel_systematics/``` .
 
 Last step - run total uncertainty computation for all variations:
 ```
