@@ -92,12 +92,12 @@ void calculate_jetntrackreweighting( string dname="data_FlavourTagging_Nominal_0
   systematics.push_back("FlavourTagging_PRW_DATASF__1up");
   systematics.push_back("FlavourTagging_JVT_effSF__1down");
   systematics.push_back("FlavourTagging_JVT_effSF__1up");
+  //*/
   systematics.push_back("conversions__1down");
   systematics.push_back("conversions__1up");
   systematics.push_back("hadronic__1down");
   systematics.push_back("hadronic__1up");
   systematics.push_back("longlivedparticles");
-  //*/
 
   // input
   TFile* f_da = new TFile(dname.c_str());
@@ -155,7 +155,7 @@ void calculate_jetntrackreweighting( string dname="data_FlavourTagging_Nominal_0
 	  hratio[ij]->Write();
     
           // bootstrap
-	  /*
+	  //*
           if (syst.EqualTo("FlavourTagging_Nominal"))
           {   
             for(int ibootstrap=0; ibootstrap<conf::n_bootstrap; ibootstrap++)
