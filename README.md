@@ -78,10 +78,20 @@ after all necessary variations are in ```raw_systematics```:
  - change Make file to ```rel_syst```
  - recompile 
 
-Run for each variation corresponding uncertainty computation:
+Run over all variation corresponding uncertainty computation - IMPORTANT - be sure all inputs exists for systematics listed in config:
 ```
-./rel_syst -c a -s generator -v sf -t rel
+./run_syst.sh 
 ```
 options can be found in ```config/systematics.txt```:
  - ```-v``` variation (sf/sfonly)
- - ```-t``` type ()
+ - ```-t``` type: rel(onesided)/updown
+
+Outputs will be available at ```rel_systematics```
+
+Last step - run total uncertainty computation for all variations:
+```
+./run_total.sh 
+```
+Will create final plots in ```tot_systematics/total_sf_a.root ```.
+
+
