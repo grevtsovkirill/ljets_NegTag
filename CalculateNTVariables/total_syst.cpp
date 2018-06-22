@@ -110,6 +110,20 @@ int main(int argc, char* argv[]) {
   // output file
   TFile* f_out = new TFile("tot_systematics/total_" + vars[0] + "_"+compaigne+".root", "recreate");
 
+  string text2="";
+  string text1="#sqrt{s} = 13 TeV, ";
+  if(compaigne.Contains("a") || compaigne.Contains("15") || compaigne.Contains("16")){
+    text2="36 fb^{-1} (2015+2016)";
+    cout << "found a, 15 or 16"<< endl; 
+  }
+  else if(compaigne.Contains("d") || compaigne.Contains("17") ){
+    cout << "             found d"<< endl; 
+    text2="46 fb^{-1} (2017)";
+  }
+  else text2="";
+  
+  text1+=text2;
+
   // histograms
   map<string, TCanvas*> c_out_final;
   map<string, TH1D*> h_out_nom;
@@ -435,7 +449,7 @@ int main(int argc, char* argv[]) {
         std::string eta_region = "| #eta^{jet} | < 1.2";
         if(ieta==2) eta_region = "1.2 < | #eta^{jet} | < 2.5";
         //pt->AddText("#sqrt{s} = 13 TeV, 0.02 (prescaled) to 36100 pb  ^{-1} (unprescaled)");
-	pt->AddText("#sqrt{s} = 13 TeV, 36.1 fb^{-1}, rel21");
+	pt->AddText(text1.c_str());
         pt->AddText((tagger + string(", #epsilon_{b} = ") + wp_label + string("%    ") +  eta_region).c_str());
 /*         
         TPaveText *pt2 = new TPaveText(0.191977,0.677215,0.310888,0.827004,"brNDC");
