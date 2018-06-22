@@ -11,15 +11,16 @@ systematic_file='../config/systematics.txt'
 
 WP_list = {85, 77, 70, 60}
 WP_dict = dict = { 85: 0.11, 77: 0.645, 70: 0.831, 60: 0.939} # MV2c10
-
+tagger_list = {'MV2c10','DL1'}
 pt_bins = [20, 60, 100, 200, 300, 500, 750, 1000, 3000]
 abseta_bins = [0.0, 1.2, 2.5]
 
-f_nom_stat = ROOT.TFile('tot_systematics/total_sf.root') 
-f_nom_eps = ROOT.TFile('tot_systematics/total_eps_d.root') 
+compaigne = 'a'
+f_nom_stat = ROOT.TFile('tot_systematics/total_sf_'+compaigne+'.root') 
+f_nom_eps = ROOT.TFile('tot_systematics/total_eps_d_'+compaigne+'.root') 
 
-f_data_tot = ROOT.TFile('../NtupleReader/res/FlavourTagging_Nominal/data.root')
-f_data_subldg_tot = ROOT.TFile('../NtupleReader/res/subleadingjet/data.root')
+f_data_tot = ROOT.TFile('../NtupleReader/res/FlavourTagging_Nominal/data_'+compaigne+'.root')
+f_data_subldg_tot = ROOT.TFile('../NtupleReader/res/subleadingjet/data_'+compaigne+'.root')
 
 f_mc_frac = ROOT.TFile('../TemplateFit/template_fit.root.pTetaCorrections')
 f_mc_subldg_frac = ROOT.TFile('../TemplateFit/template_fit.root.subldg.pTetaCorrections')
@@ -35,7 +36,7 @@ systematic_typelist = []
 with open(systematic_file) as f_txt_syst:
 
    for line in f_txt_syst.readlines():
-
+      print line
       if line[0]!='#' and line.split()[1]!='FlavourTagging_Nominal' and line.split()[2]!='bootstrap': 
 
          type_name = line.split()[2]
@@ -43,18 +44,18 @@ with open(systematic_file) as f_txt_syst:
          file_name = ''
 
          if type_name!='updown': 
-            file_name = 'rel_systematics/rel_sf_' + systematic_name + '.root' 
+            file_name = 'rel_systematics/rel_sf_' + systematic_name + '_'+compaigne+'.root' 
             systematic_name = systematic_name.replace('_up','')
          else                  : 
             if systematic_name.find('_up')==-1 and systematic_name.find('__1up')==-1: continue;
             elif systematic_name.find('conversions')!=-1:
                systematic_name = systematic_name.replace('up','')
-               file_name = 'rel_systematics/rel_sf_' + systematic_name + '.root' 
+               file_name = 'rel_systematics/rel_sf_' + systematic_name + '_'+compaigne+'.root' 
                if systematic_name.find('subleadingjet'): systematic_name = 'subleadingjet_conversions'
                else                                    : systematic_name = 'conversions' 
             else :
                systematic_name = systematic_name.replace('__1up','__1')
-               file_name = 'rel_systematics/rel_sf_' + systematic_name + '.root'
+               file_name = 'rel_systematics/rel_sf_' + systematic_name + '_'+compaigne+'.root'
                systematic_name = systematic_name.replace('__1','')
 
          systematic_name = systematic_name.replace('FlavourTagging_','FT_EFF_')
@@ -70,7 +71,7 @@ print systematic_typelist
 # ----------------------------------
 # File builder - prelude
 for iWP in WP_list:
-   file = open('CDI/negtag_v00-07_WP%i.txt' % iWP,'w') 
+   file = open('CDI/negtag_v01-06_WP%i.txt' % iWP,'w') 
    
    file.write('Analysis(negative_tags,light,MV2c10,FixedCutBEff_%i,%s){\n' % (iWP, collection))
    file.write('\n')
@@ -132,9 +133,9 @@ for iWP in WP_list:
             if syst_name_current.find("subleadingjet_")!=-1 and ipt!=0: continue
 
             # skip leading jet systematic if first pT bin
-            if ipt==0 and (syst_name_current.find("FT_EFF_JET_",0,11)!=-1 or
-                           syst_name_current.find("FT_EFF_PRW_",0,11)!=-1 or
-                           syst_name_current.find("FT_EFF_JVT",0,11)!=-1 or
+            if ipt==0 and (syst_name_current.find("JET_",0,11)!=-1 or
+                           syst_name_current.find("PRW_",0,11)!=-1 or
+                           syst_name_current.find("JVT",0,11)!=-1 or
                            syst_name_current=="FT_EFF_generator" or 
                            syst_name_current.find("FT_EFF_conversions",0,18)!=-1 or
                            syst_name_current.find("FT_EFF_hadronic",0,15)!=-1 or 
