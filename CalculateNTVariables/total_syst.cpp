@@ -25,7 +25,7 @@ using namespace std;
 #include "../helpers/parser.hpp"
 
 using namespace std;
-const int debug =21;
+const int debug =22;
 
 // --------------------ATLAS LABEL
 void ATLASLabel(Double_t x,Double_t y,const char* text,Color_t color)
@@ -85,14 +85,20 @@ int main(int argc, char* argv[]) {
 
   // Get Sys files
   map<TString, TFile*> sys_files;
-  if(debug == 21) std::cout << "--- Read files with systematics:"<<std::endl;	  
+  if(debug == 22) std::cout << "--- Read files with systematics:"<<std::endl;	  
   for(int isys=0; isys<systematics.size(); isys++)
   {
     TString sys = systematics[isys];
-    if(debug == 21) std::cout << "                        "<< isys<<".) "<< sys << " : variation: "<< vars[isys] <<std::endl;	  
+    if(debug == 22) std::cout << "                        "<< isys<<".) "<< sys << " : variation: "<< vars[isys] <<std::endl;	  
 
-    if(vars[isys]=="sfonly") sys_files[sys] = new TFile("rel_systematics/rel_sf_"+sys+"_"+compaigne+".root", "read");
-    else                     sys_files[sys] = new TFile("rel_systematics/rel_" + vars[isys] + "_" +sys+"_"+compaigne+".root", "read");
+    if(vars[isys]=="sfonly"){
+      sys_files[sys] = new TFile("rel_systematics/rel_sf_"+sys+"_"+compaigne+".root", "read");
+      if(debug == 22) std::cout << "                        rel_systematics/rel_sf_"<<sys<<"_"<<compaigne<<".root" <<std::endl;	  
+    }
+    else{
+      sys_files[sys] = new TFile("rel_systematics/rel_" + vars[isys] + "_" +sys+"_"+compaigne+".root", "read");
+      if(debug == 22) std::cout << "                        rel_systematics/rel_" <<vars[isys] <<"_" <<sys<<"_"<<compaigne<<".root" <<std::endl;	  
+    }
   }
 
   auto kin_labels = getKinLabels();
@@ -217,7 +223,7 @@ int main(int argc, char* argv[]) {
               {
 	        TH1* hstat = (TH1*)sys_files[systematics[i]]->Get("rel_" + vars[i] + partial_identifier);
 	        if (!hstat)
-	          cout << "----> no histogram found for " << systematics[i] << endl;
+	          cout << " STATISTICAL UNCERTAINTY subleading ----> no histogram found for " << systematics[i] << endl;
 	        tot_stat += pow(hstat->GetBinContent(ipt+1), 2);
               }
             }
@@ -228,7 +234,7 @@ int main(int argc, char* argv[]) {
               {
 	        TH1* hstat2 = (TH1*)sys_files[systematics[i]]->Get("rel_" + vars[i] + partial_identifier);
 	        if (!hstat2)
-	          cout << "----> no histogram found for " << systematics[i] << endl;
+	          cout << "STATISTICAL UNCERTAINTY leading----> no histogram found for " << systematics[i] << endl;
 	        tot_stat += pow(hstat2->GetBinContent(ipt+1), 2);
               }
             }
@@ -238,12 +244,12 @@ int main(int argc, char* argv[]) {
             // syst_up/down
             else if(systematics.at(i).Contains("conversions") ||
                     systematics.at(i).Contains("hadronic") ||
-                    (systematics.at(i).Contains("FlavourTagging") && !systematics.at(i).Contains("FlavourTagging_JET_JER_SINGLE_NP__1up")) )
+                    (systematics.at(i).Contains("FlavourTagging") && !systematics.at(i).Contains("FlavourTagging_JET_JER_SINGLE_NP__1up")) && !systematics.at(i).Contains("FlavourTagging_JET_JvtEfficiency__1up")) )
             {
 	      TH1D* hsys_up = (TH1D*)sys_files[systematics[i]]->Get("rel_up_" + vars[i] + partial_identifier);
 	      TH1D* hsys_down = (TH1D*)sys_files[systematics[i]]->Get("rel_down_" + vars[i] + partial_identifier);
 	      if (!hsys_up || !hsys_down)
-	        cout << "----> no histogram found for " << systematics[i] << endl;
+	        cout << "SYSTEMATIC UNCERTAINTY ----> no histogram found for " << systematics[i] << endl;
 	      tot_syst_up += pow( max(0., hsys_up->GetBinContent(ipt+1)), 2);
 	      tot_syst_up += pow( max(0., hsys_down->GetBinContent(ipt+1)), 2);
 
