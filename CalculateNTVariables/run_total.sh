@@ -33,5 +33,5 @@ while read mode name type var; do
 
 done < <(getCleanSysts)
 
-echo './total_syst -s '$ALL_SYSTEMATICS' -v '$ALL_VARS' -c a'
+echo ' -v '$ALL_VARS
 ./total_syst -s $ALL_SYSTEMATICS -v $ALL_VARS -c a
