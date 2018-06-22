@@ -76,7 +76,7 @@ for iTAG in tagger_list:
    for iWP in WP_list:
       file = open('CDI/negtag_v01-06_%s_WP%i.txt' % (iTAG, iWP),'w') 
    
-      file.write('Analysis(negative_tags,light,MV2c10,FixedCutBEff_%i,%s){\n' % (iWP, collection))
+      file.write('Analysis(negative_tags,light,%s,FixedCutBEff_%i,%s){\n' % (iTAG, iWP, collection))
       file.write('\n')
       file.write('        meta_data_s (Hadronization, Pythia8EvtGen)')
       file.write('\n')
@@ -87,10 +87,10 @@ for iTAG in tagger_list:
       for ieta in range(0,len(abseta_bins)-1):
          
          # get nominal and stat histograms
-         h_nom = f_nom_stat.Get( 'sf_nom_MV2c10_w%i_eta%i' % (iWP, ieta+1) )
-         h_stat = f_nom_stat.Get( 'rel_stat_total_MV2c10_w%i_eta%i' % (iWP, ieta+1) )
+         h_nom = f_nom_stat.Get( 'sf_nom_%s_w%i_eta%i' % (iTAG, iWP, ieta+1) )
+         h_stat = f_nom_stat.Get( 'rel_stat_total_%s_w%i_eta%i' % (iTAG, iWP, ieta+1) )
          
-         h_eps_d = f_nom_eps.Get( 'eps_d_nom_MV2c10_w%i_eta%i' % (iWP, ieta+1) )
+         h_eps_d = f_nom_eps.Get( 'eps_d_nom_%s_w%i_eta%i' % (iTAG, iWP, ieta+1) )
          
          # pT loop
          for ipt in range(0,len(pt_bins)-1): 
@@ -104,8 +104,8 @@ for iTAG in tagger_list:
             file.write('                central_value(%.2f,%.2f%%)\n' % (sf, stat))
             
             # for continuous b-tagging
-            h_data_tot = f_data_tot.Get( 'w__pt%ieta%i_MV2c10' % (ipt+1, ieta+1) )
-            h_data_subldg_tot = f_data_subldg_tot.Get( 'w__pt%ieta%i_MV2c10' % (ipt+1, ieta+1) )
+            h_data_tot = f_data_tot.Get( 'w__pt%ieta%i_%s' % (iTAG, ipt+1, ieta+1) )
+            h_data_subldg_tot = f_data_subldg_tot.Get( 'w__pt%ieta%i_%s' % (iTAG, ipt+1, ieta+1) )
             
             if ipt==0: 
                data_tot = h_data_subldg_tot.Integral()
@@ -151,8 +151,8 @@ for iTAG in tagger_list:
                   
                if systematic_typelist[isyst]=='updown':
                      
-                  h_systup = systematic_filelist[isyst].Get('rel_up_sf_MV2c10_w%i_eta%i' % (iWP, ieta+1) )
-                  h_systdown = systematic_filelist[isyst].Get('rel_down_sf_MV2c10_w%i_eta%i' % (iWP, ieta+1) )
+                  h_systup = systematic_filelist[isyst].Get('rel_up_sf_%s_w%i_eta%i' % (iTAG, iWP, ieta+1) )
+                  h_systdown = systematic_filelist[isyst].Get('rel_down_sf_%s_w%i_eta%i' % (iTAG, iWP, ieta+1) )
                      
                   syst = max(abs(h_systup.GetBinContent(ipt+1)),abs(h_systdown.GetBinContent(ipt+1)))*100 #%
                   #print syst
@@ -160,7 +160,7 @@ for iTAG in tagger_list:
                      
                else:
                      
-                  h_syst = systematic_filelist[isyst].Get('rel_sf_MV2c10_w%i_eta%i' % (iWP, ieta+1) )
+                  h_syst = systematic_filelist[isyst].Get('rel_sf_%s_w%i_eta%i' % (iTAG, iWP, ieta+1) )
                   syst = h_syst.GetBinContent(ipt+1)*100 #%
                   if syst_name_current=='FT_EFF_notrackrew' or syst_name_current=='FT_EFF_notrackrew_subleadingjet': continue 
                   if syst_name_current=='FT_EFF_subleadingjet': syst = 0.05*100 # 5% flat
