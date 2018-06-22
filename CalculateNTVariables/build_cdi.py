@@ -12,7 +12,6 @@ systematic_file='../config/systematics.txt'
 WP_list = {85, 77, 70, 60}
 WP_dict = dict = { 85: 0.11, 77: 0.645, 70: 0.831, 60: 0.939} # MV2c10
 tagger_list = {'MV2c10','DL1'}
-tagger_list = {'MV2c10'}
 pt_bins = [20, 60, 100, 200, 300, 500, 750, 1000, 3000]
 abseta_bins = [0.0, 1.2, 2.5]
 
