@@ -244,7 +244,7 @@ int main(int argc, char* argv[]) {
             // syst_up/down
             else if(systematics.at(i).Contains("conversions") ||
                     systematics.at(i).Contains("hadronic") ||
-                    (systematics.at(i).Contains("FlavourTagging") && !systematics.at(i).Contains("FlavourTagging_JET_JER_SINGLE_NP__1up")) && !systematics.at(i).Contains("FlavourTagging_JET_JvtEfficiency__1up")) )
+                    (systematics.at(i).Contains("FlavourTagging") && !systematics.at(i).Contains("FlavourTagging_JET_JER_SINGLE_NP__1up")) && !systematics.at(i).Contains("FlavourTagging_JET_JvtEfficiency__1up") )
             {
 	      TH1D* hsys_up = (TH1D*)sys_files[systematics[i]]->Get("rel_up_" + vars[i] + partial_identifier);
 	      TH1D* hsys_down = (TH1D*)sys_files[systematics[i]]->Get("rel_down_" + vars[i] + partial_identifier);
