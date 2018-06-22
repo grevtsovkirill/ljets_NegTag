@@ -2,10 +2,16 @@
 
 source ../helpers/run_mode.sh
 
-ALL_SYSTEMATICS=""
-ALL_VARS=""
-while read mode name type var; do
+input=$1
+if [[ -n "$input" ]]; then
+    ALL_VARS=$input
+else
+    ALL_VARS="sf kll khf eps_d eps_neg_d"
+fi
 
+ALL_VARS1="sf kll khf eps_d eps_neg_d"
+ALL_SYSTEMATICS=""
+while read mode name type var; do    
     if [[ "$type" == "updown" ]]; then
 	if [[ ${name:${#name}-4:${#name}} == "down" ]]; then
 	    XSYST=${name:0:${#name}-4}
@@ -30,7 +36,7 @@ while read mode name type var; do
 	ALL_VARS+=" $var"
 	#ALL_VARS+=" $1"
     fi
-
+    
 done < <(getCleanSysts)
 
 echo ' -v '$ALL_VARS
