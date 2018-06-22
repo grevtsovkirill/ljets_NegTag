@@ -96,7 +96,7 @@ to loop over all "v", or use ```./run_syst.sh XXX``` to run on single option, wh
  - ```sf``` = SF -> mistag rate (data / MC ratio) 
  - ```khf``` = MC HF corrections
  - ```kll``` = MC LF corrections 
- - ```eps_d/eps_neg_d```
+ - ```eps_d/eps_neg_d``` = Data nominal/negative tag efficiency
 
 Type (```-t```: rel(onesided)/updown) is readed directly from config.
 
@@ -104,8 +104,8 @@ Outputs will be available at ```rel_systematics/``` .
 
 Last step - run total uncertainty computation for all variations:
 ```
-./run_total.sh 
+./run_total.sh XXX
 ```
-Will create final plots in ```tot_systematics/total_sf_a.root ```.
+Will create final plots in ```tot_systematics/total_XXX_a.root ```, where ```XXX``` one of options sf/kll/khf/eps_d/epd_neg_d. 
 
 
