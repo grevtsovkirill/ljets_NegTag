@@ -42,14 +42,15 @@ bootstrap	      mcstat					        bootstrap sf
 bootstrap	      datastat					        bootstrap sf
 bootstrap	      mcstat_subleadingjet			        bootstrap sf
 bootstrap	      datastat_subleadingjet			        bootstrap sf
-
+#############################################################
 doJets                conversions__1up				        updown  sf 
 doJets                conversions__1down				updown  sf 
 doJets                hadronic__1up				        updown  sf 
 doJets                hadronic__1down				        updown  sf 
 doJets                longlivedparticles				rel     sf
-
-
+#
+# 
+# From previous roud, don't count
 # #########################################################
 # # Jet calibration - Moriond 2017 NP scheme [OK]
 # # https://twiki.cern.ch/twiki/bin/view/AtlasProtected/JetUncertainties2015ICHEP2016#Globally_reduced_19_parameter_20
@@ -154,7 +155,7 @@ doJets                longlivedparticles				rel     sf
 # doJets                subleadingjet_FlavourTagging_PRW_DATASF__1down           updown  sf
 # doJets                subleadingjet_FlavourTagging_JVT_effSF__1up              updown  sf
 # doJets                subleadingjet_FlavourTagging_JVT_effSF__1down            updown  sf
-
+#
 # #####################################################
 # # Dependence w.r.t light jet substructure, generator 
 # # (leading jet) [OK] 
