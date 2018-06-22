@@ -104,8 +104,8 @@ for iTAG in tagger_list:
             file.write('                central_value(%.2f,%.2f%%)\n' % (sf, stat))
             
             # for continuous b-tagging
-            h_data_tot = f_data_tot.Get( 'w__pt%ieta%i_%s' % (iTAG, ipt+1, ieta+1) )
-            h_data_subldg_tot = f_data_subldg_tot.Get( 'w__pt%ieta%i_%s' % (iTAG, ipt+1, ieta+1) )
+            h_data_tot = f_data_tot.Get( 'w__pt%ieta%i_%s' % (ipt+1, ieta+1, iTAG) )
+            h_data_subldg_tot = f_data_subldg_tot.Get( 'w__pt%ieta%i_%s' % (ipt+1, ieta+1, iTAG) )
             
             if ipt==0: 
                data_tot = h_data_subldg_tot.Integral()
