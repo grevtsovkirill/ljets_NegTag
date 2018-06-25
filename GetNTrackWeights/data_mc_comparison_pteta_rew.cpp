@@ -191,10 +191,10 @@ void data_mc_comparison_pteta_rew(string compaigne="a", string dname="data_Flavo
       h_ratio->Divide(h_mc); 
       h_ratio_HERWIG->Divide(h_mc_HERWIG); 
 
-      h_ratio->SetMaximum(5);
-      h_ratio_HERWIG->SetMaximum(5);
-      h_ratio->SetMinimum(0);
-      h_ratio->SetMinimum(0);
+      h_ratio->SetMaximum(1.8);
+      h_ratio_HERWIG->SetMaximum(1.8);
+      h_ratio->SetMinimum(0.4);
+      h_ratio_HERWIG->SetMinimum(0.4);
 
       // cosmetics
       h_mc->SetLineColor(kRed+1);

@@ -216,11 +216,11 @@ void data_3mc_comparison_mc_w(string compaigne="a", string dname="data_FlavourTa
       h_ratio_HERWIG->Divide(h_mc_HERWIG); 
       //if(!mSname.empty()) h_ratio_SHERPA->Divide(h_mc_SHERPA); 
 
-      h_ratio->SetMaximum(5);
-      h_ratio_HERWIG->SetMaximum(5);
+      h_ratio->SetMaximum(2.2);
+      h_ratio_HERWIG->SetMaximum(2.2);
       //if(!mSname.empty()) h_ratio_SHERPA->SetMaximum(5);
       h_ratio->SetMinimum(0);
-      h_ratio->SetMinimum(0);
+      h_ratio_HERWIG->SetMinimum(0);
 
       // cosmetics
       h_mc->SetLineColor(kRed+1);
