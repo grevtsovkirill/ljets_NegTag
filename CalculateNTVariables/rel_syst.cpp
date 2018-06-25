@@ -12,6 +12,7 @@
 
 using namespace std;
 const int debug = 1;
+const int n_bs = 300;
 
 #include "hist_rel.h"
 #include "../helpers/OutputHelper.hpp"
@@ -249,7 +250,7 @@ void get_subleadingjet_syst(string compaigne, string syst, string key){
         std::string h_syst_mc_baseName = key + "_" + tagger + "_w" + wp_label + "_eta" + to_string(ieta) + "_mcstat_";
         std::string h_syst_data_baseName = key + "_" + tagger + "_w" + wp_label + "_eta" + to_string(ieta) + "_datastat_";
 
-        for(int ibootstrap=1; ibootstrap<1001; ibootstrap++)
+        for(int ibootstrap=1; ibootstrap<n_bs; ibootstrap++)
         {
           //std::cout << ibootstrap << std::endl;
           std::string h_syst_mc_name = h_syst_mc_baseName + to_string(ibootstrap);
@@ -365,7 +366,7 @@ void get_bootstrap_syst(string compaigne, string syst, string key){
 
         std::string h_syst_baseName = key + partial_identifier + "_" + syst_short + "_";
 
-        for(int ibootstrap=1; ibootstrap<1001; ibootstrap++)
+        for(int ibootstrap=1; ibootstrap<n_bs; ibootstrap++)
         {
           //std::cout << ibootstrap << std::endl;
           std::string h_syst_name = h_syst_baseName + to_string(ibootstrap);
