@@ -79,12 +79,12 @@ int main(int argc, char* argv[]) {
   if (runmc){
     filename = "res/" + systematic + "/mc_"+reco_comp+".root";
     if(period!="")    filename = "res/" + systematic + "/mc_"+reco_comp+"_"+period+".root";
-    if(bootstrap_flag) filename = "res/" + systematic + "/mc_"+reco_comp+"_" + bootstrap_index + ".root";
+    if(bootstrap_flag) filename = "res/" + systematic + "/mc_"+reco_comp+"_"+period+"_" + bootstrap_index + ".root";
   }
   else{
     filename = "res/" + systematic + "/data_"+reco_comp+".root";
     if(period!="")    filename = "res/" + systematic + "/data_"+reco_comp+"_"+period+".root";
-    if(bootstrap_flag) filename = "res/" + systematic + "/data_" + bootstrap_index +"_"+reco_comp+".root";
+    if(bootstrap_flag) filename = "res/" + systematic + "/data_"+reco_comp+"_"+period+"_"+ bootstrap_index +".root";
   }
   TFile histofile(filename, "RECREATE");
   TDirectory* dir_subtagger = histofile.mkdir("subTagger");
