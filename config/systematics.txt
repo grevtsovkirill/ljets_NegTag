@@ -48,6 +48,28 @@ doJets                conversions__1down				updown  sf
 doJets                hadronic__1up				        updown  sf 
 doJets                hadronic__1down				        updown  sf 
 doJets                longlivedparticles				rel     sf
+########################################################################
+# For subleading jet - used in first pT bin [OK]
+########################################################################
+doJets  	      subleadingjet_generator           		       rel     sf
+doJets                subleadingjet_conversions__1up			       updown  sf 
+doJets                subleadingjet_conversions__1down			       updown  sf 
+doJets                subleadingjet_hadronic__1up			       updown  sf 
+doJets                subleadingjet_hadronic__1down			       updown  sf 
+doJets                subleadingjet_longlivedparticles			       rel     sf
+xAOD2	  	      subleadingjet_FlavourTagging_JET_EtaIntercalibration_NonClosure__1down	  updown  sf
+xAOD2	  	      subleadingjet_FlavourTagging_JET_EtaIntercalibration_NonClosure__1up	  updown  sf
+xAOD2 	   	      subleadingjet_FlavourTagging_JET_GroupedNP_1__1down			  updown  sf
+xAOD2	   	      subleadingjet_FlavourTagging_JET_GroupedNP_1__1up			  updown  sf
+xAOD2 	   	      subleadingjet_FlavourTagging_JET_GroupedNP_2__1down			  updown  sf
+xAOD2 	   	      subleadingjet_FlavourTagging_JET_GroupedNP_2__1up			  updown  sf
+xAOD2 	   	      subleadingjet_FlavourTagging_JET_GroupedNP_3__1down			  updown  sf
+xAOD2 	   	      subleadingjet_FlavourTagging_JET_GroupedNP_3__1up			  updown  sf
+xAOD2 	  	      subleadingjet_FlavourTagging_JET_RelativeNonClosure_MC16__1down		  updown  sf
+xAOD2 	  	      subleadingjet_FlavourTagging_JET_RelativeNonClosure_MC16__1up		  updown  sf
+xAOD2                 subleadingjet_FlavourTagging_JET_JER_SINGLE_NP__1up			  rel     sf
+xAOD2 	  	      subleadingjet_FlavourTagging_JET_JvtEfficiency__1up			  rel	  sf
+
 #
 # 
 # From previous roud, don't count
