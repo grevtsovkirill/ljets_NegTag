@@ -41,7 +41,7 @@ Create reweighting files for NTracks, taking into account pTeta reweighting from
 Run also with ```send2ge_Reweighting_noBootstrap``` option.
 Create reweighting file:
 ```
-rt -b 'calculate_jetntrackreweighting.C("data1516_FlavourTagging_Nominal_0.root","mc_a_full.root")' 
+rt -b 'calculate_jetntrackreweighting.C("data_A.root","mc_a_full.root",1)' 
 ```
 Check reweighted (pt/eta) plots with:
 ``` rt -b 'data_mc_comparison_pteta_rew.cpp("a","data1516_FlavourTagging_Nominal_0.root","mc_a_full.root","mc_HERWIG_a.root")' ```
