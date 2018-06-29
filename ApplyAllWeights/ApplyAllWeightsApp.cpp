@@ -19,7 +19,7 @@ using namespace std;
 
 bool runmc = true;
 bool file_per_syst = false;
-bool HERWIG = false;
+std::string alt_gen = "";
 
 int main(int argc, char* argv[]) 
 {
@@ -27,6 +27,7 @@ int main(int argc, char* argv[])
   std::vector<TString> bootstrap_index;
   std::vector<TString> files;
   std::vector<TString> systematics;
+  std::vector<TString> compagnie;
 
   // read arguments from command line
   for ( int i1 = 1; i1 < argc; ++i1) // start at 1 (0 script name)
@@ -39,7 +40,8 @@ int main(int argc, char* argv[])
 	{
 	  cout << "=== selected files ===" << endl;
 	  files = get_arguments(argc, argv, i1);
-          if(files.at(0).Contains("_H")) HERWIG = true;
+          if(files.at(0).Contains("W_H")) alt_gen = "HERWIG";
+          if(files.at(0).Contains("W_S")) alt_gen = "SHERPA";
 	  cout << "=== end of files ===" << endl;
 	}
       else if(strcmp(argv[i1], "-s")==0) 
@@ -52,29 +54,43 @@ int main(int argc, char* argv[])
       else if (strcmp(argv[i1], "-split")==0)
         {
           file_per_syst = true;
-          if(HERWIG) file_per_syst = false;
+          if(!alt_gen.empty()) file_per_syst = false;
           cout << "=== 1 file per systematic created ===" << endl;
 	  bootstrap_index = get_arguments(argc, argv, i1);
         }
+      else if (strcmp(argv[i1], "-c")==0)
+	{
+	  cout << "=== select compagnie ===" << endl;
+	  compagnie = get_arguments(argc, argv, i1);
+	}
       else {
 	cout << "argument not recognized: " << argv[i1] << endl;
     }
   }
 
   TString filename;
+  TString extraGen="";
   // TString syst = "FlavourTagging_Nominal";
   if (runmc)
     {
+      //cout << "## running mc ##" << endl;
+      //filename = "mc.root";
+      //if(HERWIG) filename = "mc_HERWIG.root";
+      //if(file_per_syst) filename = "mc_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
+
       cout << "## running mc ##" << endl;
-      filename = "mc.root";
-      if(HERWIG) filename = "mc_HERWIG.root";
-      if(file_per_syst) filename = "mc_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
+      if(!alt_gen.empty()) extraGen=("_"+alt_gen).c_str();
+      //if(SHERPA) extraGen="_SHERPA";
+      filename = "mc"+extraGen+"_"+compagnie.at(0)+".root";
+      //if(file_per_syst) filename = "mc_"+compagnie.at(0)+"_"  + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
+      if(file_per_syst) filename = "mc"+extraGen+"_"+compagnie.at(0)+"_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
+
     }
   else
     {
       cout << "## running data ##" << endl;
-      filename = "data.root";
-      if(file_per_syst) filename = "data_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
+      filename = "data"+compagnie.at(0)+".root";
+      if(file_per_syst) filename = "data"+compagnie.at(0)+"_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
     }
   TFile *histofile = new TFile(filename, "RECREATE");
   std::vector<TChain*> tchains;
@@ -117,7 +133,12 @@ int main(int argc, char* argv[])
          syst.Contains("conversions") || syst.Contains("hadronic") ||
          syst.Contains("longlivedparticles")) mytree = (TTree*)gROOT->FindObject("FlavourTagging_Nominal");
       else                           mytree = (TTree*)gROOT->FindObject(syst);
-      ApplyAllWeights* plotter = new ApplyAllWeights(mytree, syst, HERWIG);
+      ApplyAllWeights* plotter = new ApplyAllWeights(mytree, syst, compagnie.at(0));
+      if(!alt_gen.empty()){
+	std::cout<<"; alt_gen = "<<alt_gen << std::endl;
+	plotter = new ApplyAllWeights(mytree, syst, compagnie.at(0), alt_gen);
+      }
+
       plotter->Loop(bootstrap_bkeeper);
     }
 

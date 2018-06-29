@@ -295,8 +295,11 @@ void ApplyAllWeights::Loop(int bootstrap_bkeeper=0)
 
   // pT/eta reweighting
   TFile* frew_pt_eta;
-  std::string frew_pt_eta_name = "../GetPtEtaWeights/rew.root";
-  if(m_HERWIG) frew_pt_eta_name = "../GetPtEtaWeights/rew_HERWIG.root";
+  std::cout<< "Compaigne = "<< m_compagine << std::endl;
+
+  std::string frew_pt_eta_name = "../GetPtEtaWeights/rew_"+m_compagine+".root";
+  if(!m_alt.empty()) frew_pt_eta_name = "../GetPtEtaWeights/rew_"+m_compagine+"_HERWIG.root";
+  std::cout<< " input pT/eta reweighting:  "<< frew_pt_eta_name << ", alt_gen = "<<m_alt << std::endl;
 
   frew_pt_eta = new TFile(frew_pt_eta_name.c_str(), "read");
   TH2D* h_rew[2];
@@ -307,9 +310,10 @@ void ApplyAllWeights::Loop(int bootstrap_bkeeper=0)
 
   // NTrack reweighting (ntracks_IP3DNeg so far) 
   TFile* frew_ntrack_pt;
-  std::string frew_ntrack_pt_name = "../GetNTrackWeights/reweight_ntrack2D.root";
-  if(m_HERWIG) frew_ntrack_pt_name = "../GetNTrackWeights/reweight_ntrack2D_HERWIG.root"; 
+  std::string frew_ntrack_pt_name = "../GetNTrackWeights/reweight_ntrack2D_"+m_compagine+".root";
+  if(!m_alt.empty()) frew_ntrack_pt_name = "../GetNTrackWeights/reweight_ntrack2D_"+m_compagine+"_HERWIG.root"; 
   frew_ntrack_pt = new TFile(frew_ntrack_pt_name.c_str(), "read"); 
+  std::cout<< " input Ntrk reweighting:  "<< frew_ntrack_pt_name << std::endl;
   TH2D* h_rew_ntrack[2];
   for(int ij=0; ij<2; ij++)
     {

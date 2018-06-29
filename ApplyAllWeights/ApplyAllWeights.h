@@ -19,7 +19,8 @@ public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
    TString m_systematic;
-   bool m_HERWIG;
+   std::string m_alt;
+   std::string m_compagine;
 
    // Declaration of leaf types      
 
@@ -95,7 +96,7 @@ public :
    TBranch        *b_jetHasConversion; //!
    TBranch        *b_jetHasHadMatInt; //!
 
-   ApplyAllWeights(TTree *tree=0, TString="FlavourTagging_Nominal", bool=false);
+   ApplyAllWeights(TTree *tree=0, TString="FlavourTagging_Nominal", TString="a", std::string="");
    virtual ~ApplyAllWeights();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
@@ -110,21 +111,15 @@ public :
 #endif
 
 #ifdef ApplyAllWeights_cxx
-ApplyAllWeights::ApplyAllWeights(TTree *tree, TString syst, bool herwig)
+ApplyAllWeights::ApplyAllWeights(TTree *tree, TString syst, TString comp, std::string extra_gen)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
-   if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("mc/user.yuj.Sep25.moreJES.mc11_7TeV.105010.J1_pythia_jetjet.merge.NTUP_BTAGD3PD.e815_s1273_s1274_r2923_r2900_p794.120925133510/user.yuj.012420._00010.output.root");
-      if (!f || !f->IsOpen()) {
-         f = new TFile("mc/user.yuj.Sep25.moreJES.mc11_7TeV.105010.J1_pythia_jetjet.merge.NTUP_BTAGD3PD.e815_s1273_s1274_r2923_r2900_p794.120925133510/user.yuj.012420._00010.output.root");
-      }
-      f->GetObject("d",tree);
-
-   }
-   m_systematic = syst;
-   m_HERWIG = herwig;
-   Init(tree);
+  m_systematic = syst;
+  m_compagine = comp;
+  //m_HERWIG = herwig;
+  m_alt = extra_gen;
+  Init(tree);
 }
 
 ApplyAllWeights::~ApplyAllWeights()
