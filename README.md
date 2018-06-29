@@ -46,6 +46,7 @@ Then submit rest variations and bootsrap replicas.
 After, create reweighting file for Pythia:
 ```
 rt -b 'calculate_jetntrackreweighting.C("data_A.root","mc_a_full.root",1)' 
+```
 and for Herwig:
 ```
 rt -b 'calculate_jetntrackreweighting_HERWIG.C("data_A.root","mc_HERWIG_a.root")'
