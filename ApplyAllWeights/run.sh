@@ -8,9 +8,9 @@ source ../helpers/run_mode.sh
 [[ -e log ]] || mkdir log
 
 ALL_SYSTS=""
-for syst in $(getxAODsysts); do
-ALL_SYSTS+=" $syst"
-done
+#for syst in $(getxAODsysts); do
+#ALL_SYSTS+=" $syst"
+#done
 
 # Add PU SF uncertainty
 ALL_SYSTS+=" FlavourTagging_PRW_DATASF__1down"
@@ -27,14 +27,18 @@ ALL_SYSTS+=" hadronic__1up"
 # Add LL uncertainty
 ALL_SYSTS+=" longlivedparticles"
 
+sys=FlavourTagging_Nominal
+
 #echo "run data"
-#run ./ApplyAllWeightsApp -d -f $(get_data_ntupledumper) -s "FlavourTagging_Nominal"
+#run ./ApplyAllWeightsApp -d -f $(get_data_ntupledumper) -c "a" -s "FlavourTagging_Nominal"
 #echo "run mc"
 #run ./ApplyAllWeightsApp -f $(get_mc_ntupledumper) -s $ALL_SYSTS
-echo 'run HERWIG mc'
-run ./ApplyAllWeightsApp -f $(get_mcHERWIG_ntupledumper) -s "FlavourTagging_Nominal"
+#echo 'run HERWIG mc'
+run ./ApplyAllWeightsApp -f $(get_mcHERWIG_ntupledumper a $sys) -c a -s $sys 
 #echo "run mc"
-#run ./ApplyAllWeightsApp -f $(get_mc_ntupledumper) -s "FlavourTagging_Nominal"
+#run ./ApplyAllWeightsApp -f $(get_mc_ntupledumper) -c a -s "FlavourTagging_Nominal" 
+
+#run ./ApplyAllWeightsApp -c "a" -s $sys
 
 wait
 
