@@ -7,7 +7,7 @@ source ../helpers/run_mode.sh
 # create log directory
 [[ -e log ]] || mkdir log
 
-ALL_SYSTS=""
+# ALL_SYSTS=""
 # for syst in $(getxAODsysts); do
 #     ALL_SYSTS+=" $syst"
 # done
@@ -29,9 +29,9 @@ ALL_SYSTS=""
 
 sys=FlavourTagging_Nominal
 #rew_d/rew_a
-run ./CreateNTrackHistogramsApp -d -f $(get_data_ntupledumper) -c "1516" -s "FlavourTagging_Nominal" 
-#run ./CreateNTrackHistogramsApp -c "d" -s $sys
-#run ./CreateNTrackHistogramsApp -f $(get_mcHERWIG_ntupledumper d $sys) -c "d" -s $sys
+#run ./CreateNTrackHistogramsApp -d -f $(get_data_ntupledumper) -c "a" -s "FlavourTagging_Nominal" 
+run ./CreateNTrackHistogramsApp -c "a" -s $sys
+#run ./CreateNTrackHistogramsApp -f $(get_mcHERWIG_ntupledumper a $sys) -c "a" -s $sys
 
 
 #echo "run data"

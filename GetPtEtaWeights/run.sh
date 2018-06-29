@@ -9,10 +9,12 @@ source ../helpers/run_mode.sh
 
 ALL_SYSTS=""
 for syst in $(getxAODsysts); do
-    ALL_SYSTS=""
-#ALL_SYSTS+=" $syst"
+    #ALL_SYSTS=""
+    ALL_SYSTS+=" $syst"
 done
 
+
+echo "${ALL_SYSTS[*]}"
 # Add PU SF uncertainty
 # ALL_SYSTS+=" FlavourTagging_PRW_DATASF__1down"
 # ALL_SYSTS+=" FlavourTagging_PRW_DATASF__1up"
@@ -27,15 +29,19 @@ done
 # ALL_SYSTS+=" hadronic__1up"
 # # Add LL uncertainty
 # ALL_SYSTS+=" longlivedparticles"
-
+sys=FlavourTagging_Nominal
 #echo 'run data'
-#run ./CreateHistogramsApp -d -f $(get_data_ntupledumper) -c "1516" -s "FlavourTagging_Nominal" 
-echo 'run mc nominal only'
-run ./CreateHistogramsApp -f $(get_mc_ntupledumper d) -c "d" -s "FlavourTagging_Nominal"
+run ./CreateHistogramsApp -d -f $(get_data_ntupledumper) -c "17" -s "FlavourTagging_Nominal" 
+#run ./CreateHistogramsApp -c "a" -s $sys
+#run ./CreateHistogramsApp -c "d" -s $sys 
+#run ./CreateHistogramsApp -f $(get_mcHERWIG_ntupledumper d $sys) -c "d" -s $sys
+
+#echo 'run mc nominal only'
+#run ./CreateHistogramsApp -f $(get_mc_ntupledumper d $sys) -c "d" -s $sys
+#run ./CreateHistogramsApp -c "1516" -d -s $sys
 #echo 'run mc'
-#run ./CreateHistogramsApp -f $(get_mc_ntupledumper) -s $ALL_SYSTS
+#run ./CreateHistogramsApp -f $(get_mc_ntupledumper a) -c "a" -s $ALL_SYSTS
 #echo 'run HERWIG mc'
-#run ./CreateHistogramsApp -f $(get_mcHERWIG_ntupledumper) -s "FlavourTagging_Nominal" 
 #echo 'run SHERPA mc'
 #run ./CreateHistogramsApp -f $(get_mcSHERPA_ntupledumper) -s "FlavourTagging_Nominal" 
 

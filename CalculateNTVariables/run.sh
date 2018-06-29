@@ -11,6 +11,11 @@ while read mode name type var; do
 
     [[ "$mode" == "nomode" ]] && continue
 
+    [[ "$name" == "mcstat" ]] && continue
+    [[ "$name" == "datastat" ]] && continue
+    [[ "$name" == "mcstat_subleadingjet" ]] && continue
+    [[ "$name" == "datastat_subleadingjet" ]] && continue
+
     if [[ "$name" == "dataperiod" ]]; then
 	while read period; do
 	    run ./CalculateVariables -s $name$period -c a
