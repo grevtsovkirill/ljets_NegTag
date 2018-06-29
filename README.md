@@ -29,6 +29,7 @@ rt -b 'calculate_jetptetareweighting.C("data1516.root","mc_a.root",1)'
 - don't forget last option to include non-tree systematics!
 
 Output - ```rew.root``` - (tempopary) - rename by hand to ```rew_+XXX+.root``` where XXX is ```a``` or ```d``` (necessary to follow this convention, as thif files will be red in next step).
+And ```rew_XXX_HERWIG.root``` for Herwig.
 
 Also, run ```data_3mc_comparison_mc_w.cpp``` to perform comparison data to mc before any reweihting:
 
@@ -38,13 +39,20 @@ rt -b 'data_3mc_comparison_mc_w.cpp("a1516","data1516.root","mc_a_full.root","mc
 
 ##### GetNTrackWeights
 Create reweighting files for NTracks, taking into account pTeta reweighting from file of previous step.
-Run also with ```send2ge_Reweighting_noBootstrap``` option.
-Create reweighting file:
+Use ```run.sh``` to creat pbs files and submit to batch system. First run with ```send2ge_Reweighting_noBootstrap``` option to perform check before submitting whole BS.
+Check that pTeta reweighting actually goes in right direction (can be done for nominal only):
+``` rt -b 'data_mc_comparison_pteta_rew.cpp("a","data_A.root","mc_a_full.root","mc_HERWIG_a.root")' ```
+Then submit rest variations and bootsrap replicas.
+After, create reweighting file for Pythia:
 ```
 rt -b 'calculate_jetntrackreweighting.C("data_A.root","mc_a_full.root",1)' 
+and for Herwig:
 ```
-Check reweighted (pt/eta) plots with:
-``` rt -b 'data_mc_comparison_pteta_rew.cpp("a","data1516_FlavourTagging_Nominal_0.root","mc_a_full.root","mc_HERWIG_a.root")' ```
+rt -b 'calculate_jetntrackreweighting_HERWIG.C("data_A.root","mc_HERWIG_a.root")'
+```
+
+Rename reweighting file according to conventions to be read correctly in next step (NtupleReader):
+```reweight_ntrack2D_XXX.root``` and ```reweight_ntrack2D_XXX_HERWIG.root```
 
 
 ##### NtupleReader
