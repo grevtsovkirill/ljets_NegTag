@@ -335,9 +335,9 @@ void data_mc_comparison_all_rew(string compaigne="a", string dname="data_Flavour
 
       f_output->cd();
       c->Write();
-      c->SaveAs(("Control_plots/pdf/"+canvas_name+".pdf").c_str());
+      c->SaveAs((outfolder+"/pdf/"+canvas_name+".pdf").c_str());
       c_HERWIG->Write();
-      c->SaveAs(("Control_plots/pdf/"+canvas_HERWIG_name+".pdf").c_str());
+      c->SaveAs((outfolder+"/pdf/"+canvas_HERWIG_name+".pdf").c_str());
     }
 
     std::cout << "OK" << std::endl ;
