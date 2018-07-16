@@ -15,6 +15,7 @@
 #include "../helpers/OutputHelper.hpp"
 
 using namespace std;
+const int debug=0;
 
 extern int runmc;
 
@@ -432,11 +433,15 @@ void ApplyAllWeights::Loop(int bootstrap_bkeeper=0)
 	double reweight_pt_eta = h_rew[ilead]->GetBinContent(ix,iy);
 	weight *= reweight_pt_eta;
 
-	int jx = h_rew_ntrack[ilead]->GetXaxis()->FindBin(ntrack_IP3DNeg[j]);
+	int jx = h_rew_ntrack[ilead]->GetXaxis()->FindBin(ntrack_IP3D[j]);
 	int jy = h_rew_ntrack[ilead]->GetYaxis()->FindBin(jetpt[j]);
 	double reweight_ntrack_pt = h_rew_ntrack[ilead]->GetBinContent(jx,jy);
 
         if( abs(1-h_rew_ntrack[ilead]->GetBinContent(jx, jy)) > 2*h_rew_ntrack[ilead]->GetBinError(jx, jy) ) weight *= reweight_ntrack_pt;
+
+	if(debug == 16){
+	  cout << "reweight_pt_eta = "<< reweight_pt_eta<<", reweight_ntrack_pt= "<< reweight_ntrack_pt<< endl;
+	}
 
 	if (reweight_pt_eta * reweight_ntrack_pt == 0) ++events_lost;
 	else ++events_passed;
@@ -459,7 +464,7 @@ void ApplyAllWeights::Loop(int bootstrap_bkeeper=0)
             // mcstat
             weight_mc[ibootstrap]   *= array_mc_h_rew[ilead][ibootstrap]->GetBinContent(ix,iy);
 
-            int jx = h_rew_ntrack[ilead]->GetXaxis()->FindBin(ntrack_IP3DNeg[j]);
+            int jx = h_rew_ntrack[ilead]->GetXaxis()->FindBin(ntrack_IP3D[j]);
             int jy = h_rew_ntrack[ilead]->GetYaxis()->FindBin(jetpt[j]);
 
             // 3 sigma significance
