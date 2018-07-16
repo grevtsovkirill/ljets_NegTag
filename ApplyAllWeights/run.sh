@@ -31,12 +31,10 @@ sys=FlavourTagging_Nominal
 
 #echo "run data"
 #run ./ApplyAllWeightsApp -d -f $(get_data_ntupledumper) -c "a" -s "FlavourTagging_Nominal"
-#echo "run mc"
-#run ./ApplyAllWeightsApp -f $(get_mc_ntupledumper) -s $ALL_SYSTS
 #echo 'run HERWIG mc'
-run ./ApplyAllWeightsApp -f $(get_mcHERWIG_ntupledumper a $sys) -c a -s $sys 
+#run ./ApplyAllWeightsApp -f $(get_mcHERWIG_ntupledumper a $sys) -c a -s $sys 
 #echo "run mc"
-#run ./ApplyAllWeightsApp -f $(get_mc_ntupledumper) -c a -s "FlavourTagging_Nominal" 
+run ./ApplyAllWeightsApp -f $(get_mc_ntupledumper a $sys) -c a -s $sys
 
 #run ./ApplyAllWeightsApp -c "a" -s $sys
 
