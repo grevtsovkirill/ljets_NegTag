@@ -21,7 +21,8 @@ namespace conf{
   // new config
   const double pt_lowedges[n_pt+1] = {20, 60, 100, 200, 300, 500, 750, 1000, 3000};
   // ATL-COM-DAQ-2016-087. 
-  const std::string bin_trigger[n_pt] = {"HLT_j15", "HLT_j25", "HLT_j60", "HLT_j110", "HLT_j175", "HLT_j380", "HLT_j380", "HLT_j380"}; 
+  //const std::string bin_trigger[n_pt] = {"HLT_j15", "HLT_j25", "HLT_j60", "HLT_j110", "HLT_j175", "HLT_j380", "HLT_j400", "HLT_j420"}; 
+  const std::string bin_trigger[n_pt] = {"HLT_j15", "HLT_j25", "HLT_j60", "HLT_j110", "HLT_j175", "HLT_j420", "HLT_j420", "HLT_j420"}; 
  
   const int n_eta = 2;                                      // current eta bin
   const double eta_lowedges[n_eta+1] = {0.0, 1.2, 2.5};     // (unchanged)

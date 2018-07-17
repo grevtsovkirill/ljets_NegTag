@@ -72,9 +72,9 @@ public :
   std::map<std::string, double*> double_subtagger_out;
 
   // trigger and map the trigger decision branches to strings to have easier access
-  int *evt_HLT_j15, *evt_HLT_j25, *evt_HLT_j60, *evt_HLT_j110, *evt_HLT_j175, *evt_HLT_j380; // output tree variables
+  int *evt_HLT_j15, *evt_HLT_j25, *evt_HLT_j60, *evt_HLT_j110, *evt_HLT_j175, *evt_HLT_j380, *evt_HLT_j400, *evt_HLT_j420; // output tree variables
   // + prescales
-  float *evt_HLT_j15_ps, *evt_HLT_j25_ps, *evt_HLT_j60_ps, *evt_HLT_j110_ps, *evt_HLT_j175_ps, *evt_HLT_j380_ps;
+  float *evt_HLT_j15_ps, *evt_HLT_j25_ps, *evt_HLT_j60_ps, *evt_HLT_j110_ps, *evt_HLT_j175_ps, *evt_HLT_j380_ps, *evt_HLT_j400_ps, *evt_HLT_j420_ps;
 
   std::map <std::string, int*> trigger_decision = {
     {"HLT_j15", evt_HLT_j15},
@@ -82,7 +82,9 @@ public :
     {"HLT_j60", evt_HLT_j60},
     {"HLT_j110", evt_HLT_j110},
     {"HLT_j175", evt_HLT_j175},
-    {"HLT_j380", evt_HLT_j380}
+    {"HLT_j380", evt_HLT_j380},
+    {"HLT_j400", evt_HLT_j400},
+    {"HLT_j420", evt_HLT_j420}
   };
 
   std::map <std::string, float*> trigger_prescales = {
@@ -91,11 +93,13 @@ public :
     {"eve_HLT_j60_ps", evt_HLT_j60_ps},
     {"eve_HLT_j110_ps", evt_HLT_j110_ps},
     {"eve_HLT_j175_ps", evt_HLT_j175_ps},
-    {"eve_HLT_j380_ps", evt_HLT_j380_ps}
+    {"eve_HLT_j380_ps", evt_HLT_j380_ps},
+    {"eve_HLT_j400_ps", evt_HLT_j400_ps},
+    {"eve_HLT_j420_ps", evt_HLT_j420_ps}
   };
 
   // ad hoc vector to get sorted trigger plot...
-  std::vector <std::string> trigger_names = {"HLT_j15", "HLT_j25", "HLT_j60", "HLT_j110", "HLT_j175", "HLT_j380"};
+  std::vector <std::string> trigger_names = {"HLT_j15", "HLT_j25", "HLT_j60", "HLT_j110", "HLT_j175", "HLT_j380", "HLT_j400", "HLT_j420"};
 
   // event-wide
   int     evtnum; // eve_num (= eve_mc_num for MC)

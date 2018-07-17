@@ -11,7 +11,7 @@
 #include <cassert>
 
 using namespace std;
-const int debug =0;
+const int debug =16;
 
 void NtupleDumper::Loop()
 //TTree* NtupleDumper::Loop()
@@ -476,7 +476,7 @@ bool NtupleDumper::check_trigger_pt_bin(double jetpt){
   if (pt_bin == -1) return true;
 
   // check if trigger has fired
-  if(debug == 1) cout << "bin: " << pt_bin << " assoc. trigger: " << conf::bin_trigger[pt_bin] << " decision: " << *trigger_decision[conf::bin_trigger[pt_bin]] << endl;
+  if(debug == 1) cout << "bin: " << pt_bin <<", val = "<< conf::pt_lowedges[pt_bin]<< " assoc. trigger: " << conf::bin_trigger[pt_bin] << " decision: " << *trigger_decision[conf::bin_trigger[pt_bin]] << endl;
 
   return *trigger_decision[conf::bin_trigger[pt_bin]];
 }
