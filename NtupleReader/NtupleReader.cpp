@@ -18,7 +18,7 @@
 using namespace std;
 
 extern bool runmc;
-const int debug =33;
+const int debug =17;
 
 // Complete a binning bin given min and max values
 std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double min = -1.0, double max = 1.0){
@@ -36,11 +36,13 @@ std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double 
   {
     // constructors
     MyTagger() {} 
-    MyTagger(std::string aName, double* aWptr, double* aWnegptr)
+    MyTagger(std::string aName, double* aWptr, double* aWnegptr, int* aHybFlag, int* aHybFlagneg)
     {
       name = aName;       // tagger name
       wptr = aWptr;       // weight
-      wnegptr = aWnegptr; // wight of flipped version
+      wnegptr = aWnegptr; // weight of flipped version
+      hybflag = aHybFlag;         // flag for Hybrid WP
+      hybflagneg = aHybFlagneg;         // flag for Hybrid WP
     }    
     // init function
     void init() {
@@ -56,11 +58,15 @@ std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double 
       hneg = new TH1D((name+"neg").c_str(), (name + "neg").c_str(), bins.size()-1, &(bins[0]));
       h->Sumw2();
       hneg->Sumw2();
+
+      //h60 = new TH1D((name+"_Hyb60").c_str(), name.c_str(), bins.size()-1, &(bins[0]));
     }
     ~MyTagger() {}  // destructor
     std::string name;
     double* wptr;
     double* wnegptr;
+    int* hybflag;
+    int* hybflagneg;
     TH1D* h;
     TH1D* hneg;
   };
@@ -87,10 +93,26 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
 
   // tagger declaration
   map<string, MyTagger> tagger_map; // map of the tagger objects
-  tagger_map["MV2c10"] = MyTagger("MV2c10", double_subtagger["jet_MV2c10"], double_subtagger["jet_MV2c10Flip"]);
-  tagger_map["DL1"] = MyTagger("DL1", double_subtagger["jet_DL1_w"], double_subtagger["jet_DL1Flip_w"]);
+  tagger_map["MV2c10"] = MyTagger("MV2c10", double_subtagger["jet_MV2c10"], double_subtagger["jet_MV2c10Flip"], int_subtagger["jet_isMV2_Tagged"], int_subtagger["jet_isMV2Flip_Tagged"]);
+  tagger_map["DL1"] = MyTagger("DL1", double_subtagger["jet_DL1_w"], double_subtagger["jet_DL1Flip_w"], int_subtagger["jet_isDL1_Tagged"], int_subtagger["jet_isDL1Flip_Tagged"]);
   
-  if(debug == 0) std::cout << "  map of the tagger objects: " << double_subtagger["jet_DL1_w"] << std::endl;
+  if(debug == 170){
+    std::cout << "  map of the tagger objects: jet_DL1_w " << double_subtagger["jet_DL1_w"] << ", double_subtagger[name.first][j]" <<double_subtagger["jet_DL1_w"] << std::endl;
+    std::cout << "                        : jet_isDL1_Tagged " << int_subtagger["jet_isDL1_Tagged"] << std::endl;
+    
+  }
+ 
+  std::map<std::string, int> hybMap;
+  // Inserting data in std::map
+  hybMap.insert(std::make_pair("", 1));
+  hybMap.insert(std::make_pair("_Hyb60", 2));
+  hybMap.insert(std::make_pair("_Hyb70", 3));
+  hybMap.insert(std::make_pair("_Hyb77", 5));
+  hybMap.insert(std::make_pair("_Hyb85", 7));
+
+  for (auto hyb_it: hybMap){
+    cout << "Name = "<< hyb_it.first<< ", flag val = "<< hyb_it.second<< endl;
+  }
 
   for (auto &tagger: tagger_map) tagger.second.init();
 
@@ -114,11 +136,13 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
   // ------Classify type of jets------
   //ks: +1, fake: +2, interaction: +4, conversion +8
   TH1D* h_jetCategory  = new TH1D("h_jetCategory", "h_jetCategory", 16, 0,16);
-
+  
+  //for (string hybwp: {"", "neg"}){
 
   //------MAP OF THE TAGGER HISTOGRAMS------// 
   // [ipt] [ieta] [flav] [tagger] [mode("" or neg)] - only weighted "w"
-  map<int, map<int, map<string, map<string, map<string, TH1D*>>>>> h_pt_eta_f_t_m;
+  map<int, map<int, map<string, map<string, map<string, map<string, TH1D*>>>>>>  h_pt_eta_f_t_m;
+
   if (bootstrap_bkeeper==0)
   {
     for (auto p_pt: kin_labels){
@@ -126,8 +150,11 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
         for (auto flav: flavors) {
           for (auto p_tag: tagger_map) {
             for (string mode: {"", "neg"}){
-              string identifier = mode + "w_" + flav + "_" + p_eta.second + "_" + p_tag.first;
-              h_pt_eta_f_t_m[p_pt.first][p_eta.first][flav][p_tag.first][mode] = (TH1D*)p_tag.second.h->Clone(identifier.c_str());
+	      for (auto hyb_it: hybMap){ 
+		//for (string wpval: {"", "_Hyb60", "_Hyb70", "_Hyb77", "_Hyb85"}){
+		string identifier = mode + "w_" + flav + "_" + p_eta.second + "_" + p_tag.first+hyb_it.first;
+		h_pt_eta_f_t_m[p_pt.first][p_eta.first][flav][p_tag.first][mode][hyb_it.first] = (TH1D*)p_tag.second.h->Clone(identifier.c_str());
+	      }
             }
           }
         }
@@ -300,6 +327,10 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
       if(runmc)cout<<"running mc "; 
       else cout<<"running data "; 
       cout << jentry << " period/slice: " << period_slice << '\r'; cout.flush(); 
+    }
+
+    if(debug == 17){
+      if(jentry>1000000) break;
     }
 
     // Cut for phi test
@@ -502,16 +533,24 @@ void NtupleReader::Loop(int bootstrap_bkeeper=0)
           // weight and negative weight
           double w = (tagger.second.wptr)[j];
           double wneg = (tagger.second.wnegptr)[j];
-	  if(debug == 1) std::cout <<"Jet N="<<j<<  ", pt("<< ptBin<<"),eta("<< etaBin<<"), fl("<< flav<<"), tagger("<< tagger.first<<"): "<< w <<" , " << wneg<< " ;  weight applied" << weight <<std::endl;
+          int hyb = (tagger.second.hybflag)[j];
+          int hybneg = (tagger.second.hybflagneg)[j];
+	  if(debug == 170){ std::cout <<"Jet N="<<j<<  ", pt("<< ptBin<<"),eta("<< etaBin<<"), fl("<< flav<<"), tagger("<< tagger.first<<"): "<< w <<" , " << wneg<<", HYB WP FLAG: "<< hyb << ", neg FLAG: "<<hybneg <<  " ;  weight applied" << weight <<std::endl;
+	  }
 
           tagger.second.h->Fill(w, weight); 
           tagger.second.hneg->Fill(wneg, weight);
-
-          h_pt_eta_f_t_m[ptBin][etaBin][flav][tagger.first][""]->Fill(w, weight);
-          h_pt_eta_f_t_m[ptBin][etaBin][flav][tagger.first]["neg"]->Fill(wneg, weight);
-          // flavor incl.
-          h_pt_eta_f_t_m[ptBin][etaBin][""][tagger.first][""]->Fill(w, weight);
-          h_pt_eta_f_t_m[ptBin][etaBin][""][tagger.first]["neg"]->Fill(wneg, weight);
+	  for (auto hyb_it: hybMap){ 
+	    if( hyb % hyb_it.second ==0 ){
+	      h_pt_eta_f_t_m[ptBin][etaBin][flav][tagger.first][""][hyb_it.first]->Fill(w, weight);
+	      h_pt_eta_f_t_m[ptBin][etaBin][""][tagger.first][""][hyb_it.first]->Fill(w, weight);
+	    }
+	    if( hybneg % hyb_it.second ==0 ){
+	      h_pt_eta_f_t_m[ptBin][etaBin][flav][tagger.first]["neg"][hyb_it.first]->Fill(wneg, weight);
+	      h_pt_eta_f_t_m[ptBin][etaBin][""][tagger.first]["neg"][hyb_it.first]->Fill(wneg, weight);
+	    }
+	  }
+	  
         } // tagger loop
 
         // OTHER TAGGER HISTOGRAM FILLING
