@@ -27,7 +27,8 @@ void data_3mc_comparison_mc_w(string compaigne="a", string dname="data_FlavourTa
     text2="36 fb^{-1} (2015+2016)";
     cout << "found a, 15 or 16"<< endl; 
   }
-  else if(compaigne.find("d") || compaigne.find("17") ){
+
+  if(compaigne.find("d") || compaigne.find("17") ){
     cout << "             found d"<< endl; 
     text2="46 fb^{-1} (2017)";
   }
