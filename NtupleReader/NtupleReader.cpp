@@ -18,7 +18,7 @@
 using namespace std;
 
 extern bool runmc;
-const int debug =17;
+const int debug =0;
 
 // Complete a binning bin given min and max values
 std::vector<double> extendBinRange(const std::vector<double> &bin_edges, double min = -1.0, double max = 1.0){
