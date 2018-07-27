@@ -318,6 +318,12 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
       for (int j = 0; j<njets; ++j) 
 	{
 	  double ptj = jetpt[j];
+	  double eta_abs = abs(jeteta[j]);
+
+	  //!!!!!!!!! -------   ATTENTION - TEST TEST TEST  --------------!!!!!!!!!
+	  //double ptj = jettruthpt[j];
+	  //double eta_abs = abs(jettrutheta[j]);
+
 	  int ntracks_IP3DNeg = ntrack_IP3DNeg[j];
 	  int ntracks_IP3D = ntrack_IP3D[j];
 	  int ntracks_IP2DNeg = ntrack_IP2DNeg[j];
@@ -326,8 +332,6 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
 	  int ntracks_SV1 = ntrack_SV1[j];
 	  int ntracks_JetFitterFlip = ntrack_JetFitterFlip[j];
 	  int ntracks_JetFitter = ntrack_JetFitter[j];
-
-	  double eta_abs = abs(jeteta[j]);
 
           double weight = mc_evtweight*data_evtweight[j];
           // pu reweighting
@@ -433,6 +437,8 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
                 if(j==0) index_leading = 1; 
                 else     index_leading = 0;
                 double pt_leading = jetpt[index_leading];
+		//!!!!!!!!! -------   ATTENTION - TEST TEST TEST  --------------!!!!!!!!!
+		//double pt_leading = jettruthpt[index_leading];
                 //consider only subleading with leading in a higher bin
 		if(debug == 1) cout <<"          SUBLEADING: getPtBin(pt_leading) = "<< getPtBin(pt_leading) <<", pt_leading= "<<pt_leading<< " should not be=2(continue); jetpass_leading ="<< jetpass_leading<<", jetpass_subleading = "<< jetpass_subleading << "-> tricky cut: jetpass_leading!=0 || jetpass_subleading>1) continue"<<endl;
 	      if(debug == 1) cout <<"          weight before prescale = "<<weight<< endl;

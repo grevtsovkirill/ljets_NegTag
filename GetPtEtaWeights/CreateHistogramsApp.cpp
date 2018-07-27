@@ -84,8 +84,12 @@ int main(int argc, char* argv[])
       cout << "## running mc ##" << endl;
       if(HERWIG) extraGen="_HERWIG";//filename = "mc_HERWIG.root";
       if(SHERPA) extraGen="_SHERPA";//filename = "mc_SHERPA.root";
+
       filename = "mc"+extraGen+"_"+compagnie.at(0)+".root";
       if(file_per_syst) filename = "mc"+extraGen+"_"+compagnie.at(0)+"_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
+      //!!!!!!!!! -------   ATTENTION - TEST TEST TEST  --------------!!!!!!!!!   
+      //filename = "truth_mc"+extraGen+"_"+compagnie.at(0)+".root";
+      //if(file_per_syst) filename = "truth_mc"+extraGen+"_"+compagnie.at(0)+"_" + systematics.at(0) + "_" + bootstrap_index.at(0) + ".root";
     }
   else
     {

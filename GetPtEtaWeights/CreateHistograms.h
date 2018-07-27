@@ -34,6 +34,11 @@ public :
    float         evt_averageInteractionsPerCrossing;
    float         jetpt[2];   //[njets]
    float         jeteta[2];   //[njets]
+
+   //!!!!!!!!! -------   ATTENTION - TEST TEST TEST  --------------!!!!!!!!!
+   float         jettruthpt[2];   //[njets]
+   float         jettrutheta[2];   //[njets]
+
    float         jetphi[2];   //[njets]
    int           flavor[2];   //[njets]
    int           jetpass[2];   //[njets]
@@ -73,6 +78,10 @@ public :
    TBranch        *b_evt_averageInteractionsPerCrossing;   //!
    TBranch        *b_jetpt;   //!
    TBranch        *b_jeteta;   //!
+   //!!!!!!!!! -------   ATTENTION - TEST TEST TEST  --------------!!!!!!!!!   
+   TBranch        *b_jettruthpt;   //!
+   TBranch        *b_jettrutheta;   //!
+
    TBranch        *b_jetphi;   //!
    TBranch        *b_flavor;   //!
    TBranch        *b_jetpass;   //!
@@ -183,6 +192,11 @@ void CreateHistograms::Init(TTree *tree)
   fChain->SetBranchAddress("evt_averageInteractionsPerCrossing", &evt_averageInteractionsPerCrossing, &b_evt_averageInteractionsPerCrossing);
   fChain->SetBranchAddress("jetpt", jetpt, &b_jetpt);
   fChain->SetBranchAddress("jeteta", jeteta, &b_jeteta);
+
+  //!!!!!!!!! -------   ATTENTION - TEST TEST TEST  --------------!!!!!!!!!
+  fChain->SetBranchAddress("jettruthpt", jettruthpt, &b_jettruthpt);
+  fChain->SetBranchAddress("jettrutheta", jettrutheta, &b_jettrutheta);
+
   fChain->SetBranchAddress("jetphi", jetphi, &b_jetphi);
   fChain->SetBranchAddress("flavor", flavor, &b_flavor);
   fChain->SetBranchAddress("jetpass", jetpass, &b_jetpass);
