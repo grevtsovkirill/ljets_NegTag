@@ -13,6 +13,7 @@
 using namespace std;
 const int debug = 1;
 const int n_bs = 300;
+const  vector<string> wp_type_prefixes = {"FC","Hyb"};
 
 #include "hist_rel.h"
 #include "../helpers/OutputHelper.hpp"
@@ -47,12 +48,14 @@ void get_std_syst(string compaigne, string syst){
       for (auto p_eta: kin_labels[1]){
 	auto ieta = p_eta.first;
 
-	string partial_identifier = "_" + tagger + "_w" + wp_label + "_eta" + to_string(ieta);
-
-        TH1* h_nom = (TH1D*)f_nom->Get((syst2 + partial_identifier).c_str());
-	if (h_nom == 0) cout << "trying to get: " << syst2 + partial_identifier << ", but no histogram found" << endl;
-	string identifier = "rel_sf" + partial_identifier;
-	h_out[identifier] = (TH1D*)h_nom->Clone(identifier.c_str());
+	for (auto wp_type_i: wp_type_prefixes){
+	  string partial_identifier = "_" + tagger + "_w" +wp_type_i+ wp_label + "_eta" + to_string(ieta);
+	  
+	  TH1* h_nom = (TH1D*)f_nom->Get((syst2 + partial_identifier).c_str());
+	  if (h_nom == 0) cout << "trying to get: " << syst2 + partial_identifier << ", but no histogram found" << endl;
+	  string identifier = "rel_sf" + partial_identifier;
+	  h_out[identifier] = (TH1D*)h_nom->Clone(identifier.c_str());
+	}
       }
       ++iwp;
     }
@@ -84,9 +87,11 @@ void get_up_down(string compaigne, string syst, string key){
     for (auto wp: conf::wpoint_map.find(tagger)->second){
       string wp_label = to_string(wpoint_title[iwp]);
       for (auto p_eta: kin_labels[1]){
+	for (auto wp_type_i: wp_type_prefixes){
+	  
 	auto ieta = p_eta.first;
-
-	string partial_identifier = "_" + tagger + "_w" + wp_label + "_eta" + to_string(ieta);
+	
+	string partial_identifier = "_" + tagger + "_w" + wp_type_i +wp_label + "_eta" + to_string(ieta);
 
         TH1D* h_nom = (TH1D*)f_nom->Get((key + partial_identifier).c_str());
         TH1D* h_sup = (TH1D*)f_sup->Get((key + partial_identifier).c_str());
@@ -117,6 +122,7 @@ void get_up_down(string compaigne, string syst, string key){
           h_out[identifier_up]->SetBinContent(ibin, up);
           h_out[identifier_down]->SetBinContent(ibin, down);
         }
+	}
 
       }
       ++iwp;
@@ -156,13 +162,15 @@ void get_rel_syst(string compaigne, string syst, string key){
       string wp_label = to_string(wpoint_title[iwp]);
       for (auto p_eta: kin_labels[1]){
 	auto ieta = p_eta.first;
+	  for (auto wp_type_i: wp_type_prefixes){
 
-	string partial_identifier = "_" + tagger + "_w" + wp_label + "_eta" + to_string(ieta);
+	string partial_identifier = "_" + tagger + "_w"+wp_type_i + wp_label + "_eta" + to_string(ieta);
 
 	TH1D* h_nom = (TH1D*)f_nom->Get((key+partial_identifier).c_str());
         TH1D* h_sys = (TH1D*)f_sys->Get((key+partial_identifier).c_str());
  	h_out[partial_identifier] = hist_rel(h_nom, h_sys);
 	if(debug == 12) std::cout << " --- get_rel_syst: tagger loop: hist key+partial_identifier=  "<<key+partial_identifier << " for eta = "<< ieta<< std::endl;
+	  }
       }
       ++iwp;
     }
