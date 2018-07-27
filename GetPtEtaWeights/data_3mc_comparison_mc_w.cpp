@@ -106,6 +106,9 @@ void data_3mc_comparison_mc_w(string compaigne="a", string dname="data_FlavourTa
       TH1D *h_data = (TH1D*)h_tmp->Clone(histo_data_name.c_str());
 
       h_tmp = (TH1D*)f_mc->Get(histo_name.c_str());
+      // std::string histo_name1 = "FlavourTagging_JET_RelativeNonClosure_MC16__1up/" + 
+      //                          histo_var.at(ivar) + jet_index + suffix; 
+      // h_tmp = (TH1D*)f_mc->Get(histo_name1.c_str());
       std::string histo_mc_name = "mc_" + histo_var.at(ivar) + jet_index + suffix; 
       TH1D *h_mc = (TH1D*)h_tmp->Clone(histo_mc_name.c_str());
 
