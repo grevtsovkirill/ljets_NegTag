@@ -33,11 +33,11 @@ void calculate_epsilon(TH1D* Hists, double& val, double wp){
 
   //cout << "---------->nominal calc: numerator = " << numerator << ",  denominator = " << denominator << " nominal h_incl = "<< hist->GetMean() << endl;
   if (denominator == 0) 
-  {
-    cout << "----> ERROR: histogram error in 0, wp is " << wp << endl; 
-    return;
-  }
- 
+    {
+      cout << "----> ERROR: FC histogram error in 0, wp is " << wp << endl; 
+      return;
+    }
+  
   val = numerator/denominator; // efficiency computation
   if (val > 1) cout << "----> ERROR: efficiency > 1: " << val <<endl;
   if (val < 0) cout << "----> ERROR: efficiency < 0: " << val <<endl;
@@ -56,7 +56,7 @@ void calculate_epsilon_HybEff(TH1D* Hists_incl,TH1D* Hists_wp, double& val){
 
   if (denominator == 0) 
   {
-    cout << "----> ERROR: histogram error in 0" << endl; 
+    cout << "----> ERROR: Hyb histogram error in 0" << endl; 
     return;
   }
  
@@ -82,8 +82,8 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
   TH2D *h_fracb_Pythia;
 
   if(sfold.find("generator")!= std::string::npos){
-    std::string fracHF_path = "../TemplateFit/template_fit.root.pTetaCorrections";
-    if(sfold.find("subleadingjet_") != std::string::npos) fracHF_path = "../TemplateFit/template_fit.root.subldg.pTetaCorrections";
+    std::string fracHF_path = "../TemplateFit/template_fit_"+compaigne+".root.pTetaCorrections";
+    if(sfold.find("subleadingjet_") != std::string::npos) fracHF_path = "../TemplateFit/template_fit_"+compaigne+".root.subldg.pTetaCorrections";
     
     if(debug == 1) std::cout << " --- Get Nominal MC HF fraction in pT/eta from: "<< fracHF_path.c_str()<< std::endl;
     f_fracHF = new TFile(fracHF_path.c_str(),"read");
@@ -348,8 +348,8 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
 
     //std::string data_fraction_path = "../TemplateFit/with_mcstat.root.pTetaCorrections";
     //if(sfold=="subleadingjet") data_fraction_path = "../TemplateFit/with_mcstat.root.subldg.pTetaCorrections";
-    std::string data_fraction_path = "../TemplateFit/template_fit.root.pTetaCorrections";
-    if(sfold=="subleadingjet") data_fraction_path = "../TemplateFit/template_fit.root.subldg.pTetaCorrections";
+    std::string data_fraction_path = "../TemplateFit/template_fit_"+compaigne+".root.pTetaCorrections";
+    if(sfold=="subleadingjet") data_fraction_path = "../TemplateFit/template_fit_"+compaigne+".root.subldg.pTetaCorrections";
 
     f_data_fraction = new TFile(data_fraction_path.c_str(),"read");
 
@@ -377,8 +377,8 @@ int path_eps(string sfold="std", string compaigne="def", int bootstrap_bkeeper=0
 */
 
     // File for original MC fraction and distributions
-    std::string mc_fraction_path = "../TemplateFit/template_fit.root.noCorrections";
-    if(sfold=="subleadingjet") mc_fraction_path = "../TemplateFit/template_fit.root.subldg.noCorrections";
+    std::string mc_fraction_path = "../TemplateFit/template_fit_"+compaigne+".root.noCorrections";
+    if(sfold=="subleadingjet") mc_fraction_path = "../TemplateFit/template_fit_"+compaigne+".root.subldg.noCorrections";
 
     f_mc_fraction = new TFile(mc_fraction_path.c_str(),"read");
     TH2D *h_fracb_mc = (TH2D*)f_mc_fraction->Get("h_fracb_mc");
