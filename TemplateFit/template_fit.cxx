@@ -19,7 +19,7 @@ int template_fit(string compaigne="a",bool flag_corrections=1, bool leading_jet=
    SetAtlasStyle();
 
   //**********OUTPUT*********///
-  std::string output_name = "template_fit.root";
+  std::string output_name = "template_fit_"+compaigne+".root";
   if(!leading_jet)      output_name += ".subldg";
 
   if(!flag_corrections) output_name += ".noCorrections";
