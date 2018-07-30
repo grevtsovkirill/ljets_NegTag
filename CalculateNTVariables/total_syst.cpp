@@ -50,6 +50,7 @@ void ATLASLabel(Double_t x,Double_t y,const char* text,Color_t color)
 
 // ---------------------MAIN
 int main(int argc, char* argv[]) {
+  //vector<string> wp_type_prefixes = {"FixCut","HybEff"};
   vector<string> wp_type_prefixes = {"FC","Hyb"};
 
   // Get arguments
@@ -127,6 +128,7 @@ int main(int argc, char* argv[]) {
 
   // histograms
   map<string, TCanvas*> c_out_final;
+  map<string, TPad*>	pad1;
   map<string, TH1D*> h_out_nom;
   map<string, TH1D*> h_out_syst_up;
   map<string, TH1D*> h_out_syst_down;
@@ -364,6 +366,7 @@ int main(int argc, char* argv[]) {
 	  TH1D *h_tmp_tot_up = (TH1D*)h_out_nom[partial_identifier]->Clone((string("tmp_tot_up") + partial_identifier).c_str());
 	  TH1D *h_tmp_tot_down = (TH1D*)h_out_nom[partial_identifier]->Clone((string("tmp_tot_down") + partial_identifier).c_str());
 	  
+
 	  h_tmp_tot_up->Multiply(h_out_tot_up[partial_identifier]);
 	  h_tmp_tot_down->Multiply(h_out_tot_down[partial_identifier]);
 	  h_tmp_tot_up->Add(h_out_nom[partial_identifier]);
@@ -375,6 +378,7 @@ int main(int argc, char* argv[]) {
 	  h_tmp_tot_up->GetXaxis()->SetLabelSize(0.05);
 	  h_tmp_tot_up->GetYaxis()->SetLabelSize(0.05);
 	  h_tmp_tot_up->GetYaxis()->SetTitleSize(0.05);
+	  h_tmp_tot_up->GetYaxis()->SetTitleOffset(0.9); 
 	  h_tmp_tot_up->GetXaxis()->SetTitle("p_{T}^{jet} [GeV]");
 	  h_tmp_tot_up->GetXaxis()->SetTitleSize(0.05);
 	  h_tmp_tot_up->GetXaxis()->SetTitleOffset(0.70);
@@ -391,8 +395,8 @@ int main(int argc, char* argv[]) {
 	  
 	  // Custom w.r.t var
 	  std::string title = "Mistag rate scale factor";
-	  double max = 3.18;
-	  double min = 0.85;
+	  double max = 2.78;
+	  double min = 0.68;
 	  if(vars[0]=="kll")
 	    {
 	      title = "MC LF corrections";
@@ -434,7 +438,7 @@ int main(int argc, char* argv[]) {
 	  h_out_nom[partial_identifier]->SetMarkerStyle(20); 
 	  h_out_nom[partial_identifier]->SetMarkerSize(1.2); 
 	  
-	  TLegend* legend = new TLegend(0.13467,0.679325,0.335244,0.829114);
+	  TLegend* legend = new TLegend(0.13467,0.70,0.335244,0.85);
 	  legend->SetBorderSize(0);  // no border
 	  legend->SetFillColor(0);   // Legend background should be white
 	  legend->SetTextSize(0.04); // Increase entry font size
@@ -451,16 +455,16 @@ int main(int argc, char* argv[]) {
 	  legend->AddEntry(h_out_nom[partial_identifier],legend_entry_1.c_str(), "LPE");
 	  if(!vars[0].Contains("eps_neg_d")) legend->AddEntry(h_tmp_tot_up,legend_entry_2.c_str(), "F");
 	  
-	  TPaveText *pt = new TPaveText(0.631805,0.71097,0.750716,0.860759,"brNDC");
+	  TPaveText *pt = new TPaveText(0.68,0.74,0.81,0.89,"brNDC");
 	  pt->SetBorderSize(0);
 	  pt->SetFillColor(0);
 	  pt->SetTextSize(0.04);
 	  pt->SetTextFont(42);
-	  std::string eta_region = "| #eta^{jet} | < 1.2";
-	  if(ieta==2) eta_region = "1.2 < | #eta^{jet} | < 2.5";
+	  std::string eta_region = "|#eta^{jet}|<1.2";
+	  if(ieta==2) eta_region = "1.2<|#eta^{jet}|<2.5";
 	  //pt->AddText("#sqrt{s} = 13 TeV, 0.02 (prescaled) to 36100 pb  ^{-1} (unprescaled)");
 	  pt->AddText(text1.c_str());
-	  pt->AddText((tagger + " "+wp_type_i+ string(", #epsilon_{b} = ") + wp_label + string("%    ") +  eta_region).c_str());
+	  pt->AddText((tagger + " "+wp_type_i+ string(", #epsilon_{b}=") + wp_label + string("% ") +  eta_region).c_str());
 	  /*         
 		     TPaveText *pt2 = new TPaveText(0.191977,0.677215,0.310888,0.827004,"brNDC");
 		     pt2->SetBorderSize(0);
@@ -470,9 +474,21 @@ int main(int argc, char* argv[]) {
 		     pt2->AddText("2016 configuration");
 	  */
 	  c_out_final[partial_identifier] = new TCanvas((string("canvas") + partial_identifier).c_str());
-	  c_out_final[partial_identifier]->SetLogx();
-	  c_out_final[partial_identifier]->SetTicky();
-	  c_out_final[partial_identifier]->SetTickx();
+	  pad1[partial_identifier] = new TPad((string("pad") + partial_identifier).c_str(), (string("pad") + partial_identifier).c_str(), 0, 0., 1, 1);
+	  pad1[partial_identifier]->SetTopMargin(0.02);
+	  pad1[partial_identifier]->SetRightMargin(0.02);
+	  pad1[partial_identifier]->SetBottomMargin(0.1);
+	  pad1[partial_identifier]->SetBorderMode(0);
+	  pad1[partial_identifier]->Draw();
+	  pad1[partial_identifier]->cd();
+	  pad1[partial_identifier]->SetLogx();
+	  pad1[partial_identifier]->SetTicky();
+	  pad1[partial_identifier]->SetTickx();
+
+
+	  // c_out_final[partial_identifier]->SetLogx();
+	  // c_out_final[partial_identifier]->SetTicky();
+	  // c_out_final[partial_identifier]->SetTickx();
 	  
 	  // no systematic for eps_neg_data
 	  if(!vars[0].Contains("eps_neg_d"))
@@ -500,7 +516,7 @@ int main(int argc, char* argv[]) {
 	  legend->Draw();
 	  pt->Draw();
 	  //        pt2->Draw();
-	  ATLASLabel(0.15,0.83, "Internal",kBlack);
+	  ATLASLabel(0.15,0.88, "Internal",kBlack);
 	  h_tmp_tot_up->Draw("AXISSAME"); 
 	}//loop over wp prefix: fixed cut/hyb eff
       }// eta loop
