@@ -79,6 +79,11 @@ Provided options:
  - ```-split i``` run bootstrap replicas
 Code will check ranges of historgrams and types of taggers into ```../config/subTagger.hpp``` and check that input file exists is in ```.slices/.periods```.
 
+Set of helpers are available to make easier take care about compaigne/samples/systematics/types:
+ - ```sub_systs.py``` loop over systematic variations to execute one of following scripts (to be change by hand for each option);
+ - ```loop.py``` create submission files (i.e. pbs), grab inputs from NtupDumper using periods/slices info, handling data/mc, leading/subleading and bootstrap differences in job making
+ - ```link_to_data.py``` , once ready all variations for mc need to create links to data for SF estimation
+
 ##### TemplateFit
 Exctract HF fractions
 
