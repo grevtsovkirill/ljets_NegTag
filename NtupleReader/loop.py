@@ -27,7 +27,7 @@ cwd = os.getcwd()
 d_option = ""
 fname_1 = ""
 fname_2 = ""
-comp = "a"
+comp = "d"
 mode_type = "xAOD"
 
 #syst_name = "FlavourTagging_Nominal"
@@ -83,7 +83,8 @@ def create_pbs(i):
     command.append("source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh")
     command.append("cd "+cwd)
     command.append("lsetup root")
-    var="./NtupleReaderApp -c a -p "+i+" "+d_option+" -s "+syst_name+"  -m "+mode_type+" -f ../NtupleDumper/res/"+fname_1+i+fname_2+".root "
+    #var="./NtupleReaderApp -c a -p "+i+" "+d_option+" -s "+syst_name+"  -m "+mode_type+" -f ../NtupleDumper/res/"+fname_1+i+fname_2+".root "
+    var="./NtupleReaderApp -c "+comp+" "+d_option+" -s "+syst_name+"  -m "+mode_type+" "+files_list
     command.append(var)
     outfile.write('\n'.join(command))
     outfile.close()
@@ -104,7 +105,7 @@ def bootstrap_create_pbs(j,files_list):
     command.append("source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh")
     command.append("cd "+cwd)
     command.append("lsetup root")
-    var="./NtupleReaderApp -c a "+d_option+" -s "+syst_name+"  -m "+mode_type+" "+files_list+" "+bs_option
+    var="./NtupleReaderApp -c "+comp+" "+d_option+" -s "+syst_name+"  -m "+mode_type+" "+files_list+" "+bs_option
     command.append(var)
     outfile.write('\n'.join(command))
     outfile.close()
@@ -125,11 +126,12 @@ if bootstrap:
         for i in cont:
             files_list+=files_path+fname_1+i+fname_2+".root "
    # print files_list
-
-    for j in range(0,1001):
-        bootstrap_create_pbs(str(j),files_list)
-        sleep(1)
-
+    if "0" in bootstrap:
+        bootstrap_create_pbs(str(0),files_list)
+    else:
+        for j in range(0,1001):
+            bootstrap_create_pbs(str(j),files_list)
+            sleep(1)
 else:
     with open(fname) as f:
         cont =f.read().splitlines()
