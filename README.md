@@ -55,6 +55,13 @@ rt -b 'calculate_jetntrackreweighting_HERWIG.C("data_A.root","mc_HERWIG_a.root")
 Rename reweighting file according to conventions to be read correctly in next step (NtupleReader):
 ```reweight_ntrack2D_XXX.root``` and ```reweight_ntrack2D_XXX_HERWIG.root```
 
+##### ApplyAllWeights
+Just a check the final reweighting ```eta/pt``` and ```nTrk``` together, submit data, mc and Herwig jobs with ```ApplyAllWeightsApp``` (no systematics or bootstrap needed).
+Once ready, run comparison macro for each compaigne:
+```
+rt -b -q 'data_mc_comparison_all_rew.cpp("d","datad_FlavourTagging_Nominal_0.root","mc_d_FlavourTagging_Nominal_0.root","mc_HERWIG_d.root")' 
+```
+
 
 ##### NtupleReader
 Look into dumped ntuples, take reweighting results to build histograms for each tagger - nominal and flipped.
