@@ -2,8 +2,10 @@
 The ZJetCalibration package runs a basic Di-jet selection in AnalysisTop and saves various additional variables to the output ntuple required for the NegTag light flavour jet calibration
 
 ### Setup environment
+```
 setupATLAS
 lsetup git
+```
 
 ### Make work area
 ```
