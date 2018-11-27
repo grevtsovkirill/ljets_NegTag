@@ -55,6 +55,7 @@ namespace conf{
     //{ "MV2c20", std::make_tuple(100, -1.0, 1.0)},
   };
 
+  /*
   std::map<std::string, std::tuple<int, double, double>> inputvariable_hist = {
     {"MV2c10", std::make_tuple(100, -1., 1.)},
     {"DL1", std::make_tuple(100, -6., 14.)},
@@ -76,6 +77,7 @@ namespace conf{
     { "JetFitter_nSingleTracks", std::make_tuple(10, -0.5, 9.5)},
     { "JetFitter_dR", std::make_tuple(30, 0., 1.5)}
   };
+  //*/
 
   // define working points
   // https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/BTaggingBenchmarks#AntiKt4EMTopoJets - old

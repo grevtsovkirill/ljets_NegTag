@@ -1,7 +1,7 @@
 # all systematics (should be the only config file for systematics)
 # will be read in the form
 # [mode]       	      [name]					[type (rel unc)] [analysis variable]
-xAOD	   	      FlavourTagging_Nominal			              	  no_rel  sf
+xAOD	   	      nominal			              	  no_rel  sf
 xAOD 	  	      FlavourTagging_JET_EtaIntercalibration_NonClosure__1down	  updown  sf
 xAOD 	  	      FlavourTagging_JET_EtaIntercalibration_NonClosure__1up	  updown  sf
 xAOD 	   	      FlavourTagging_JET_GroupedNP_1__1down			  updown  sf
