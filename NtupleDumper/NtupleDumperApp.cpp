@@ -139,15 +139,15 @@ int main(int argc, char* argv[]) {
 
   TFile *histofile = new TFile(filename, "RECREATE");
   for (auto syst: systematics){
-    TFile *histofile = new TFile(filename, "RECREATE");
     TTree* mytree = (TTree*)gROOT->FindObject(syst);
     NtupleDumper* dumper = new NtupleDumper(mytree, syst, runmc);
-    cout << "NtupleDumperApp.cpp:     loop over systs = "<< syst << endl; 
+    cout << "NtupleDumperApp.cpp: filename= "<<filename <<"    loop over systs = "<< syst << endl; 
     dumper->m_period_slice = period_slice[0];
     //cout << "Initial number of events: " << h_event_count->GetBinContent(1) << " Initial sum of event weights: " << h_event_count->GetBinContent(4) << " Number of events sample: " << h_event_count->GetBinContent(3) << endl;
     dumper->m_sum_of_weights = read_sum_of_weights;
     //sumWeights->GetLeaf("totalEventsWeighted")->GetValue(0)
     dumper->m_total_events = read_total_events;
+    dumper->m_events_sample =0;
     //sumWeights->GetLeaf("totalEvents")->GetValue(0)
     //dumper->m_events_sample = h_event_count->GetBinContent(3);
     //
@@ -168,7 +168,8 @@ int main(int argc, char* argv[]) {
   // save stuff
   ////histofile = dumper->GetCurrentFile();
 
-  histofile->Write(0,TObject::kOverwrite);
+  //histofile->Write(0,TObject::kOverwrite);
+  histofile->Write();
   histofile->Close();
   
   return 0;

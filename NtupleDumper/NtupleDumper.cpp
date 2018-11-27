@@ -84,7 +84,6 @@ void NtupleDumper::Loop()
   outtree->Branch("jettruthphi", jettruthphi, "jettruthphi[njets]/F");
   outtree->Branch("jettruthpdgId", jettruthpdgId, "jettruthpdgId[njets]/I");
   //*/
-  outtree->Fill();
 
   // for bootstrap
   // Random generator + branch declaration
@@ -490,7 +489,7 @@ void NtupleDumper::Loop()
 	   <<  endl;
     }
 
-    // outtree->Fill();
+    outtree->Fill();
   }//end event loop
 
   for(int icut=0; icut<ncuts; icut++){
