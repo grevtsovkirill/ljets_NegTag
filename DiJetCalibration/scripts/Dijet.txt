@@ -1,0 +1,152 @@
+LibraryNames libTopEventSelectionTools libTopEventReconstructionTools libDiJetCalibrationLib
+
+# For testing only
+#NEvents 100
+
+### Good Run List - 2015 + 2016
+GRLDir  GoodRunsLists
+GRLFile data15_13TeV/20170619/physics_25ns_21.0.19.xml data16_13TeV/20170605/physics_25ns_21.0.19.xml data18_13TeV/20181111/physics_25ns_Triggerno17e33prim.xml
+
+# mc16ab
+#PRWConfigFiles /cvmfs/atlas.cern.ch/repo/sw/database/GroupData/dev/SUSYTools/mc16a_defaults_buggy.NotRecommended.prw.root
+#PRWConfigFiles /cvmfs/atlas.cern.ch/repo/sw/database/GroupData/dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16a.v1/prw.merged.root
+#PRWConfigFiles ../DiJetCalibration/scripts/All.NTUP_PILEUP.mc16a.root
+PRWConfigFiles $WorkDir_DIR/data/DiJetCalibration/All.NTUP_PILEUP.mc16a.root
+PRWLumiCalcFiles GoodRunsLists/data15_13TeV/20160720/physics_25ns_20.7.lumicalc.OflLumi-13TeV-005.root GoodRunsLists/data16_13TeV/20170215/physics_25ns_20.7.lumicalc.OflLumi-13TeV-008.root
+
+ElectronCollectionName Electrons
+MuonCollectionName Muons
+#ElectronCollectionName None
+#MuonCollectionName None
+JetCollectionName AntiKt4EMTopoJets
+LargeJetCollectionName None
+LargeJetSubstructure None
+TauCollectionName None
+PhotonCollectionName None
+
+TrackJetCollectionName None
+#TrackJetCollectionName AntiKtVR30Rmax4Rmin02TrackJets
+#TrackJetCollectionName AntiKt2PV0TrackJets
+
+TruthCollectionName None
+TruthJetCollectionName None
+TopPartonHistory None
+TopParticleLevel False
+TruthBlockInfo False
+PDFInfo False
+
+# ASC added
+TruthElectronCollectionName None
+TruthMuonCollectionName None
+TruthJetCollectionName None
+
+ObjectSelectionName top::ObjectLoaderStandardCuts
+OutputFormat top::EventSaverFlatNtuple
+OutputFormat top::DiJetEventSaver
+OutputEvents SelectedEvents
+OutputFilename output.root
+PerfStats No
+
+Systematics None
+#Systematics All
+JetUncertainties_NPModel CategoryReduction
+JetUncertainties_BunchSpacing 25ns
+
+ElectronID TightLH
+ElectronIDLoose MediumLH
+ElectronIsolation Gradient
+ElectronIsolationLoose None
+
+MuonQuality Medium
+MuonQualityLoose Medium
+MuonIsolation Gradient
+MuonIsolationLoose None
+
+MCGeneratorWeights Nominal
+
+# ASC
+# MuonPt 10000
+# ElectronPt 10000
+# JetPt 20000
+# JetEta 2.5
+# TrackJetPt 10000
+# TrackJetEta 2.5
+# BTaggingWP None
+# BTagVariableSaveList None
+
+# KG
+JetPt 20000
+JetEta 2.5
+BTaggingWP None
+BTagVariableSaveList None
+
+# DoTight/DoLoose to activate the loose and tight trees
+# each should be one in: Data, MC, Both, False
+DoTight Both
+DoLoose False
+
+UseAodMetaData False
+IsAFII False
+
+########################
+### basic selection with mandatory cuts for reco level
+########################
+
+SUB BASIC
+INITIAL
+GRL
+GOODCALO
+PRIVTX
+RECO_LEVEL
+
+########################
+### definition of the data periods
+########################
+
+SUB period_2015
+RUN_NUMBER >= 276262
+RUN_NUMBER <= 284484
+
+SUB period_2016
+RUN_NUMBER >= 297730
+
+########################
+### trigger and offline cuts for reco-level selections
+########################
+
+SUB JJ_2015
+. BASIC
+. period_2015
+#TRIGDEC HLT_j15
+JET_N 20000 >= 1
+
+SUB JJ_2016
+. BASIC
+. period_2016
+#TRIGDEC HLT_j15
+JET_N 20000 >= 1
+
+
+########################
+### jj selections
+########################
+
+SUB jj_basic
+JET_N 20000 >= 2
+
+#TRIGMATCH
+#JETCLEAN LooseBad
+JETCLEAN TightBad
+
+MU_N 10000 == 0
+EL_N 10000 == 0
+
+SELECTION jj_2015
+. JJ_2015
+. jj_basic
+SAVE
+
+SELECTION jj_2016
+. JJ_2016
+. jj_basic
+SAVE
