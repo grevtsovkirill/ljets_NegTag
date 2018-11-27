@@ -36,6 +36,9 @@ cmake ../
 make
 source x86_64-slc6-gcc62-opt/setup.sh
 ```
+
 ### Run
+```
 cd ../run
 top-xaod ../DiJetCalibration/scripts/Dijet.txt input_test.txt
+```
