@@ -11,7 +11,7 @@
 #include <cassert>
 
 using namespace std;
-const int debug =16;
+const int debug =100;
 
 void NtupleDumper::Loop()
 //TTree* NtupleDumper::Loop()
@@ -36,7 +36,7 @@ void NtupleDumper::Loop()
   njets = 2; // select only 2 leading jets
 
   // create tree
-  cout << "creating tree" << endl;
+  cout << "creating tree - "<< m_systematic << endl;
   TTree *outtree = new TTree(m_systematic, "recreate");
 
   outtree->Branch("njets",&njets,"njets/I");
@@ -62,6 +62,8 @@ void NtupleDumper::Loop()
   outtree->Branch("clean",clean,"clean[njets]/I");
   outtree->Branch("tightBad",tightBad,"tightBad[njets]/I");
   outtree->Branch("flavor",flavor,"flavor[njets]/I");
+
+  /*
   outtree->Branch("jetHasKShort",jetHasKShort, "jetHasKShort[njets]/I");
   outtree->Branch("jetHasLambda", jetHasLambda, "jetHasLambda[njets]/I");
   outtree->Branch("jetHasConversion", jetHasConversion, "jetHasConversion[njets]/I");
@@ -81,12 +83,14 @@ void NtupleDumper::Loop()
   outtree->Branch("jettrutheta", jettrutheta, "jettrutheta[njets]/F");
   outtree->Branch("jettruthphi", jettruthphi, "jettruthphi[njets]/F");
   outtree->Branch("jettruthpdgId", jettruthpdgId, "jettruthpdgId[njets]/I");
+  //*/
+  outtree->Fill();
 
   // for bootstrap
   // Random generator + branch declaration
   TRandom *r3 = new TRandom3();
   nbootstrap = conf::n_bootstrap; // number of bootstrap replicas
-  if(m_systematic.EqualTo("FlavourTagging_Nominal"))
+  if(m_systematic.EqualTo("nominal"))
   {
     outtree->Branch("nbootstrap",&nbootstrap,"nbootstrap/I");
     outtree->Branch("weight_bootstrap",weight_bootstrap,"weight_bootstrap[nbootstrap]/D");
@@ -114,8 +118,8 @@ void NtupleDumper::Loop()
   // calculate xsec*filter eff. for sample
   double xsec_correction = 1.0;
   if (runmc){
-    cout << "retrieving xsec" << endl;
     auto xsec = conf::xsec.find(m_period_slice);
+    cout << "retrieving xsec" << endl;
     if ( xsec ==  conf::xsec.end()) cout << "####\ncould not find cross-section!\n####" << endl;
     else cout << "cross-section*filtereff: " << xsec->second<< endl;
     xsec_correction = xsec->second / m_total_events * 1e3 * conf::int_lumi; // should scale the sample to int lumi
@@ -164,12 +168,15 @@ void NtupleDumper::Loop()
 
     // excludes event with no reco jets with warning.
     njets_event = jet_pt->size();
+    if(debug==11) cout << "::: == njets_event == "<<njets_event << endl;
 
     if (njets_event < 1){
       //std::cout << "Warning: event with no reco jet. Run/EventNumber: " << runnum << ", " << evtnum << std::endl; 
       continue;
     }
 
+
+    if(debug==1) cout << "::: == weights == "<< evtpuw << endl;
 
     // prepare weights
     double puweight = evtpuw;
@@ -188,15 +195,20 @@ void NtupleDumper::Loop()
       evtpuw = 1.0;
       evtJVTw = 1.0;
     }
+    if(debug==1) cout << "::: == runmc == "<< runmc << endl;
 
     // find leading jet pt - BEFORE ANY CUTS APPLIED
     double pt1_noCut = 0.;
     for (int i = 0; i< njets_event; ++i){
       if ((*jet_pt)[i]/1000.>pt1_noCut) pt1_noCut = (*jet_pt)[i]/1000.; // GeV
+
+      if(debug==1) cout << "::: == find leading jet pt == "<< pt1_noCut << endl;
     }
 
     // fill histogram with trigger decisions - BEFORE ANY CUT APPLIED
     for (auto trigger: trigger_names){
+      if(debug==1) cout << "::: == fill histogram with trigger decisions == "<< trigger << endl;
+
       h2_triggers->Fill(pt1_noCut, trigger.c_str(), puweight*mc_evtweight*JVTweight * *      trigger_decision[trigger]);
       h2_total_events->Fill(pt1_noCut, trigger.c_str(), mc_evtweight*puweight*JVTweight);
     }
@@ -209,7 +221,7 @@ void NtupleDumper::Loop()
     nevents_puw[0] += puweight; // already account for nevents computation
 
     // NPV requirement - cut already on Ntuples, should not remove events
-    if (!evt_hasPV) continue; 
+    //if (!evt_hasPV) continue; 
     h_cutflow->Fill("C1:NPV", mc_evtweight*puweight*JVTweight);
 
     nevents[1] += mc_evtweight*puweight*JVTweight;
@@ -221,10 +233,11 @@ void NtupleDumper::Loop()
     // select two leading jets and verify that they are back-to-back
     // count nb of reco jet > 20 GeV
     int j1 = -1, j2 = -1; // index of leading and subleading jet
-    int tightBad1 = -1;
+    int tightBad1 = 1;
     double pt1 = 0, pt2 = 0; // pt of leading and subleading jet 
     int nj=0;
 
+    if(debug==1) cout << "   ::: == loop over njets == "<<  endl;
 
     for (int j = 0; j<njets_event; ++j) {
 
@@ -232,18 +245,27 @@ void NtupleDumper::Loop()
       double eta_abs = fabs((*jet_eta)[j]);
 
       if (pt<ptcut) continue;
+
+      if(debug==1) cout << "      ::: == pass pT cut == "<<  endl;
       if (eta_abs > etacut) continue;
+
+      if(debug==1) cout << "      ::: == pass eta cut == "<<  endl;
       //https://twiki.cern.ch/twiki/bin/view/AtlasProtected/BTaggingBenchmarks#MV2c20_tagger
-      if ( pt < 60. && eta_abs < 2.4 && (*jet_JVT)[j] < 0.59) continue;        
+      if ( pt < 60. && eta_abs < 2.4 && (*jet_jvt)[j] < 0.59) continue;        
+
+      if(debug==1) cout << "      ::: == pass jvt cut == "<<  endl;
 
       if (pt>pt1) {
     	j2 = j1; pt2 = pt1; 
     	j1 = j; pt1 = pt; 	
-        tightBad1 = (*jet_tightBad)[j];
+        //tightBad1 = (*jet_tightBad)[j];
       } 
       else if (pt>pt2) {
     	j2 = j; pt2 = pt; 
       }
+
+      if(debug==1) cout << "      ::: == decide lead/sublead jet == "<<  endl;
+
       nj++;
     }
 
@@ -254,6 +276,9 @@ void NtupleDumper::Loop()
 
     // select dijet events with leading passing tightBad
     if (j1<0 || j2<0 || tightBad1!=1 ) continue;
+
+    if(debug==1) cout << "         ::: == select dijet events with leading passing tightBad  == "<<  endl;
+
     h_cutflow->Fill("C2:dijet", mc_evtweight*puweight*JVTweight);
 
     nevents[2] += mc_evtweight*puweight*JVTweight;
@@ -264,6 +289,8 @@ void NtupleDumper::Loop()
     double dphi = fabs((*jet_phi)[j1] - (*jet_phi)[j2]);
     if (dphi>M_PI) dphi = 2*M_PI - dphi;
     if (dphi<2.) continue;
+
+    if(debug==1) cout << "           ::: == select back-to-back di-jet == "<<  endl;
 
     nevents[3] += mc_evtweight*puweight*JVTweight;
     nevents_now[3]++;
@@ -298,7 +325,7 @@ void NtupleDumper::Loop()
       int pdgId_lead = -999;  
       int pdgId_sublead = -999;
 
-
+      /*
       for (int j = 0; j<truthjet_pt->size(); j++) 
       {
         float jpt = (*truthjet_pt)[j];
@@ -340,13 +367,14 @@ void NtupleDumper::Loop()
 
       jettruthpdgId[0] = pdgId_lead;
       jettruthpdgId[1] = pdgId_sublead;
-
       // calculate the truth cleaning discriminant    
       // lower cut set to 0 after talk with Jim Lacey
       double truth_cleaning_disc = pt_avg/pt_lead;
       h_pTavg_ptlead->Fill(truth_cleaning_disc, mc_evtweight*puweight*JVTweight);
 
       if(pt_lead<0 || pt_sublead<0 || truth_cleaning_disc < 0. || truth_cleaning_disc > 1.4 ) continue;
+
+      //*/
     }
 
     h_cutflow->Fill("C4:Truth-cleaning", mc_evtweight*puweight*JVTweight);
@@ -354,6 +382,9 @@ void NtupleDumper::Loop()
     nevents[4] += mc_evtweight*puweight*JVTweight;
     nevents_now[4]++;
     nevents_puw[4] += puweight;
+
+    if(debug==1) cout << "           ::: == ** SELECTION FINISHED *** == "<<  endl;
+
 
     // ********************* SELECTION FINISHED **************** //
 
@@ -372,7 +403,7 @@ void NtupleDumper::Loop()
       if(ptj >= conf::pt_lowedges[conf::n_pt]) m_jetpass += 2;  
 
       // check jet cleaning in xAOD      
-      if((*jet_clean)[j]<=0) m_jetpass+=4;
+      //if((*jet_clean)[j]<=0) m_jetpass+=4;
 
       // Summary
       // m_jetpass == 0, good trigger fired, within range, cleaning ok
@@ -391,17 +422,21 @@ void NtupleDumper::Loop()
       if(j==j1) isleading[nj] = true;
       else      isleading[nj] = false;
 
-      JVT[nj] = (*jet_JVT)[j];
-      clean[nj] = (*jet_clean)[j];
-      tightBad[nj] = (*jet_tightBad)[j];
-      if(runmc) flavor[nj] = (*jet_truth)[j];
+      JVT[nj] = (*jet_jvt)[j];
+      //clean[nj] = (*jet_clean)[j];
+      clean[nj] =1;
+      //tightBad[nj] = (*jet_tightBad)[j];
+      tightBad[nj] = 1;
+      if(runmc) flavor[nj] = (*jet_truthflav)[j];
       else flavor[nj] = 0;
 
-      jetHasKShort[nj] = (*jet_hasKShort)[j];
-      jetHasLambda[nj] = (*jet_hasLambda)[j];
-      jetHasConversion[nj] = (*jet_hasConversion)[j];
-      jetHasHadMatInt[nj] = (*jet_hasHadMatInt)[j];
+      // to include?
+      // jetHasKShort[nj] = (*jet_hasKShort)[j];
+      // jetHasLambda[nj] = (*jet_hasLambda)[j];
+      // jetHasConversion[nj] = (*jet_hasConversion)[j];
+      // jetHasHadMatInt[nj] = (*jet_hasHadMatInt)[j];
 
+      /*
       ntrack_IP3DNeg[nj] = (*jet_IP3DNeg_ntrk)[j];
       ntrack_IP3D[nj] = (*jet_IP3D_ntrk)[j];
       ntrack_IP2DNeg[nj] = (*jet_IP2DNeg_ntrk)[j];
@@ -410,7 +445,7 @@ void NtupleDumper::Loop()
       ntrack_SV1[nj] = (*jet_SV1_ntrk)[j];
       ntrack_JetFitterFlip[nj] = (*jet_JetFitterFlip_ntrk)[j];
       ntrack_JetFitter[nj] = (*jet_JetFitter_ntrk)[j];
-
+      //*/
 
       // *_subtagger_out defined at the beginning
       for (auto &pair: float_subtagger_out){
@@ -432,7 +467,7 @@ void NtupleDumper::Loop()
     }
 
     // bootstrap weights
-    if(m_systematic.EqualTo("FlavourTagging_Nominal"))
+    if(m_systematic.EqualTo("nominal"))
     {
       r3->SetSeed(runnum*0.00789+evtnum*0.0063+0.0075);
       for(int ibootstrap=0; ibootstrap<nbootstrap; ibootstrap++) weight_bootstrap[ibootstrap] = r3->PoissonD(1);
@@ -447,7 +482,15 @@ void NtupleDumper::Loop()
       evtJVTw_sys[1] = 1;
     }
 
-    outtree->Fill();
+    if(debug==1) cout << " <<<<<<<<<<<<== about to save output == "<<  endl;
+    if(debug==10){
+      cout << " <<<<<<<<<<<<== about to save output == "
+	   <<"flavor = "<<flavor[0] 
+	   <<", jet lead pt: "<< jetpt[0]<<" eta: "<< jeteta[0]
+	   <<  endl;
+    }
+
+    // outtree->Fill();
   }//end event loop
 
   for(int icut=0; icut<ncuts; icut++){

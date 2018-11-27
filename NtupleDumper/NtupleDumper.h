@@ -34,15 +34,17 @@ public :
   std::vector<float> *jet_pt;
   std::vector<float> *jet_phi;
   std::vector<float> *jet_eta;
-  std::vector<float> *jet_JVT;
-  std::vector<int>   *jet_clean;
-  std::vector<int>   *jet_tightBad;
-  std::vector<int>   *jet_truth;
-  std::vector<int>   *jet_hasKShort;
-  std::vector<int>   *jet_hasLambda;
-  std::vector<int>   *jet_hasConversion;
-  std::vector<int>   *jet_hasHadMatInt;
+  std::vector<float> *jet_jvt;
+  //std::vector<int>   *jet_clean;
+  //std::vector<int>   *jet_tightBad;
+  std::vector<int>   *jet_truthflav;
 
+  /* std::vector<int>   *jet_hasKShort; */
+  /* std::vector<int>   *jet_hasLambda; */
+  /* std::vector<int>   *jet_hasConversion; */
+  /* std::vector<int>   *jet_hasHadMatInt; */
+
+  /*
   // calo jets - track multiplicity studies
   std::vector<int>   *jet_IP3DNeg_ntrk; // jet_IP3DNeg_nTracks (IP3DNeg input)
   std::vector<int>   *jet_IP3D_ntrk; // jet_IP3D_nTracks (IP3D input)
@@ -52,14 +54,16 @@ public :
   std::vector<int>   *jet_SV1_ntrk; // jet_SV1_nTracks (SV1 input)
   std::vector<int>   *jet_JetFitterFlip_ntrk; // jet_JetFitterFlip_nTracks (JetFitterFlip input)
   std::vector<int>   *jet_JetFitter_ntrk; // jet_JetFitter_nTracks (JetFitter input)
-
+  //*/
 
 
   // truth jets
+  /*
   std::vector<float> *truthjet_pt;
   std::vector<float> *truthjet_phi;
   std::vector<float> *truthjet_eta;
   std::vector<int> *truthjet_pdgId;
+  //*/
 
   // additional subtagger information
   // see ../conf/subTagger.hpp
@@ -82,8 +86,8 @@ public :
     {"HLT_j60", evt_HLT_j60},
     {"HLT_j110", evt_HLT_j110},
     {"HLT_j175", evt_HLT_j175},
-    {"HLT_j380", evt_HLT_j380},
-    {"HLT_j400", evt_HLT_j400},
+    //{"HLT_j380", evt_HLT_j380},
+    //{"HLT_j400", evt_HLT_j400},
     {"HLT_j420", evt_HLT_j420}
   };
 
@@ -93,13 +97,14 @@ public :
     {"eve_HLT_j60_ps", evt_HLT_j60_ps},
     {"eve_HLT_j110_ps", evt_HLT_j110_ps},
     {"eve_HLT_j175_ps", evt_HLT_j175_ps},
-    {"eve_HLT_j380_ps", evt_HLT_j380_ps},
-    {"eve_HLT_j400_ps", evt_HLT_j400_ps},
+    //{"eve_HLT_j380_ps", evt_HLT_j380_ps},
+    //{"eve_HLT_j400_ps", evt_HLT_j400_ps},
     {"eve_HLT_j420_ps", evt_HLT_j420_ps}
   };
 
   // ad hoc vector to get sorted trigger plot...
-  std::vector <std::string> trigger_names = {"HLT_j15", "HLT_j25", "HLT_j60", "HLT_j110", "HLT_j175", "HLT_j380", "HLT_j400", "HLT_j420"};
+  //std::vector <std::string> trigger_names = {"HLT_j15", "HLT_j25", "HLT_j60", "HLT_j110", "HLT_j175", "HLT_j380", "HLT_j400", "HLT_j420"};
+  std::vector <std::string> trigger_names = {"HLT_j15", "HLT_j25", "HLT_j60", "HLT_j110", "HLT_j175","HLT_j420"};
 
   // event-wide
   int     evtnum; // eve_num (= eve_mc_num for MC)
@@ -156,7 +161,7 @@ public :
   int    nbootstrap;
   double weight_bootstrap[1000]; //[nbootstrap]
 
-  NtupleDumper(TTree *tree=0, TString="FlavourTagging_Nominal", bool runmc=true);
+  NtupleDumper(TTree *tree=0, TString="nominal", bool runmc=true);
   virtual ~NtupleDumper();
   virtual Int_t    Cut(Long64_t entry);
   virtual Int_t    GetEntry(Long64_t entry);
@@ -184,7 +189,7 @@ NtupleDumper::NtupleDumper(TTree *tree, TString syst, bool tmp_runmc)
    m_systematic = syst;
    runmc = tmp_runmc;
    Init(tree);
-   std::cout << "accessed tree" << m_systematic << std::endl;
+   std::cout << "accessed tree - " << m_systematic << std::endl;
 }
 
 NtupleDumper::~NtupleDumper()
@@ -228,16 +233,16 @@ void NtupleDumper::Init(TTree *tree)
   jet_pt = new std::vector<float>;
   jet_phi = new std::vector<float>;
   jet_eta = new std::vector<float>;
-  jet_JVT = new std::vector<float>;
-  jet_clean = new std::vector<int>;
-  jet_tightBad = new std::vector<int>;
-  jet_truth = new std::vector<int>;
-  jet_hasKShort = new std::vector<int>;
-  jet_hasLambda = new std::vector<int>;
-  jet_hasConversion = new std::vector<int>;
-  jet_hasHadMatInt = new std::vector<int>;
+  jet_jvt = new std::vector<float>;
+  jet_truthflav = new std::vector<int>;
+
+  /* jet_hasKShort = new std::vector<int>; */
+  /* jet_hasLambda = new std::vector<int>; */
+  /* jet_hasConversion = new std::vector<int>; */
+  /* jet_hasHadMatInt = new std::vector<int>; */
 
   // calo jets - track multiplicity studies
+  /*
   jet_IP3DNeg_ntrk = new std::vector<int>; // jet_IP3DNeg_nTracks (IP3DNeg input)
   jet_IP3D_ntrk = new std::vector<int>; // jet_IP3D_nTracks (IP3D input)
   jet_IP2DNeg_ntrk = new std::vector<int>; // jet_IP2DNeg_nTracks (IP2DNeg input)
@@ -246,14 +251,15 @@ void NtupleDumper::Init(TTree *tree)
   jet_SV1_ntrk = new std::vector<int>; // jet_SV1_nTracks (SV1 input)
   jet_JetFitterFlip_ntrk = new std::vector<int>; // jet_JetFitterFlip_nTracks (JetFitterFlip input)
   jet_JetFitter_ntrk = new std::vector<int>; // jet_JetFitter_nTracks (JetFitter input)
-
+  //*/
 
   // truth jets
-
+  /*
   truthjet_pt = new std::vector<float>;
   truthjet_phi = new std::vector<float>;
   truthjet_eta = new std::vector<float>;
   truthjet_pdgId = new std::vector<int>;
+  //*/
 
    // Set branch addresses and branch pointers
    if (!tree) return;
@@ -262,19 +268,19 @@ void NtupleDumper::Init(TTree *tree)
    fChain->SetMakeClass(1);
 
    // calo jets / truth jets
+   /*
    if(runmc){
      fChain->SetBranchAddress("truthjet_pt", &truthjet_pt);
      fChain->SetBranchAddress("truthjet_eta", &truthjet_eta);
      fChain->SetBranchAddress("truthjet_phi", &truthjet_phi);
      fChain->SetBranchAddress("truthjet_pdgId", &truthjet_pdgId);
    }
-
+   //*/
    fChain->SetBranchAddress("jet_pt", &jet_pt);
    fChain->SetBranchAddress("jet_phi", &jet_phi);
    fChain->SetBranchAddress("jet_eta", &jet_eta);
-   fChain->SetBranchAddress("jet_JVT", &jet_JVT);
-   fChain->SetBranchAddress("jet_clean", &jet_clean);
-   fChain->SetBranchAddress("jet_tightBad", &jet_tightBad);
+   fChain->SetBranchAddress("jet_jvt", &jet_jvt);
+   /*
    fChain->SetBranchAddress("jet_IP3DNeg_ntrk", &jet_IP3DNeg_ntrk);
    fChain->SetBranchAddress("jet_IP3D_ntrk", &jet_IP3D_ntrk);
    fChain->SetBranchAddress("jet_IP2DNeg_ntrk", &jet_IP2DNeg_ntrk);
@@ -283,12 +289,13 @@ void NtupleDumper::Init(TTree *tree)
    fChain->SetBranchAddress("jet_SV1_ntrk", &jet_SV1_ntrk);
    fChain->SetBranchAddress("jet_JetFitter_ntrk", &jet_JetFitter_ntrk);
    fChain->SetBranchAddress("jet_JetFitterFlip_ntrk", &jet_JetFitterFlip_ntrk);
+   //*/
+   fChain->SetBranchAddress("jet_truthflav", &jet_truthflav);
 
-   fChain->SetBranchAddress("jet_truth", &jet_truth);
-   fChain->SetBranchAddress("jet_hasKShort", &jet_hasKShort);
-   fChain->SetBranchAddress("jet_hasLambda", &jet_hasLambda);
-   fChain->SetBranchAddress("jet_hasConversion", &jet_hasConversion);
-   fChain->SetBranchAddress("jet_hasHadMatInt", &jet_hasHadMatInt);
+   /* fChain->SetBranchAddress("jet_hasKShort", &jet_hasKShort); */
+   /* fChain->SetBranchAddress("jet_hasLambda", &jet_hasLambda); */
+   /* fChain->SetBranchAddress("jet_hasConversion", &jet_hasConversion); */
+   /* fChain->SetBranchAddress("jet_hasHadMatInt", &jet_hasHadMatInt); */
 
    for (auto &pair: trigger_decision){
      pair.second = new int;
@@ -315,20 +322,20 @@ void NtupleDumper::Init(TTree *tree)
 
    // event wide
    // MC only
-   fChain->SetBranchAddress("eve_JvtSF", &evtJVTw);
-   fChain->SetBranchAddress("eve_JvtSF_up", &evtJVTw_sys[0]);
-   fChain->SetBranchAddress("eve_JvtSF_down", &evtJVTw_sys[1]);
-   fChain->SetBranchAddress("eve_mc_num", &mc_evtnum);
-   fChain->SetBranchAddress("eve_mc_chan", &mc_channum);
-   fChain->SetBranchAddress("eve_mc_w", &mc_evtweight);
-   fChain->SetBranchAddress("eve_pu_w", &evtpuw);
-   fChain->SetBranchAddress("eve_pu_w_up", &evtpuw_sys[0]);
-   fChain->SetBranchAddress("eve_pu_w_down", &evtpuw_sys[1]);
+   fChain->SetBranchAddress("weight_jvt", &evtJVTw);
+   fChain->SetBranchAddress("weight_jvt_UP", &evtJVTw_sys[0]);
+   fChain->SetBranchAddress("weight_jvt_DOWN", &evtJVTw_sys[1]);
+   fChain->SetBranchAddress("eventNumber", &mc_evtnum);
+   fChain->SetBranchAddress("mcChannelNumber", &mc_channum);
+   fChain->SetBranchAddress("weight_mc", &mc_evtweight);
+   fChain->SetBranchAddress("weight_pileup", &evtpuw);
+   fChain->SetBranchAddress("weight_pileup_UP", &evtpuw_sys[0]);
+   fChain->SetBranchAddress("weight_pileup_DOWN", &evtpuw_sys[1]);
    // All  
-   fChain->SetBranchAddress("eve_num", &evtnum);
-   fChain->SetBranchAddress("eve_run", &runnum);
-   fChain->SetBranchAddress("eve_hasPV", &evt_hasPV);
-   fChain->SetBranchAddress("eve_averageInteractionsPerCrossing", &evt_averageInteractionsPerCrossing);
+   fChain->SetBranchAddress("eventNumber", &evtnum);
+   fChain->SetBranchAddress("runNumber", &runnum);
+   //fChain->SetBranchAddress("eve_hasPV", &evt_hasPV);
+   fChain->SetBranchAddress("mu", &evt_averageInteractionsPerCrossing);
 
    // Output tree variables to be initialized to 0
    jetpt[0] = -99.;
@@ -396,7 +403,7 @@ void NtupleDumper::Init(TTree *tree)
 
    data_evtweight[0] = -99;
    data_evtweight[1] = -99;
-
+   /*
    jettruthpt[0] = -99;
    jettruthpt[1] = -99;
 
@@ -408,7 +415,7 @@ void NtupleDumper::Init(TTree *tree)
    
    jettruthpdgId[0] = -99;
    jettruthpdgId[1] = -99;
-   
+   //*/   
    njets_event = -99;
    njets = 2; // 2 jets selected
    nbootstrap = -99;

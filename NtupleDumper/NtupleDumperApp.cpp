@@ -13,6 +13,7 @@
 #include <TROOT.h>
 #include <TString.h>
 #include <TFile.h>
+#include <TLeaf.h>
 #include <TH1D.h>
 #include <iostream>
 #include <fstream>
@@ -66,8 +67,8 @@ int main(int argc, char* argv[]) {
   }
 
   if (systematics.size()<1) {
-    cout << "use default systematic: FlavourTagging_Nominal" <<endl;
-    systematics.push_back("FlavourTagging_Nominal");
+    cout << "use default systematic: nominal" <<endl;
+    systematics.push_back("nominal");
   }
 
   if (period_slice.size() != 1) { cout << "provide exactly 1 period/slice" << endl; return 0;}
@@ -84,9 +85,11 @@ int main(int argc, char* argv[]) {
     filename = "res/data" + period_slice[0] + ".root";
     // if -split mode activated, create one file per systematic
     if(file_per_syst) filename = "res/data" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
+    
+    
   }
- 
-
+  cout << "## FName " << filename << " ##" << endl;
+  
   TH1D* h_event_count = 0;
 
   std::vector<TChain*> tchains;
@@ -94,26 +97,33 @@ int main(int argc, char* argv[]) {
     TChain * tchain = new TChain(syst);
     tchains.push_back(tchain);
   }
+  
+  double read_sum_of_weights=0;
+  double read_total_events=0;
 
   for ( auto file: files){
-    // cout << file << endl;
+    cout << file << endl;
     int nbranches, entries;
+    
     TFile *f=TFile::Open(file);
-    TH1D *h = (TH1D*)f->Get("MetaData_EventCount");
-    if ( h_event_count == 0){
-      h_event_count = (TH1D*)h->Clone("evcount");
-      h_event_count->SetDirectory(0); // otherwise histogram gets deleted...
-    }
-    else{
-      h_event_count->Add(h);
-    }
-    int metadata_entries = h->GetBinContent(3); 
-    TTree* nom_tree = (TTree*)f->Get("FlavourTagging_Nominal");
+    
+    TTree* sumw_tree = (TTree*)f->Get("sumWeights");
+    //sumw_tree->Draw("totalEventsWeighted")
+    TH1F *h1 = new TH1F("h1", "h1 title", 100, 0, 4.4);
+    sumw_tree->Draw("totalEventsWeighted>>h1");
+    sumw_tree->Draw("totalEvents>>h1");
+    cout << "  = = = read totalEventsWeighted = "<<  ((TTree*)f->Get("sumWeights"))->GetLeaf("totalEventsWeighted")->GetValue(0) << endl;
+    cout << "  = = = read totalEvents = "<<  ((TTree*)f->Get("sumWeights"))->GetLeaf("totalEvents")->GetValue(0) << endl;
+    read_sum_of_weights += ((TTree*)f->Get("sumWeights"))->GetLeaf("totalEventsWeighted")->GetValue(0);
+    read_total_events += ((TTree*)f->Get("sumWeights"))->GetLeaf("totalEventsWeighted")->GetValue(0);
+    //sumWeights->GetLeaf("totalEvents")->GetValue(0)
+    //cout << read_sum_of_weights << endl;
+    TTree* nom_tree = (TTree*)f->Get("nominal");
     if (nom_tree) entries = nom_tree->GetEntries();
     else entries = 0;
     // nbranches = ((TTree*)f->Get("FlavourTagging_Nominal"))->GetListOfBranches()->GetEntries();
-    if (metadata_entries < 1) cout << "(0 entries) skip file: " << file << endl;
-    else if (entries == 0){
+    //if (metadata_entries < 1) cout << "(0 entries) skip file: " << file << endl;
+    if (entries == 0){
       cout << "(0 entries in tree || no nominal tree) skip file: " << file << endl;
     }
     else{
@@ -122,9 +132,7 @@ int main(int argc, char* argv[]) {
 	chain->Add(file);      
       }
     }
-    if (entries != metadata_entries){
-      cout << "***** entries tree and entries metadata do not match: " << entries << "\t" << metadata_entries << endl;
-    }
+
     f->Close();
     delete f;
   }
@@ -134,13 +142,17 @@ int main(int argc, char* argv[]) {
     TFile *histofile = new TFile(filename, "RECREATE");
     TTree* mytree = (TTree*)gROOT->FindObject(syst);
     NtupleDumper* dumper = new NtupleDumper(mytree, syst, runmc);
+    cout << "NtupleDumperApp.cpp:     loop over systs = "<< syst << endl; 
     dumper->m_period_slice = period_slice[0];
-    cout << "Initial number of events: " << h_event_count->GetBinContent(1) << " Initial sum of event weights: " << h_event_count->GetBinContent(4) << " Number of events sample: " << h_event_count->GetBinContent(3) << endl;
-    if ( h_event_count != 0) {
-      dumper->m_sum_of_weights = h_event_count->GetBinContent(4);
-      dumper->m_total_events = h_event_count->GetBinContent(1);
-      dumper->m_events_sample = h_event_count->GetBinContent(3);
-    }
+    //cout << "Initial number of events: " << h_event_count->GetBinContent(1) << " Initial sum of event weights: " << h_event_count->GetBinContent(4) << " Number of events sample: " << h_event_count->GetBinContent(3) << endl;
+    dumper->m_sum_of_weights = read_sum_of_weights;
+    //sumWeights->GetLeaf("totalEventsWeighted")->GetValue(0)
+    dumper->m_total_events = read_total_events;
+    //sumWeights->GetLeaf("totalEvents")->GetValue(0)
+    //dumper->m_events_sample = h_event_count->GetBinContent(3);
+    //
+    //}
+    
     //TTree *T = new TTree("T","title");
     dumper->Loop();
     //TTree *T;
@@ -155,8 +167,9 @@ int main(int argc, char* argv[]) {
   //cout << "which tree to save: "<< endl;
   // save stuff
   ////histofile = dumper->GetCurrentFile();
+
   histofile->Write(0,TObject::kOverwrite);
   histofile->Close();
-
+  
   return 0;
 }
