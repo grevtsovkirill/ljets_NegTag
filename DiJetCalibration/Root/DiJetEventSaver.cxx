@@ -15,16 +15,16 @@ namespace top{
   {
     branchFilters().push_back(std::bind(&getBranchStatus, std::placeholders::_1, std::placeholders::_2));
     m_jet_truthflavExtended = std::vector<int>();
-    m_jet_MV2c10Flip = std::vector<double>();
-    m_jet_DL1Flip_pb = std::vector<double>();
-    m_jet_DL1Flip_pc = std::vector<double>();
-    m_jet_DL1Flip_pu = std::vector<double>();
-    m_jet_SMT_discriminant = std::vector<double>();
+    m_jet_MV2c10Flip = std::vector<float>();
+    m_jet_DL1Flip_pb = std::vector<float>();
+    m_jet_DL1Flip_pc = std::vector<float>();
+    m_jet_DL1Flip_pu = std::vector<float>();
+    m_jet_SMT_discriminant = std::vector<float>();
     m_jet_SV1_masssvx = std::vector<float>();
     m_jet_SV1_Lxy = std::vector<float>();
     m_jet_SV1_L3d = std::vector<float>();
-    m_jet_DL1_h = std::vector<double>();
-    m_jet_DL1Flip = std::vector<double>();
+    m_jet_DL1_h = std::vector<float>();
+    m_jet_DL1Flip = std::vector<float>();
     //trig_ps = std::map<std::string, std::pair<int,float>>();
     m_trigger = std::map<std::string, Int_t>();
     m_trigger_ps = std::map<std::string, Float_t>();
@@ -145,7 +145,7 @@ namespace top{
       //m_HLT_j15 = m_trigDecTool->getChainGroup("HLT_j15")->isPassed(TrigDefs::Physics);
       //m_eve_HLT_j15_ps = m_trigDecTool->getChainGroup("HLT_j15")->getPrescale(TrigDefs::Physics);
       
-      double fc=0.08;
+      float fc=0.08;
       unsigned int i(0);
       for (const auto* const jetPtr : event.m_jets) {
 	m_jet_truthflavExtended[i] = -999;

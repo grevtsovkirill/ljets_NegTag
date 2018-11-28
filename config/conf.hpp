@@ -82,7 +82,8 @@ namespace conf{
   // define working points
   // https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/BTaggingBenchmarks#AntiKt4EMTopoJets - old
   // https://twiki.cern.ch/twiki/bin/view/AtlasProtected/BTaggingBenchmarksRelease21
-  const std::map <std::string, std::vector<double>> wpoint_map = {
+  //  const std::map <std::string, std::vector<double>> wpoint_map = {
+  const std::map <std::string, std::vector<float>> wpoint_map = {
     {"MV2c10", {0.11,0.645,0.831,0.939}},
     {"DL1", {0.46,1.45,2.02,2.74}},
   };

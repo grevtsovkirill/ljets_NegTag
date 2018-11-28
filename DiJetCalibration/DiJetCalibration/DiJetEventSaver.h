@@ -47,22 +47,22 @@ namespace top{
 
       ///-- Some additional custom variables for the output --///
       std::vector<int> m_jet_truthflavExtended;
-      std::vector<double> m_jet_MV2c10Flip;
+      std::vector<float> m_jet_MV2c10Flip;
 
   
-      std::vector<double> m_jet_DL1Flip_pb;
-      std::vector<double> m_jet_DL1Flip_pc;
-      std::vector<double> m_jet_DL1Flip_pu;
+      std::vector<float> m_jet_DL1Flip_pb;
+      std::vector<float> m_jet_DL1Flip_pc;
+      std::vector<float> m_jet_DL1Flip_pu;
 
-      std::vector<double> m_jet_SMT_discriminant;
+      std::vector<float> m_jet_SMT_discriminant;
 
       std::vector<float> m_jet_SV1_masssvx;
       std::vector<float> m_jet_SV1_Lxy;
       std::vector<float> m_jet_SV1_L3d;
 
       //New variables for dijet:
-      std::vector<double> m_jet_DL1Flip;
-      std::vector<double> m_jet_DL1_h;
+      std::vector<float> m_jet_DL1Flip;
+      std::vector<float> m_jet_DL1_h;
 
       std::map<std::string, Int_t> m_trigger;
       std::map<std::string, Float_t> m_trigger_ps;

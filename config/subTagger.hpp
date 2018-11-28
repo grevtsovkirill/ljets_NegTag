@@ -27,7 +27,7 @@ namespace subtagger{
     // SV1, SV1Flip
     {"jet_SV1_masssvx",std::make_tuple(100, 0.0, 10000.0)},
     {"jet_SV1_Lxy",std::make_tuple(700, -100, 600)},
-    {"jet_SV1_L3d",std::make_tuple(700, -100, 600)}
+    {"jet_SV1_L3d",std::make_tuple(700, -100, 600)},
     /*
     {"jet_SV1_efracsvx",std::make_tuple(20, 0.0, 1.0)},
     {"jet_SV1_normdist",std::make_tuple(6000, 0., 600)},
@@ -50,6 +50,10 @@ namespace subtagger{
     {"jet_JetFitterFlip_energyFraction",std::make_tuple(100,0.0,1.0)},
     {"jet_JetFitterFlip_dRFlightDir",std::make_tuple(50, 0, 5)}
     //*/
+    {"jet_DL1",std::make_tuple(100, -6.0, 14.0)},
+    {"jet_DL1Flip",std::make_tuple(100, -6.0, 14.0)},
+    {"jet_mv2c10",std::make_tuple(100, -1.0, 1.0)},
+    {"jet_mv2c10Flip",std::make_tuple(100, -1.0, 1.0)}
   };
   const std::map <std::string, std::tuple<int, double, double>> ints = {
     // SV1, SV1Flip
@@ -87,10 +91,6 @@ namespace subtagger{
   };
 
   const std::map <std::string, std::tuple<int, double, double>> doubles = {
-    {"jet_DL1",std::make_tuple(100, -6.0, 14.0)},
-    {"jet_DL1Flip",std::make_tuple(100, -6.0, 14.0)},
-    {"jet_mv2c10",std::make_tuple(100, -1.0, 1.0)},
-    {"jet_mv2c10Flip",std::make_tuple(100, -1.0, 1.0)}
     //
   };
 
