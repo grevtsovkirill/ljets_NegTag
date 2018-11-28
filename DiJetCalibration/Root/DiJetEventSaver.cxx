@@ -13,6 +13,7 @@ namespace top{
     //m_HLT_j15(-999),
     //m_eve_HLT_j15_ps(-999)
   {
+    branchFilters().push_back(std::bind(&getBranchStatus, std::placeholders::_1, std::placeholders::_2));
     m_jet_truthflavExtended = std::vector<int>();
     m_jet_MV2c10Flip = std::vector<double>();
     m_jet_DL1Flip_pb = std::vector<double>();
@@ -236,4 +237,12 @@ namespace top{
     top::EventSaverFlatNtuple::saveEvent(event);
   }
 
+  //https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/HTop2018WorkshopAnalysisTopTutorial#7.3%20%20Filtering%20out%20unwanted%20bran
+  int DiJetEventSaver::getBranchStatus(top::TreeManager const * treeManager, std::string const & variableName) {
+    //we can use the treeManager to remove these branches only for some of the TTrees
+    // e.g. add a condition like if (m_config->systematicName(treeManager->name() != "nominal")
+    //if (variableName == "el_pt") return 0;
+    if (variableName.find("el_")!=std::string::npos || variableName.find("mu_")!=std::string::npos) return 0;
+    return -1;
+  }
 }

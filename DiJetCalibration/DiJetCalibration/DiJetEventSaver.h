@@ -30,6 +30,8 @@ namespace top{
       ///-- saveEvent function for top::EventSaverFlatNtuple --///
       ///-- We will be setting our custom variables on a per-event basis --///
       virtual void saveEvent(const top::Event& event) override;
+      
+      static int getBranchStatus(top::TreeManager const *, std::string const & variableName);
 
       ToolHandle<Trig::TrigDecisionTool>     m_trigDecTool;
       //ToolHandle<BTaggingSelectionTool*>     m_BTS;
