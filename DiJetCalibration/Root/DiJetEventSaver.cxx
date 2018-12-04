@@ -2,13 +2,15 @@
 #include "TopEvent/Event.h"
 #include "TopEventSelectionTools/TreeManager.h"
 #include "TopConfiguration/TopConfig.h"
+#include "TopEvent/EventTools.h"
 
 #include <iostream>
 
 namespace top{
   ///-- Constrcutor --///
   DiJetEventSaver::DiJetEventSaver():
-    m_trigDecTool("Trig::TrigDecisionTool")
+    m_trigDecTool("Trig::TrigDecisionTool"),
+    m_BTS_DL1()
     //m_BTS("BTaggingSelectionTool::BTaggingSelectionTool")
     //m_HLT_j15(-999),
     //m_eve_HLT_j15_ps(-999)
@@ -29,6 +31,8 @@ namespace top{
     m_trigger = std::map<std::string, Int_t>();
     m_trigger_ps = std::map<std::string, Float_t>();
     
+    m_jet_tagWeightBin_DL1_Continuous_h = std::vector<int>();
+    m_jet_tagWeightBin_DL1Flip_Continuous = std::vector<int>();
   }
 
   ///-- initialize - done once at the start of a job before the loop over events --///
@@ -44,17 +48,19 @@ namespace top{
     ///-- It will setup TTrees for each systematic with a standard set of variables --///
     top::EventSaverFlatNtuple::initialize(config, file, extraBranches);
     
-    // BTaggingSelectionTool * m_BTS = new BTaggingSelectionTool("dl1flip");
-
-    // m_BTS->setProperty("MaxEta", 2.5);
-    // m_BTS->setProperty("MinPt", 20000.);
-    // m_BTS->setProperty("JetAuthor", "AntiKt4EMTopoJets");
-    // m_BTS->setProperty("TaggerName", "DL1Flip" );
-    // m_BTS->setProperty("FlvTagCutDefinitionsFileName", "xAODBTaggingEfficiency/13TeV/2017-21-13TeV-MC16-CDI-2018-02-09_v1.root" );
-    // m_BTS->setProperty("OperatingPoint", "FixedCutBEff_85" );
-
-    // m_BTS->initialize();
-    // m_BTS->print();
+    std::cout<< "in DiJetEventSaver::initialize:BTaggingSelectionTool ============================" << std::endl;
+    //BTaggingSelectionTool * 
+    m_BTS_DL1 = new BTaggingSelectionTool("test_tool");
+    top::check( m_BTS_DL1->setProperty("FlvTagCutDefinitionsFileName", "xAODBTaggingEfficiency/13TeV/2017-21-13TeV-MC16-CDI-2018-02-09_v1.root")  ,"BTaggingSelectionTool failed to set FlvTagCutDefinitionsFileName!"); 
+    top::check( m_BTS_DL1->setProperty("MaxEta", 2.5)  , "BTaggingSelectionTool failed to set MaxEta!"); 
+    top::check( m_BTS_DL1->setProperty("MinPt", 20000.)  , "BTaggingSelectionTool failed to set MinPt!"); 
+    top::check( m_BTS_DL1->setProperty("JetAuthor", "AntiKt4EMTopoJets"), "BTaggingSelectionTool failed to set JetAuthor!"); 
+    top::check( m_BTS_DL1->setProperty("TaggerName", "DL1")  ,"BTaggingSelectionTool failed to set TaggerName!"); 
+    top::check( m_BTS_DL1->setProperty("OperatingPoint", "Continuous")  ,"BTaggingSelectionTool failed to set WP!");
+    top::check( m_BTS_DL1->initialize(), "BTaggingSelectionTool failed to initialize!"); 
+    std::cout<< "in DiJetEventSaver::initialize:BTaggingSelectionTool: def" << std::endl;
+    //m_BTS_DL1->initialize();
+    m_BTS_DL1->print();
 
 
     ///-- Loop over the systematic TTrees and add the custom variables --///
@@ -72,6 +78,8 @@ namespace top{
       systematicTree->makeOutputVariable(m_jet_SV1_Lxy, "jet_SV1_Lxy");
       systematicTree->makeOutputVariable(m_jet_SV1_L3d, "jet_SV1_L3d");
 
+      systematicTree->makeOutputVariable(m_jet_tagWeightBin_DL1_Continuous_h, "jet_tagWeightBin_DL1_Continuous_h");
+      systematicTree->makeOutputVariable(m_jet_tagWeightBin_DL1Flip_Continuous, "jet_tagWeightBin_DL1Flip_Continuous");
       
       for (auto &trigName : bin_trigger) {
 	const std::string trig_name = trigName; 
@@ -104,6 +112,8 @@ namespace top{
 
       m_jet_DL1_h.resize(event.m_jets.size());
       m_jet_DL1Flip.resize(event.m_jets.size());
+      m_jet_tagWeightBin_DL1_Continuous_h.resize(event.m_jets.size());
+      m_jet_tagWeightBin_DL1Flip_Continuous.resize(event.m_jets.size());
 
       //std::cout<< " ==================== event number  = " << event.m_info->auxdata<unsigned int>("runNumber") << std::endl;
 
@@ -141,11 +151,13 @@ namespace top{
       	const std::string trigName = kv.first;
       	kv.second = m_trigDecTool->getChainGroup(trigName)->getPrescale(TrigDefs::Physics);
       }
-
+      
+      // TriggerDecision and pre-scales by hand
       //m_HLT_j15 = m_trigDecTool->getChainGroup("HLT_j15")->isPassed(TrigDefs::Physics);
       //m_eve_HLT_j15_ps = m_trigDecTool->getChainGroup("HLT_j15")->getPrescale(TrigDefs::Physics);
       
-      float fc=0.08;
+      //float fc=0.08;
+      double tagweight=0;	double tagweightF=0;
       unsigned int i(0);
       for (const auto* const jetPtr : event.m_jets) {
 	m_jet_truthflavExtended[i] = -999;
@@ -160,6 +172,9 @@ namespace top{
 	m_jet_DL1_h[i] = -999;
 	m_jet_DL1Flip[i] = -999;
 	  
+	m_jet_tagWeightBin_DL1_Continuous_h[i]=-999;
+	m_jet_tagWeightBin_DL1Flip_Continuous[i]=-999;
+
 	// Official jet truth frlavour:
 	// jet_truthflav = HadronConeExclTruthLabelID
 	//https://gitlab.cern.ch/atlas/athena/blob/21.2/PhysicsAnalysis/TopPhys/xAOD/TopAnalysis/Root/EventSaverFlatNtuple.cxx#L2046
@@ -169,8 +184,6 @@ namespace top{
 	    jetPtr->getAttribute("HadronConeExclExtendedTruthLabelID", m_jet_truthflavExtended[i]);
 	  }
 	}
-	  
-	//m_jet_DL1_h[i]= 999;
 
 	// if(jetPtr->isAvailable<float>("AnalysisTop_JVT")){
 	//   std::cout<< "--JVT ["<<i<<"]  = " << jetPtr->auxdataConst<float>("AnalysisTop_JVT") << std::endl; 
@@ -182,52 +195,53 @@ namespace top{
         if(jetPtr->btagging()->isAvailable<double>("DL1Flip_pc")) m_jet_DL1Flip_pc[i] = jetPtr->btagging()->auxdata<double>("DL1Flip_pc");
         if(jetPtr->btagging()->isAvailable<double>("DL1Flip_pu")) m_jet_DL1Flip_pu[i] = jetPtr->btagging()->auxdata<double>("DL1Flip_pu");
 
-	
-	//std::cout << " = == = = pb " << m_jet_DL1Flip_pb[i] << ", pc = "<<  m_jet_DL1Flip_pc[i] << ",  pu= "<<m_jet_DL1Flip_pu[i]<< ",  statement = " << m_jet_DL1Flip_pb[i] / (fc* m_jet_DL1Flip_pc[i]+(1-fc)* m_jet_DL1Flip_pu[i]) <<  ",  log (stat) = "<< log(m_jet_DL1Flip_pb[i] / (fc* m_jet_DL1Flip_pc[i]+(1-fc)* m_jet_DL1Flip_pu[i]) )<< std::endl;
-	// double flipttt=0;
-	m_jet_DL1Flip[i]= log(jetPtr->btagging()->auxdata<double>("DL1Flip_pb") / (fc* jetPtr->btagging()->auxdata<double>("DL1Flip_pc")+(1-fc)* jetPtr->btagging()->auxdata<double>("DL1Flip_pu")) );
-	
-	
+
+	// access Continuous info for flipped version of taggers:
+
+	//bts code:
+	//https://gitlab.cern.ch/atlas/athena/blob/21.2/PhysicsAnalysis/JetTagging/JetTagPerformanceCalibration/xAODBTaggingEfficiency/Root/BTaggingSelectionTool.cxx
+	// way through BTS:
+
 
         if(jetPtr->btagging()->isAvailable<double>("SMT_discriminant")) m_jet_SMT_discriminant[i] = jetPtr->btagging()->auxdata<double>("SMT_discriminant");
         if(jetPtr->btagging()->isAvailable<float>("SV1_masssvx")) m_jet_SV1_masssvx[i] = jetPtr->btagging()->auxdata<float>("SV1_masssvx");
         if(jetPtr->btagging()->isAvailable<float>("SV1_Lxy")) m_jet_SV1_Lxy[i] = jetPtr->btagging()->auxdata<float>("SV1_Lxy");
         if(jetPtr->btagging()->isAvailable<float>("SV1_L3d")) m_jet_SV1_L3d[i] = jetPtr->btagging()->auxdata<float>("SV1_L3d");
 
-	// const xAOD::BTagging* btag(nullptr);
-	// btag = jetPtr->btagging();
-	// double DL1Flip_tagweight=0;
-	// double DL1Flip_tagweight_get=0;
-	// double DL1Flip_tagweight_hand=0;
-	// double fc=0.08;
-	// DL1Flip_tagweight_hand = log(m_jet_DL1Flip_pb[i]/ (fc* m_jet_DL1Flip_pc[i]+(1-fc)* m_jet_DL1Flip_pu[i]) );
-	// double mvx = -999;
-	// btag->MVx_discriminant("DL1Flip", mvx);
-	// DL1Flip_tagweight = mvx;
 
-	// //btag->getTaggerWeight(m_jet_DL1Flip_pb[i],m_jet_DL1Flip_pc[i],m_jet_DL1Flip_pu[i],DL1Flip_tagweight_get);
-	// std::cout << "jet N = << "<<i<<";  DL1Flip hand = "<< DL1Flip_tagweight_hand  << ",  - - - btag equal to "<< DL1Flip_tagweight << ", tool using getTaggerWeight = "<< DL1Flip_tagweight_get << std::endl;
-	// //m_bts->getTaggerWeight(m_jet_DL1Flip_pb[i],m_jet_DL1Flip_pc[i],m_jet_DL1Flip_pu[i], DL1Flip_tagweight)
-	//std::cout << " DL1Flip_tagweight = "<<  jetPtr->btagging()->getTaggerWeight(m_jet_DL1Flip_pb[i],m_jet_DL1Flip_pc[i],m_jet_DL1Flip_pu[i], DL1Flip_tagweight)<< std::endl;
-
-	//test
+	/*
 	double jet_DL1_pb=0;	double jet_DL1_pc=0;	double jet_DL1_pu=0;
 	if(jetPtr->btagging()->isAvailable<double>("DL1_pb")) jet_DL1_pb = jetPtr->btagging()->auxdata<double>("DL1_pb");
         if(jetPtr->btagging()->isAvailable<double>("DL1_pc")) jet_DL1_pc = jetPtr->btagging()->auxdata<double>("DL1_pc");
         if(jetPtr->btagging()->isAvailable<double>("DL1_pu")) jet_DL1_pu = jetPtr->btagging()->auxdata<double>("DL1_pu");
+	//*/
+	
+	tagweight=-999;	
+	tagweightF=-999;
+	//with tool
+	top::check(m_BTS_DL1->getTaggerWeight( *jetPtr ,tagweight),"can't retrieve getTaggerWeight");
+	m_jet_DL1_h[i]=tagweight;
+	// by hand
+	//m_jet_DL1_h[i] = log(jet_DL1_pb / (fc* jet_DL1_pc+(1-fc)* jet_DL1_pu) );
 
-	m_jet_DL1_h[i] = log(jet_DL1_pb / (fc* jet_DL1_pc+(1-fc)* jet_DL1_pu) );
+	//with tool
+	top::check(m_BTS_DL1->getTaggerWeight( jetPtr->btagging()->auxdata<double>("DL1Flip_pb"),jetPtr->btagging()->auxdata<double>("DL1Flip_pc"),jetPtr->btagging()->auxdata<double>("DL1Flip_pu"),tagweightF),"can't retrieve getTaggerWeight");
+	m_jet_DL1Flip[i]=tagweightF;
+	// by hand 
+	//m_jet_DL1Flip[i]= log(jetPtr->btagging()->auxdata<double>("DL1Flip_pb") / (fc* jetPtr->btagging()->auxdata<double>("DL1Flip_pc")+(1-fc)* jetPtr->btagging()->auxdata<double>("DL1Flip_pu")) );
 
-	//std::cout << " DL1Flip" << m_jet_DL1Flip[i] << ", DL1 = "<<  m_jet_DL1_h[i]<< std::endl;
-
+	top::check(m_jet_tagWeightBin_DL1_Continuous_h[i]=m_BTS_DL1->getQuantile( *jetPtr), "can't retrieve getQuantile");
+	//validate that (*jetPtr) equal to (pt,eta,weight) accessors on nominal DL1;
+	//top::check(m_jet_tagWeightBin_DL1_Continuous_h2[i]=m_BTS_DL1->getQuantile( jetPtr->pt(), jetPtr->eta(),m_jet_DL1_h[i]),"can't retrieve getTaggerWeight");
+	top::check(m_jet_tagWeightBin_DL1Flip_Continuous[i]=m_BTS_DL1->getQuantile( jetPtr->pt(), jetPtr->eta(),m_jet_DL1Flip[i]),"can't retrieve getTaggerWeight");
+	
 	++i;
 
-	/*
-      DL1Flip_tagweight = -999;
-      BTSTool[24]->getTaggerWeight(DL1Flip_pb,DL1Flip_pc,DL1Flip_pu, DL1Flip_tagweight);
-      Props::DL1Flip_w.set( outJet , DL1Flip_tagweight );
-
-	 //*/
+	/* Example of getTaggerWeight usage
+	  DL1Flip_tagweight = -999;
+	  BTSTool[24]->getTaggerWeight(DL1Flip_pb,DL1Flip_pc,DL1Flip_pu, DL1Flip_tagweight);
+	  Props::DL1Flip_w.set( outJet , DL1Flip_tagweight );	  
+	//*/
       }
 
     }
@@ -246,3 +260,5 @@ namespace top{
     return -1;
   }
 }
+
+//  LocalWords:  getTaggerWeight

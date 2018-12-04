@@ -5,6 +5,9 @@
 #include "TopAnalysis/EventSaverFlatNtuple.h"
 #include "TrigDecisionTool/TrigDecisionTool.h"
 
+#include "xAODBTaggingEfficiency/BTaggingSelectionTool.h"
+#include <AsgTools/AnaToolHandle.h>
+
 /**
  * This class extends the flat ntuple to include your own variables
  *
@@ -34,12 +37,15 @@ namespace top{
       static int getBranchStatus(top::TreeManager const *, std::string const & variableName);
 
       ToolHandle<Trig::TrigDecisionTool>     m_trigDecTool;
-      //ToolHandle<BTaggingSelectionTool*>     m_BTS;
+
+      BTaggingSelectionTool* m_BTS_DL1;
+
       //std::map<TString, BTaggingSelectionTool*> m_BTS;
 
     private:
 
       ///
+      const std::vector<std::string> taggers= {"MV2c10","DL1"};
       const std::vector<std::string> bin_trigger= {"HLT_j15", "HLT_j25", "HLT_j60", "HLT_j110", "HLT_j175", "HLT_j420"};
       bool m_isMC;
       bool m_useJets;
@@ -63,6 +69,9 @@ namespace top{
       //New variables for dijet:
       std::vector<float> m_jet_DL1Flip;
       std::vector<float> m_jet_DL1_h;
+
+      std::vector<int> m_jet_tagWeightBin_DL1_Continuous_h;
+      std::vector<int> m_jet_tagWeightBin_DL1Flip_Continuous;
 
       std::map<std::string, Int_t> m_trigger;
       std::map<std::string, Float_t> m_trigger_ps;

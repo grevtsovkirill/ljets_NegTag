@@ -13,6 +13,7 @@ atlas_depends_on_subdirs(
    PhysicsAnalysis/TopPhys/xAOD/TopEvent
    PhysicsAnalysis/TopPhys/xAOD/TopEventSelectionTools
    PhysicsAnalysis/TopPhys/xAOD/TopConfiguration
+   Event/xAOD/xAODBTagging
 )
 
 # External(s) used by the package:
@@ -28,7 +29,7 @@ atlas_add_library( DiJetCalibrationLib
    DiJetCalibration/*.h Root/*.h Root/*.cxx ${DiJetCalibrationLibDictSrc}
    PUBLIC_HEADERS DiJetCalibration
    PRIVATE_INCLUDE_DIRS ${ROOT_INCLUDE_DIRS}
-   LINK_LIBRARIES TopAnalysis TopEvent TopEventSelectionTools TopConfiguration
+   LINK_LIBRARIES TopAnalysis TopEvent TopEventSelectionTools TopConfiguration xAODBTaggingEfficiencyLib
    PRIVATE_LINK_LIBRARIES ${ROOT_LIBRARIES}
 )
 
