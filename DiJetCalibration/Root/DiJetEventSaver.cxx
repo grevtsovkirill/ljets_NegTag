@@ -10,7 +10,8 @@ namespace top{
   ///-- Constrcutor --///
   DiJetEventSaver::DiJetEventSaver():
     m_trigDecTool("Trig::TrigDecisionTool"),
-    m_BTS_DL1()
+    m_BTS_DL1(),
+    m_BTS_MV2c10()
     //m_BTS("BTaggingSelectionTool::BTaggingSelectionTool")
     //m_HLT_j15(-999),
     //m_eve_HLT_j15_ps(-999)
@@ -33,6 +34,9 @@ namespace top{
     
     m_jet_tagWeightBin_DL1_Continuous_h = std::vector<int>();
     m_jet_tagWeightBin_DL1Flip_Continuous = std::vector<int>();
+
+    m_jet_tagWeightBin_MV2c10_Continuous_h = std::vector<int>();
+    m_jet_tagWeightBin_MV2c10Flip_Continuous = std::vector<int>();
   }
 
   ///-- initialize - done once at the start of a job before the loop over events --///
@@ -48,9 +52,8 @@ namespace top{
     ///-- It will setup TTrees for each systematic with a standard set of variables --///
     top::EventSaverFlatNtuple::initialize(config, file, extraBranches);
     
-    std::cout<< "in DiJetEventSaver::initialize:BTaggingSelectionTool ============================" << std::endl;
-    //BTaggingSelectionTool * 
-    m_BTS_DL1 = new BTaggingSelectionTool("test_tool");
+
+    m_BTS_DL1 = new BTaggingSelectionTool("DL1_cont_tool");
     top::check( m_BTS_DL1->setProperty("FlvTagCutDefinitionsFileName", "xAODBTaggingEfficiency/13TeV/2017-21-13TeV-MC16-CDI-2018-02-09_v1.root")  ,"BTaggingSelectionTool failed to set FlvTagCutDefinitionsFileName!"); 
     top::check( m_BTS_DL1->setProperty("MaxEta", 2.5)  , "BTaggingSelectionTool failed to set MaxEta!"); 
     top::check( m_BTS_DL1->setProperty("MinPt", 20000.)  , "BTaggingSelectionTool failed to set MinPt!"); 
@@ -58,9 +61,15 @@ namespace top{
     top::check( m_BTS_DL1->setProperty("TaggerName", "DL1")  ,"BTaggingSelectionTool failed to set TaggerName!"); 
     top::check( m_BTS_DL1->setProperty("OperatingPoint", "Continuous")  ,"BTaggingSelectionTool failed to set WP!");
     top::check( m_BTS_DL1->initialize(), "BTaggingSelectionTool failed to initialize!"); 
-    std::cout<< "in DiJetEventSaver::initialize:BTaggingSelectionTool: def" << std::endl;
-    //m_BTS_DL1->initialize();
-    m_BTS_DL1->print();
+
+    m_BTS_MV2c10 = new BTaggingSelectionTool("MV2c10_cont_tool");
+    top::check( m_BTS_MV2c10->setProperty("FlvTagCutDefinitionsFileName", "xAODBTaggingEfficiency/13TeV/2017-21-13TeV-MC16-CDI-2018-02-09_v1.root")  ,"BTaggingSelectionTool failed to set FlvTagCutDefinitionsFileName!"); 
+    top::check( m_BTS_MV2c10->setProperty("MaxEta", 2.5)  , "BTaggingSelectionTool failed to set MaxEta!"); 
+    top::check( m_BTS_MV2c10->setProperty("MinPt", 20000.)  , "BTaggingSelectionTool failed to set MinPt!"); 
+    top::check( m_BTS_MV2c10->setProperty("JetAuthor", "AntiKt4EMTopoJets"), "BTaggingSelectionTool failed to set JetAuthor!"); 
+    top::check( m_BTS_MV2c10->setProperty("TaggerName", "MV2c10")  ,"BTaggingSelectionTool failed to set TaggerName!"); 
+    top::check( m_BTS_MV2c10->setProperty("OperatingPoint", "Continuous")  ,"BTaggingSelectionTool failed to set WP!");
+    top::check( m_BTS_MV2c10->initialize(), "BTaggingSelectionTool failed to initialize!"); 
 
 
     ///-- Loop over the systematic TTrees and add the custom variables --///
@@ -80,6 +89,9 @@ namespace top{
 
       systematicTree->makeOutputVariable(m_jet_tagWeightBin_DL1_Continuous_h, "jet_tagWeightBin_DL1_Continuous_h");
       systematicTree->makeOutputVariable(m_jet_tagWeightBin_DL1Flip_Continuous, "jet_tagWeightBin_DL1Flip_Continuous");
+
+      systematicTree->makeOutputVariable(m_jet_tagWeightBin_MV2c10_Continuous_h, "jet_tagWeightBin_MV2c10_Continuous_h");
+      systematicTree->makeOutputVariable(m_jet_tagWeightBin_MV2c10Flip_Continuous, "jet_tagWeightBin_MV2c10Flip_Continuous");
       
       for (auto &trigName : bin_trigger) {
 	const std::string trig_name = trigName; 
@@ -114,6 +126,8 @@ namespace top{
       m_jet_DL1Flip.resize(event.m_jets.size());
       m_jet_tagWeightBin_DL1_Continuous_h.resize(event.m_jets.size());
       m_jet_tagWeightBin_DL1Flip_Continuous.resize(event.m_jets.size());
+      m_jet_tagWeightBin_MV2c10_Continuous_h.resize(event.m_jets.size());
+      m_jet_tagWeightBin_MV2c10Flip_Continuous.resize(event.m_jets.size());
 
       //std::cout<< " ==================== event number  = " << event.m_info->auxdata<unsigned int>("runNumber") << std::endl;
 
@@ -174,6 +188,8 @@ namespace top{
 	  
 	m_jet_tagWeightBin_DL1_Continuous_h[i]=-999;
 	m_jet_tagWeightBin_DL1Flip_Continuous[i]=-999;
+	m_jet_tagWeightBin_MV2c10_Continuous_h[i]=-999;
+	m_jet_tagWeightBin_MV2c10Flip_Continuous[i]=-999;
 
 	// Official jet truth frlavour:
 	// jet_truthflav = HadronConeExclTruthLabelID
@@ -235,6 +251,11 @@ namespace top{
 	//top::check(m_jet_tagWeightBin_DL1_Continuous_h2[i]=m_BTS_DL1->getQuantile( jetPtr->pt(), jetPtr->eta(),m_jet_DL1_h[i]),"can't retrieve getTaggerWeight");
 	top::check(m_jet_tagWeightBin_DL1Flip_Continuous[i]=m_BTS_DL1->getQuantile( jetPtr->pt(), jetPtr->eta(),m_jet_DL1Flip[i]),"can't retrieve getTaggerWeight");
 	
+
+
+	top::check(m_jet_tagWeightBin_MV2c10_Continuous_h[i]=m_BTS_MV2c10->getQuantile( *jetPtr), "can't retrieve getQuantile");
+	top::check(m_jet_tagWeightBin_MV2c10Flip_Continuous[i]=m_BTS_MV2c10->getQuantile( jetPtr->pt(), jetPtr->eta(),m_jet_MV2c10Flip[i]),"can't retrieve getTaggerWeight");
+
 	++i;
 
 	/* Example of getTaggerWeight usage
