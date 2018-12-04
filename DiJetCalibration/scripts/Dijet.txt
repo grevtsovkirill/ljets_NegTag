@@ -1,7 +1,7 @@
 LibraryNames libTopEventSelectionTools libTopEventReconstructionTools libDiJetCalibrationLib
 
 # For testing only
-#NEvents 100
+NEvents 100
 
 ### Good Run List - 2015 + 2016
 GRLDir  GoodRunsLists
@@ -77,8 +77,9 @@ MCGeneratorWeights Nominal
 # KG
 JetPt 20000
 JetEta 2.5
-BTaggingWP None
-BTagVariableSaveList None
+#BTaggingWP None
+BTaggingWP MV2c10:Continuous DL1:Continuous MV2c10:FixedCutBEff_60 MV2c10:FixedCutBEff_70 MV2c10:FixedCutBEff_77 MV2c10:FixedCutBEff_85 DL1:FixedCutBEff_60 DL1:FixedCutBEff_70 DL1:FixedCutBEff_77 DL1:FixedCutBEff_85 
+#BTagVariableSaveList 60
 
 # DoTight/DoLoose to activate the loose and tight trees
 # each should be one in: Data, MC, Both, False
