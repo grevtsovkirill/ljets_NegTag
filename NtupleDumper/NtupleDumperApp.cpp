@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
     cout << "## running mc " << period_slice[0] << " ##" << endl;
     filename = "res/mc16"+reco_comp[0]+"_" + period_slice[0] + ".root";
     // if -split mode activated, create one file per systematic
-    if(file_per_syst) filename = "res/s20p_mc16"+reco_comp[0]+"_" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
+    if(file_per_syst) filename = "res/mc16"+reco_comp[0]+"_" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
   }
   else{
     cout << "## running data " << period_slice[0] << " ##" << endl;
