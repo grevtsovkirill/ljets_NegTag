@@ -40,4 +40,4 @@ atlas_install_scripts( scripts/* macros/*)
 atlas_install_python_modules( python/*.py )
 
 # Install data files from the package:
-atlas_install_data( data/* )
+atlas_install_data( scripts/* )
