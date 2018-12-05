@@ -63,6 +63,8 @@ void NtupleDumper::Loop()
   outtree->Branch("tightBad",tightBad,"tightBad[njets]/I");
   outtree->Branch("flavor",flavor,"flavor[njets]/I");
 
+  outtree->Branch("data_evtweight", data_evtweight, "data_evtweight[njets]/F");
+
   /*
   outtree->Branch("jetHasKShort",jetHasKShort, "jetHasKShort[njets]/I");
   outtree->Branch("jetHasLambda", jetHasLambda, "jetHasLambda[njets]/I");
@@ -77,7 +79,6 @@ void NtupleDumper::Loop()
   outtree->Branch("ntrack_JetFitterFlip",ntrack_JetFitterFlip,"ntrack_JetFitterFlip[njets]/I");
   outtree->Branch("ntrack_JetFitter",ntrack_JetFitter,"ntrack_JetFitter[njets]/I");
   
-  outtree->Branch("data_evtweight", data_evtweight, "data_evtweight[njets]/F");
 
   outtree->Branch("jettruthpt", jettruthpt, "jettruthpt[njets]/F");
   outtree->Branch("jettrutheta", jettrutheta, "jettrutheta[njets]/F");
