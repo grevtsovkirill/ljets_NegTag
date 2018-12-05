@@ -26,16 +26,16 @@ namespace top{
     m_jet_SV1_masssvx = std::vector<float>();
     m_jet_SV1_Lxy = std::vector<float>();
     m_jet_SV1_L3d = std::vector<float>();
-    m_jet_DL1_h = std::vector<float>();
+    //m_jet_DL1_h = std::vector<float>();
     m_jet_DL1Flip = std::vector<float>();
     //trig_ps = std::map<std::string, std::pair<int,float>>();
     m_trigger = std::map<std::string, Int_t>();
     m_trigger_ps = std::map<std::string, Float_t>();
     
-    m_jet_tagWeightBin_DL1_Continuous_h = std::vector<int>();
+    //m_jet_tagWeightBin_DL1_Continuous_h = std::vector<int>();
     m_jet_tagWeightBin_DL1Flip_Continuous = std::vector<int>();
 
-    m_jet_tagWeightBin_MV2c10_Continuous_h = std::vector<int>();
+    //m_jet_tagWeightBin_MV2c10_Continuous_h = std::vector<int>();
     m_jet_tagWeightBin_MV2c10Flip_Continuous = std::vector<int>();
   }
 
@@ -77,7 +77,7 @@ namespace top{
       std::cout<< "     in systematicTree loop" << std::endl;
       systematicTree->makeOutputVariable(m_jet_truthflavExtended, "jet_truthflavExtended");
       systematicTree->makeOutputVariable(m_jet_MV2c10Flip, "jet_mv2c10Flip");
-      systematicTree->makeOutputVariable(m_jet_DL1_h, "jet_DL1_h");
+      //systematicTree->makeOutputVariable(m_jet_DL1_h, "jet_DL1_h");
       systematicTree->makeOutputVariable(m_jet_DL1Flip, "jet_DL1Flip");
       systematicTree->makeOutputVariable(m_jet_DL1Flip_pb, "jet_DL1Flip_pb");
       systematicTree->makeOutputVariable(m_jet_DL1Flip_pc, "jet_DL1Flip_pc");
@@ -87,10 +87,10 @@ namespace top{
       systematicTree->makeOutputVariable(m_jet_SV1_Lxy, "jet_SV1_Lxy");
       systematicTree->makeOutputVariable(m_jet_SV1_L3d, "jet_SV1_L3d");
 
-      systematicTree->makeOutputVariable(m_jet_tagWeightBin_DL1_Continuous_h, "jet_tagWeightBin_DL1_Continuous_h");
+      //systematicTree->makeOutputVariable(m_jet_tagWeightBin_DL1_Continuous_h, "jet_tagWeightBin_DL1_Continuous_h");
       systematicTree->makeOutputVariable(m_jet_tagWeightBin_DL1Flip_Continuous, "jet_tagWeightBin_DL1Flip_Continuous");
 
-      systematicTree->makeOutputVariable(m_jet_tagWeightBin_MV2c10_Continuous_h, "jet_tagWeightBin_MV2c10_Continuous_h");
+      //systematicTree->makeOutputVariable(m_jet_tagWeightBin_MV2c10_Continuous_h, "jet_tagWeightBin_MV2c10_Continuous_h");
       systematicTree->makeOutputVariable(m_jet_tagWeightBin_MV2c10Flip_Continuous, "jet_tagWeightBin_MV2c10Flip_Continuous");
       
       for (auto &trigName : bin_trigger) {
@@ -122,11 +122,11 @@ namespace top{
       m_jet_SV1_Lxy.resize(event.m_jets.size());
       m_jet_SV1_L3d.resize(event.m_jets.size());
 
-      m_jet_DL1_h.resize(event.m_jets.size());
+      //m_jet_DL1_h.resize(event.m_jets.size());
       m_jet_DL1Flip.resize(event.m_jets.size());
-      m_jet_tagWeightBin_DL1_Continuous_h.resize(event.m_jets.size());
+      //m_jet_tagWeightBin_DL1_Continuous_h.resize(event.m_jets.size());
       m_jet_tagWeightBin_DL1Flip_Continuous.resize(event.m_jets.size());
-      m_jet_tagWeightBin_MV2c10_Continuous_h.resize(event.m_jets.size());
+      //m_jet_tagWeightBin_MV2c10_Continuous_h.resize(event.m_jets.size());
       m_jet_tagWeightBin_MV2c10Flip_Continuous.resize(event.m_jets.size());
 
       //std::cout<< " ==================== event number  = " << event.m_info->auxdata<unsigned int>("runNumber") << std::endl;
@@ -183,12 +183,12 @@ namespace top{
 	m_jet_SV1_masssvx[i] = -999;
 	m_jet_SV1_Lxy[i] = -999;
 	m_jet_SV1_L3d[i] = -999;
-	m_jet_DL1_h[i] = -999;
+	//m_jet_DL1_h[i] = -999;
 	m_jet_DL1Flip[i] = -999;
 	  
-	m_jet_tagWeightBin_DL1_Continuous_h[i]=-999;
+	//m_jet_tagWeightBin_DL1_Continuous_h[i]=-999;
 	m_jet_tagWeightBin_DL1Flip_Continuous[i]=-999;
-	m_jet_tagWeightBin_MV2c10_Continuous_h[i]=-999;
+	//m_jet_tagWeightBin_MV2c10_Continuous_h[i]=-999;
 	m_jet_tagWeightBin_MV2c10Flip_Continuous[i]=-999;
 
 	// Official jet truth frlavour:
@@ -236,7 +236,7 @@ namespace top{
 	tagweightF=-999;
 	//with tool
 	top::check(m_BTS_DL1->getTaggerWeight( *jetPtr ,tagweight),"can't retrieve getTaggerWeight");
-	m_jet_DL1_h[i]=tagweight;
+	//m_jet_DL1_h[i]=tagweight;
 	// by hand
 	//m_jet_DL1_h[i] = log(jet_DL1_pb / (fc* jet_DL1_pc+(1-fc)* jet_DL1_pu) );
 
@@ -246,14 +246,14 @@ namespace top{
 	// by hand 
 	//m_jet_DL1Flip[i]= log(jetPtr->btagging()->auxdata<double>("DL1Flip_pb") / (fc* jetPtr->btagging()->auxdata<double>("DL1Flip_pc")+(1-fc)* jetPtr->btagging()->auxdata<double>("DL1Flip_pu")) );
 
-	top::check(m_jet_tagWeightBin_DL1_Continuous_h[i]=m_BTS_DL1->getQuantile( *jetPtr), "can't retrieve getQuantile");
+	//top::check(m_jet_tagWeightBin_DL1_Continuous_h[i]=m_BTS_DL1->getQuantile( *jetPtr), "can't retrieve getQuantile");
 	//validate that (*jetPtr) equal to (pt,eta,weight) accessors on nominal DL1;
 	//top::check(m_jet_tagWeightBin_DL1_Continuous_h2[i]=m_BTS_DL1->getQuantile( jetPtr->pt(), jetPtr->eta(),m_jet_DL1_h[i]),"can't retrieve getTaggerWeight");
 	top::check(m_jet_tagWeightBin_DL1Flip_Continuous[i]=m_BTS_DL1->getQuantile( jetPtr->pt(), jetPtr->eta(),m_jet_DL1Flip[i]),"can't retrieve getTaggerWeight");
 	
 
 
-	top::check(m_jet_tagWeightBin_MV2c10_Continuous_h[i]=m_BTS_MV2c10->getQuantile( *jetPtr), "can't retrieve getQuantile");
+	//top::check(m_jet_tagWeightBin_MV2c10_Continuous_h[i]=m_BTS_MV2c10->getQuantile( *jetPtr), "can't retrieve getQuantile");
 	top::check(m_jet_tagWeightBin_MV2c10Flip_Continuous[i]=m_BTS_MV2c10->getQuantile( jetPtr->pt(), jetPtr->eta(),m_jet_MV2c10Flip[i]),"can't retrieve getTaggerWeight");
 
 	++i;
@@ -278,6 +278,10 @@ namespace top{
     // e.g. add a condition like if (m_config->systematicName(treeManager->name() != "nominal")
     //if (variableName == "el_pt") return 0;
     if (variableName.find("el_")!=std::string::npos || variableName.find("mu_")!=std::string::npos) return 0;
+    if (variableName == "jet_mv2c00" || variableName == "jet_mv2c20") return 0;
+    if (variableName.find("jet_MV2")!=std::string::npos) return 0;
+    if (variableName.find("jet_DL1r")!=std::string::npos) return 0;
+    if (variableName.find("weight_lepton")!=std::string::npos || variableName.find("weight_oldTrigger")!=std::string::npos || variableName.find("weight_indiv")!=std::string::npos) return 0;
     return -1;
   }
 }

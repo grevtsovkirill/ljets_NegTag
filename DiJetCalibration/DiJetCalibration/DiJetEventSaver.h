@@ -69,12 +69,12 @@ namespace top{
 
       //New variables for dijet:
       std::vector<float> m_jet_DL1Flip;
-      std::vector<float> m_jet_DL1_h;
+      //std::vector<float> m_jet_DL1_h;
 
-      std::vector<int> m_jet_tagWeightBin_DL1_Continuous_h;
+      //std::vector<int> m_jet_tagWeightBin_DL1_Continuous_h;
       std::vector<int> m_jet_tagWeightBin_DL1Flip_Continuous;
 
-      std::vector<int> m_jet_tagWeightBin_MV2c10_Continuous_h;
+      //std::vector<int> m_jet_tagWeightBin_MV2c10_Continuous_h;
       std::vector<int> m_jet_tagWeightBin_MV2c10Flip_Continuous;
 
       std::map<std::string, Int_t> m_trigger;
