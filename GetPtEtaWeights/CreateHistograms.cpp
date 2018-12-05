@@ -103,7 +103,7 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
 
 
   // nominal histo filled except if bootstrap_bkeeper<=1 or isSyst
-  if (!m_systematic.EqualTo("FlavourTagging_Nominal") || bootstrap_bkeeper<=1 )
+  if (!m_systematic.EqualTo("nominal") || bootstrap_bkeeper<=1 )
   {
     //----------event-wide----------//
     h_njets_event_mc_w = new TH1D("njets_event_mc_w", "", 20, 0, 20); 
@@ -189,6 +189,7 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
 
     // 2D - kinematics
     h_pteta2_mc_w = new TH2D("pteta2_mc_w", "", conf::n_pt, conf::pt_lowedges, conf::n_eta, conf::eta_lowedges);
+    /*
     // 2D - ntrk
     h_ntrk_IP3DNeg_pt2_mc_w = new TH2D("ntrk_IP3DNeg_pt2_mc_w","",25, 0, 25, conf::n_pt, conf::pt_lowedges);
     h_ntrk_IP3D_pt2_mc_w = new TH2D("ntrk_IP3D_pt2_mc_w","",25, 0, 25, conf::n_pt, conf::pt_lowedges);
@@ -198,7 +199,7 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
     h_ntrk_SV1_pt2_mc_w = new TH2D("ntrk_SV1_pt2_mc_w","",25, 0, 25, conf::n_pt, conf::pt_lowedges);
     h_ntrk_JetFitterFlip_pt2_mc_w = new TH2D("ntrk_JetFitterFlip_pt2_mc_w","",25, 0, 25, conf::n_pt, conf::pt_lowedges);
     h_ntrk_JetFitter_pt2_mc_w = new TH2D("ntrk_JetFitter_pt2_mc_w","",25, 0, 25, conf::n_pt, conf::pt_lowedges);
-
+    //*/
     // Correct uncertainties for weighted histograms
     h_njets_event_mc_w->Sumw2();
     h_averageInteractionsPerCrossing_mc_w->Sumw2();
@@ -209,6 +210,9 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
     h_eta_thin1_mc_w->Sumw2();
     h_phi1_mc_w->Sumw2();
 
+    h_pteta1_mc_w->Sumw2();
+
+    /*
     h_ntrk_IP3DNeg1_mc_w->Sumw2();
     h_ntrk_IP3D1_mc_w->Sumw2();
     h_ntrk_IP2DNeg1_mc_w->Sumw2();
@@ -218,7 +222,6 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
     h_ntrk_JetFitterFlip1_mc_w->Sumw2();
     h_ntrk_JetFitter1_mc_w->Sumw2();
 
-    h_pteta1_mc_w->Sumw2();
 
     h_ntrk_IP3DNeg_pt1_mc_w->Sumw2();
     h_ntrk_IP3D_pt1_mc_w->Sumw2();
@@ -228,13 +231,16 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
     h_ntrk_SV1_pt1_mc_w->Sumw2();
     h_ntrk_JetFitterFlip_pt1_mc_w->Sumw2();
     h_ntrk_JetFitter_pt1_mc_w->Sumw2();
+    //*/
 
     h_pt2_mc_w->Sumw2();
     h_eta2_mc_w->Sumw2();
     h_pt_thin2_mc_w->Sumw2();
     h_eta_thin2_mc_w->Sumw2();
     h_phi2_mc_w->Sumw2();
- 
+    h_pteta2_mc_w->Sumw2();
+
+    /* 
     h_ntrk_IP3DNeg2_mc_w->Sumw2();
     h_ntrk_IP3D2_mc_w->Sumw2();
     h_ntrk_IP2DNeg2_mc_w->Sumw2();
@@ -244,7 +250,6 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
     h_ntrk_JetFitterFlip2_mc_w->Sumw2();
     h_ntrk_JetFitter2_mc_w->Sumw2();
    
-    h_pteta2_mc_w->Sumw2();
 
     h_ntrk_IP3DNeg_pt2_mc_w->Sumw2();
     h_ntrk_IP3D_pt2_mc_w->Sumw2();
@@ -254,6 +259,7 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
     h_ntrk_SV1_pt2_mc_w->Sumw2();
     h_ntrk_JetFitterFlip_pt2_mc_w->Sumw2();
     h_ntrk_JetFitter_pt2_mc_w->Sumw2();
+    //*/
   }
 
 
@@ -264,7 +270,7 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
   TH2D* array_h_pteta1_mc_w[2];
   TH2D* array_h_pteta2_mc_w[2];
 
-  if (m_systematic.EqualTo("FlavourTagging_Nominal") && bootstrap_bkeeper>0)
+  if (m_systematic.EqualTo("nominal") && bootstrap_bkeeper>0)
   {
      for(int ibootstrap=0; ibootstrap<2; ibootstrap++)
      {
@@ -359,12 +365,12 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
 	  if(isleading[j] && jetpass_leading==0 && jetpass_subleading<2 )
 	    {
               // nominal histo filled except if bootstrap_bkeeper<=1 or isSyst
-              if (!m_systematic.EqualTo("FlavourTagging_Nominal") || bootstrap_bkeeper<=1 )
+              if (!m_systematic.EqualTo("nominal") || bootstrap_bkeeper<=1 )
               {
                 h_njets_event_mc_w->Fill(njets_event, weight);
                 h_averageInteractionsPerCrossing_mc_w->Fill(evt_averageInteractionsPerCrossing, weight);
 
-		if(debug == 1) cout <<"          LEADING: !m_systematic.EqualTo(FlavourTagging_Nominal) || bootstrap_bkeeper<=1: fill h_pt1_mc_w = "<<ptj<<", weight= "<< weight << endl ;
+		if(debug == 1) cout <<"          LEADING: !m_systematic.EqualTo(nominal) || bootstrap_bkeeper<=1: fill h_pt1_mc_w = "<<ptj<<", weight= "<< weight << endl ;
  
   	        h_pt1_mc_w->Fill(ptj, weight);
   	        h_eta1_mc_w->Fill(eta_abs, weight);
@@ -390,6 +396,8 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
                   k++;
                 }
 
+  	        h_pteta1_mc_w->Fill(ptj, eta_abs, weight);
+		/*
                 h_ntrk_IP3DNeg1_mc_w->Fill(ntracks_IP3DNeg, weight);
                 h_ntrk_IP3D1_mc_w->Fill(ntracks_IP3D, weight);
                 h_ntrk_IP2DNeg1_mc_w->Fill(ntracks_IP2DNeg, weight);
@@ -399,7 +407,6 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
                 h_ntrk_JetFitterFlip1_mc_w->Fill(ntracks_JetFitterFlip, weight);
                 h_ntrk_JetFitter1_mc_w->Fill(ntracks_JetFitter, weight);
 
-  	        h_pteta1_mc_w->Fill(ptj, eta_abs, weight);
 
                 h_ntrk_IP3DNeg_pt1_mc_w->Fill(ntracks_IP3DNeg, ptj, weight);
                 h_ntrk_IP3D_pt1_mc_w->Fill(ntracks_IP3D, ptj, weight);
@@ -409,10 +416,11 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
                 h_ntrk_SV1_pt1_mc_w->Fill(ntracks_SV1, ptj, weight);
                 h_ntrk_JetFitterFlip_pt1_mc_w->Fill(ntracks_JetFitterFlip, ptj, weight);
                 h_ntrk_JetFitter_pt1_mc_w->Fill(ntracks_JetFitter, ptj, weight);
+		//*/
               }
 
               // bootstrap replicas
-              if (m_systematic.EqualTo("FlavourTagging_Nominal") && bootstrap_bkeeper>0)
+              if (m_systematic.EqualTo("nominal") && bootstrap_bkeeper>0)
               {
                 for(int ibootstrap=0; ibootstrap<2; ibootstrap++)
                 {
@@ -455,9 +463,9 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
 	      else if(jetpass_subleading!=0 || jetpass_leading>1) continue;
 	      if(debug == 1) cout <<"        pass else if(jetpass_subleading!=0 || jetpass_leading>1)  ; entering !m_systematic.Equa stuff" << endl;
               // nominal histo filled except if bootstrap_bkeeper<=1 or isSyst
-              if (!m_systematic.EqualTo("FlavourTagging_Nominal") || bootstrap_bkeeper<=1 )
+              if (!m_systematic.EqualTo("nominal") || bootstrap_bkeeper<=1 )
               {
-		if(debug == 1) cout <<"        @S @U @B-  LEADING: !m_systematic.EqualTo(FlavourTagging_Nominal) || bootstrap_bkeeper<=1: fill h_pt2_mc_w = "<<ptj<<", weight= "<< weight << endl ;
+		if(debug == 1) cout <<"        @S @U @B-  LEADING: !m_systematic.EqualTo(nominal) || bootstrap_bkeeper<=1: fill h_pt2_mc_w = "<<ptj<<", weight= "<< weight << endl ;
 
   	        h_pt2_mc_w->Fill(ptj, weight);
   	        h_eta2_mc_w->Fill(eta_abs, weight);
@@ -483,6 +491,10 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
                   k++;
                 }
 
+
+  	        h_pteta2_mc_w->Fill(ptj, eta_abs, weight);
+
+		/*
                 h_ntrk_IP3DNeg2_mc_w->Fill(ntracks_IP3DNeg, weight);
                 h_ntrk_IP3D2_mc_w->Fill(ntracks_IP3D, weight);
                 h_ntrk_IP2DNeg2_mc_w->Fill(ntracks_IP2DNeg, weight);
@@ -492,8 +504,6 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
                 h_ntrk_JetFitterFlip2_mc_w->Fill(ntracks_JetFitterFlip, weight);
                 h_ntrk_JetFitter2_mc_w->Fill(ntracks_JetFitter, weight);
 
-  	        h_pteta2_mc_w->Fill(ptj, eta_abs, weight);
-
                 h_ntrk_IP3DNeg_pt2_mc_w->Fill(ntracks_IP3DNeg, ptj, weight);
                 h_ntrk_IP3D_pt2_mc_w->Fill(ntracks_IP3D, ptj, weight);
                 h_ntrk_IP2DNeg_pt2_mc_w->Fill(ntracks_IP2DNeg, ptj, weight);
@@ -502,11 +512,11 @@ void CreateHistograms::Loop(int bootstrap_bkeeper=0)
                 h_ntrk_SV1_pt2_mc_w->Fill(ntracks_SV1, ptj, weight);
                 h_ntrk_JetFitterFlip_pt2_mc_w->Fill(ntracks_JetFitterFlip, ptj, weight);
                 h_ntrk_JetFitter_pt2_mc_w->Fill(ntracks_JetFitter, ptj, weight);
-
+		//*/
               }
 
               // bootstrap replicas
-              if (m_systematic.EqualTo("FlavourTagging_Nominal") && bootstrap_bkeeper>0)
+              if (m_systematic.EqualTo("nominal") && bootstrap_bkeeper>0)
               {
                 for(int ibootstrap=0; ibootstrap<2; ibootstrap++)
                 {

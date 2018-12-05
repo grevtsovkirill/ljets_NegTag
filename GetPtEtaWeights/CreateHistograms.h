@@ -87,6 +87,7 @@ public :
    TBranch        *b_jetpass;   //!
    TBranch        *b_isleading;   //!
 
+   /*
    TBranch        *b_ntrack_IP3DNeg; //!
    TBranch        *b_ntrack_IP3D; //!
    TBranch        *b_ntrack_IP2DNeg; //!
@@ -95,13 +96,16 @@ public :
    TBranch        *b_ntrack_SV1; //!
    TBranch        *b_ntrack_JetFitterFlip; //!
    TBranch        *b_ntrack_JetFitter; //!
+   */
 
    TBranch        *b_data_evtweight;   //!
 
+   /*
    TBranch        *b_jetHasKShort; //!
    TBranch        *b_jetHasLambda; //!
    TBranch        *b_jetHasConversion; //!
    TBranch        *b_jetHasHadMatInt; //!
+   //*/
 
    CreateHistograms(TTree *tree=0, TString="FlavourTagging_Nominal");
    virtual ~CreateHistograms();
@@ -199,9 +203,11 @@ void CreateHistograms::Init(TTree *tree)
 
   fChain->SetBranchAddress("jetphi", jetphi, &b_jetphi);
   fChain->SetBranchAddress("flavor", flavor, &b_flavor);
-  fChain->SetBranchAddress("jetpass", jetpass, &b_jetpass);
+  //fChain->SetBranchAddress("jetpass", jetpass, &b_jetpass);
   fChain->SetBranchAddress("isleading", isleading, &b_isleading);
 
+  fChain->SetBranchAddress("data_evtweight", data_evtweight, &b_data_evtweight);
+  /*
   fChain->SetBranchAddress("ntrack_IP3DNeg", ntrack_IP3DNeg, &b_ntrack_IP3DNeg);
   fChain->SetBranchAddress("ntrack_IP3D", ntrack_IP3D, &b_ntrack_IP3D);
   fChain->SetBranchAddress("ntrack_IP2DNeg", ntrack_IP2DNeg, &b_ntrack_IP2DNeg);
@@ -211,13 +217,11 @@ void CreateHistograms::Init(TTree *tree)
   fChain->SetBranchAddress("ntrack_JetFitterFlip", ntrack_JetFitterFlip, &b_ntrack_JetFitterFlip);
   fChain->SetBranchAddress("ntrack_JetFitter", ntrack_JetFitter, &b_ntrack_JetFitter);
 
-  fChain->SetBranchAddress("data_evtweight", data_evtweight, &b_data_evtweight);
-
   fChain->SetBranchAddress("jetHasKShort", jetHasKShort, &b_jetHasKShort);
   fChain->SetBranchAddress("jetHasLambda", jetHasLambda, &b_jetHasLambda);
   fChain->SetBranchAddress("jetHasConversion", jetHasConversion, &b_jetHasConversion);
   fChain->SetBranchAddress("jetHasHadMatInt", jetHasHadMatInt, &b_jetHasHadMatInt);
-
+  //*/
    for (const auto &name: subtagger::floats){
      fChain->SetBranchAddress(name.first.c_str(), &float_subtagger[name.first]);
    }
