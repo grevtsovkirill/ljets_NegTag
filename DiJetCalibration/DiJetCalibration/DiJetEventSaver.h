@@ -51,6 +51,7 @@ namespace top{
       bool m_isMC;
       bool m_useJets;
       bool m_useTrackJets;
+      std::string m_sgKeyJets;
 
       ///-- Some additional custom variables for the output --///
       std::vector<int> m_jet_truthflavExtended;

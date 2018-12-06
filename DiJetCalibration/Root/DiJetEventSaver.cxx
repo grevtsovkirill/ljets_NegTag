@@ -47,17 +47,21 @@ namespace top{
     m_useJets = config->useJets();
     m_useTrackJets = config->useTrackJets();
     m_isMC = config->isMC();
-
+    m_sgKeyJets = config->sgKeyJets();
+    // description of TopConfig:
+    //https://gitlab.cern.ch/atlas/athena/blob/21.2/PhysicsAnalysis/TopPhys/xAOD/TopConfiguration/Root/TopConfig.cxx#L1203
+    //std::cout<< "m_useJets "<< m_useJets << ", m_sgKeyJets "<< config->sgKeyJets()<< std::endl; 
     ///-- Let the base class do all the hard work --///
     ///-- It will setup TTrees for each systematic with a standard set of variables --///
     top::EventSaverFlatNtuple::initialize(config, file, extraBranches);
     
 
+    //*
     m_BTS_DL1 = new BTaggingSelectionTool("DL1_cont_tool");
     top::check( m_BTS_DL1->setProperty("FlvTagCutDefinitionsFileName", "xAODBTaggingEfficiency/13TeV/2017-21-13TeV-MC16-CDI-2018-02-09_v1.root")  ,"BTaggingSelectionTool failed to set FlvTagCutDefinitionsFileName!"); 
     top::check( m_BTS_DL1->setProperty("MaxEta", 2.5)  , "BTaggingSelectionTool failed to set MaxEta!"); 
     top::check( m_BTS_DL1->setProperty("MinPt", 20000.)  , "BTaggingSelectionTool failed to set MinPt!"); 
-    top::check( m_BTS_DL1->setProperty("JetAuthor", "AntiKt4EMTopoJets"), "BTaggingSelectionTool failed to set JetAuthor!"); 
+    top::check( m_BTS_DL1->setProperty("JetAuthor", m_sgKeyJets), "BTaggingSelectionTool failed to set JetAuthor!"); 
     top::check( m_BTS_DL1->setProperty("TaggerName", "DL1")  ,"BTaggingSelectionTool failed to set TaggerName!"); 
     top::check( m_BTS_DL1->setProperty("OperatingPoint", "Continuous")  ,"BTaggingSelectionTool failed to set WP!");
     top::check( m_BTS_DL1->initialize(), "BTaggingSelectionTool failed to initialize!"); 
@@ -66,11 +70,12 @@ namespace top{
     top::check( m_BTS_MV2c10->setProperty("FlvTagCutDefinitionsFileName", "xAODBTaggingEfficiency/13TeV/2017-21-13TeV-MC16-CDI-2018-02-09_v1.root")  ,"BTaggingSelectionTool failed to set FlvTagCutDefinitionsFileName!"); 
     top::check( m_BTS_MV2c10->setProperty("MaxEta", 2.5)  , "BTaggingSelectionTool failed to set MaxEta!"); 
     top::check( m_BTS_MV2c10->setProperty("MinPt", 20000.)  , "BTaggingSelectionTool failed to set MinPt!"); 
-    top::check( m_BTS_MV2c10->setProperty("JetAuthor", "AntiKt4EMTopoJets"), "BTaggingSelectionTool failed to set JetAuthor!"); 
+    top::check( m_BTS_MV2c10->setProperty("JetAuthor", m_sgKeyJets), "BTaggingSelectionTool failed to set JetAuthor!"); 
     top::check( m_BTS_MV2c10->setProperty("TaggerName", "MV2c10")  ,"BTaggingSelectionTool failed to set TaggerName!"); 
     top::check( m_BTS_MV2c10->setProperty("OperatingPoint", "Continuous")  ,"BTaggingSelectionTool failed to set WP!");
     top::check( m_BTS_MV2c10->initialize(), "BTaggingSelectionTool failed to initialize!"); 
 
+    //*/
 
     ///-- Loop over the systematic TTrees and add the custom variables --///
     for (auto systematicTree : treeManagers()) {
@@ -232,6 +237,8 @@ namespace top{
         if(jetPtr->btagging()->isAvailable<double>("DL1_pu")) jet_DL1_pu = jetPtr->btagging()->auxdata<double>("DL1_pu");
 	//*/
 	
+
+	//*
 	tagweight=-999;	
 	tagweightF=-999;
 	//with tool
@@ -256,6 +263,7 @@ namespace top{
 	//top::check(m_jet_tagWeightBin_MV2c10_Continuous_h[i]=m_BTS_MV2c10->getQuantile( *jetPtr), "can't retrieve getQuantile");
 	top::check(m_jet_tagWeightBin_MV2c10Flip_Continuous[i]=m_BTS_MV2c10->getQuantile( jetPtr->pt(), jetPtr->eta(),m_jet_MV2c10Flip[i]),"can't retrieve getTaggerWeight");
 
+	//*/
 	++i;
 
 	/* Example of getTaggerWeight usage
