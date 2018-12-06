@@ -42,3 +42,11 @@ source x86_64-slc6-gcc62-opt/setup.sh
 cd ../run
 top-xaod ../DiJetCalibration/scripts/Dijet.txt input_test.txt
 ```
+
+### Submit to grid
+Copy folder ```data/Grid``` to your run folder, change datalists in ```filesR21.py```.
+There is README with instruction how to setup environment for production role (if you have one).
+Submit files with :
+```
+python SubmitToGrid.py
+```
