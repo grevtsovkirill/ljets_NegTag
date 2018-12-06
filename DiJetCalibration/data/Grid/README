@@ -1,0 +1,6 @@
+
+To setup a production role, run the following lines:
+setupATLAS
+export RUCIO_ACCOUNT=perf-flavtag
+lsetup rucio panda pyami
+voms-proxy-init -voms atlas:/atlas/perf-flavtag/Role=production
