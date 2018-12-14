@@ -31,6 +31,7 @@ int main(int argc, char* argv[]) {
   std::vector<TString> files;
   std::vector<TString> period_slice;
   std::vector<TString> reco_comp;
+  std::vector<TString> ad_suf;
   bool runmc = true;
   bool file_per_syst = false;
 
@@ -61,6 +62,10 @@ int main(int argc, char* argv[]) {
       reco_comp = get_arguments(argc, argv, i1);;
       cout << "=== mc16a / mc16d  ===" << endl;
     }
+    else if (strcmp(argv[i1], "-suf")==0){
+      ad_suf = get_arguments(argc, argv, i1);;
+      cout << "=== additional suffix  ===" << endl;
+    }
     else {
       cout << "argument not recognized: " << argv[i1] << endl;
     }
@@ -76,15 +81,15 @@ int main(int argc, char* argv[]) {
   TString filename;
   if (runmc){
     cout << "## running mc " << period_slice[0] << " ##" << endl;
-    filename = "res/mc16"+reco_comp[0]+"_" + period_slice[0] + ".root";
+    filename = "res/mc16"+reco_comp[0]+"_" + period_slice[0] + ad_suf[0] + ".root";
     // if -split mode activated, create one file per systematic
-    if(file_per_syst) filename = "res/mc16"+reco_comp[0]+"_" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
+    if(file_per_syst) filename = "res/mc16"+reco_comp[0]+"_" + period_slice.at(0) + "_" + systematics.at(0) + ad_suf[0]+".root";
   }
   else{
     cout << "## running data " << period_slice[0] << " ##" << endl;
-    filename = "res/data" + period_slice[0] + ".root";
+    filename = "res/data" + period_slice[0] + ad_suf[0]+".root";
     // if -split mode activated, create one file per systematic
-    if(file_per_syst) filename = "res/data" + period_slice.at(0) + "_" + systematics.at(0) + ".root";
+    if(file_per_syst) filename = "res/data" + period_slice.at(0) + "_" + systematics.at(0) +ad_suf[0]+ ".root";
     
     
   }
