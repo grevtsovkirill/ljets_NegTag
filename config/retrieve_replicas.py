@@ -123,7 +123,7 @@ with open(fname) as f:
         y= x.replace('\n','')
         if 'mc16' in y : 
             isMC = True
-            if 'r9315' in y : p1516 = True
+            if 'r9364' in y : p1516 = True
             if 'r10201' in y : p17 = True
         if 'data17' in y : 
             isData = True
@@ -138,20 +138,23 @@ with open(fname) as f:
             p15 = True 
             dataY = '15'
                 
+        #print isMC,isData
         print y
 
         
-        dsid = y[y.find('13TeV.')+6:y.find('.DAOD')]
-        if isData and data_container=='': 
-            dsid = y[y.find('13TeV.')+8:y.find('.DAOD')]
-            print 'normal dsid'
+        print len(data_container)
+        dsid = y[len(data_container)+1:len(data_container)+7]
+        # dsid = y[y.find('13TeV.')+6:y.find('.DAOD')]
+        # if isData and data_container=='': 
+        #     dsid = y[y.find('13TeV.')+8:y.find('.DAOD')]
+        #     print 'normal dsid'
 
         print 'dsid=',dsid
 
         list_dsid_file.append((dsid,y))
         if isMC:
             for i_ref in ref : 
-                #print 'in loop ref, i = ',i_ref
+                print 'in loop ref, i = ',i_ref
                 if int(dsid) >= i_ref[1] and int(dsid) <= i_ref[2] :
                     slice_name=i_ref[0]
                     print 'here = ',i_ref[0]
@@ -196,7 +199,7 @@ if isData and data_container=='':
 if isData and p15      : filename0="data_files_15.txt"
 if isData and p16      : filename0="data_files_16.txt"
 if isData and p17      : filename0="data_files_17.txt"
-if isMC and (p15 or p16) : filename0="mc16a_files.txt"
+if isMC and ((p15 or p16) or p1516) : filename0="mc16a_files.txt"
 if isMC and p17      : filename0="mc16d_files.txt"
 
 outfile = open(filename0, 'w')
