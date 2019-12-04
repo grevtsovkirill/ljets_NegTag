@@ -1,0 +1,16 @@
+*.o
+*.auto
+*res/
+*.root*
+*App
+*log/
+*plot/
+*~
+*pbs*
+*res*
+*txt
+HTC
+*/Control_*
+*/j*
+*grevtsok.cc
+*/*run.sh

@@ -1,0 +1,42 @@
+####
+# Define here the common rules for make and define in the directories SRC, HEADER, APP
+####
+
+CPP=g++
+LD=g++
+SPECIALFLAGS=-O2 -g -pg
+
+ROOTCFLAGS=$(shell root-config --cflags)
+ROOTLIBS=$(shell root-config --libs)
+
+CFLAGS = $(SPECIALFLAGS) -I.
+LFLAGS = -L.
+
+INC=-I../helpers -I../config
+
+RCXX=$(CFLAGS) $(ROOTCFLAGS)
+RLXX=$(LFLAGS) $(ROOTLIBS)
+
+HELPERS_H=$(wildcard ../helpers/*.hpp)
+HELPERS_CPP = $(wildcard ../helpers/*.cpp)
+HELPERS_O = $(HELPERS_CPP:.cpp=.o)
+
+CONFIG=$(wildcard ../config/*.hpp)
+
+
+$(APP): $(SRC:.cpp=.o) $(HELPERS_O) $(CONFIG)
+	$(LD) $(SRC:.cpp=.o) $(HELPERS_O) $(RLXX) -L../helpers -o $(APP)
+
+
+%.o: %.cpp $(HEADER) $(HELPERS_H) $(CONFIG)
+	$(CPP) $(RCXX) $(INC) -c $<
+
+
+$(HELPERS_O): %.o: %.cpp $(HELPERS_H) $(CONFIG)
+	$(CPP) $(RCXX) $(INC) -c $< -o $@
+
+
+clean:
+	rm -f $(HELPERS_O)
+	rm -f *~ *.o
+	rm -f $(APP)
